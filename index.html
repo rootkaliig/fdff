@@ -1,10 +1,13 @@
 <!DOCTYPE html><html lang="ar" dir="rtl"><head><meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://code.jquery.com https://unpkg.com https://d3js.org https://threejs.org https://cdn.plot.ly https://stackpath.bootstrapcdn.com https://maps.googleapis.com https://cdn.tailwindcss.com https://ajax.googleapis.com https://kit.fontawesome.com https://cdn.datatables.net https://maxcdn.bootstrapcdn.com https://code.highcharts.com https://tako-static-assets-production.s3.amazonaws.com https://www.youtube.com https://fonts.googleapis.com https://fonts.gstatic.com https://pfst.cf2.poecdn.net https://puc.poecdn.net https://i.imgur.com https://wikimedia.org https://*.icons8.com https://*.giphy.com https://picsum.photos https://images.unsplash.com; frame-src 'self' https://www.youtube.com https://trytako.com; child-src 'self'; manifest-src 'self'; worker-src 'self'; upgrade-insecure-requests; block-all-mixed-content;">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مكاسر العود - متجر العود والعطور الفاخر</title>
+    <title>مكاسر العود - متجر العود والعطور الفاخر مع الذكاء الاصطناعي</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&amp;display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&amp;display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <style>
         body {
             font-family: 'Cairo', sans-serif;
@@ -224,6 +227,381 @@
             }
         }
         
+        /* ADVANCED FUTURISTIC HERO BACKGROUND */
+        .hero-section {
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(255, 193, 7, 0.8) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(139, 69, 19, 0.8) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(210, 105, 30, 0.6) 0%, transparent 50%),
+                linear-gradient(135deg, #667eea 0%, #764ba2 25%, #8B4513 50%, #D2691E 75%, #FF6B35 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            position: relative;
+            overflow: hidden;
+            min-height: 85vh;
+        }
+        
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                repeating-linear-gradient(
+                    90deg,
+                    transparent,
+                    transparent 98px,
+                    rgba(255,255,255,0.03) 100px
+                ),
+                repeating-linear-gradient(
+                    0deg,
+                    transparent,
+                    transparent 98px,
+                    rgba(255,255,255,0.03) 100px
+                );
+            animation: meshMove 20s linear infinite;
+        }
+        
+        .hero-section::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="1" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100%" height="100%" fill="url(%23grain)"/></svg>');
+            opacity: 0.2;
+        }
+        
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        @keyframes meshMove {
+            0% { transform: translateX(0) translateY(0); }
+            100% { transform: translateX(100px) translateY(100px); }
+        }
+
+        /* MAGICAL PRODUCT EFFECTS */
+        .product-card {
+            border-radius: 25px;
+            overflow: hidden;
+            background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+            border: 2px solid transparent;
+            position: relative;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .product-card::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #ff6b35, #f7931e, #ffd700, #32cd32, #1e90ff, #9370db, #ff1493);
+            background-size: 400% 400%;
+            border-radius: 25px;
+            z-index: -1;
+            opacity: 0;
+            animation: rainbowBorder 3s ease-in-out infinite;
+            transition: opacity 0.3s ease;
+        }
+        
+        .product-card:hover::before {
+            opacity: 1;
+        }
+        
+        .product-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), rgba(255,255,255,0.3) 0%, transparent 50%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+        
+        .product-card:hover::after {
+            opacity: 1;
+        }
+        
+        @keyframes rainbowBorder {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        /* GLOWING EFFECTS FOR EACH PRODUCT */
+        .product-glow-1 { box-shadow: 0 0 30px rgba(255, 107, 53, 0.6), 0 0 60px rgba(255, 107, 53, 0.4); }
+        .product-glow-2 { box-shadow: 0 0 30px rgba(139, 69, 19, 0.6), 0 0 60px rgba(139, 69, 19, 0.4); }
+        .product-glow-3 { box-shadow: 0 0 30px rgba(255, 215, 0, 0.6), 0 0 60px rgba(255, 215, 0, 0.4); }
+        .product-glow-4 { box-shadow: 0 0 30px rgba(50, 205, 50, 0.6), 0 0 60px rgba(50, 205, 50, 0.4); }
+        .product-glow-5 { box-shadow: 0 0 30px rgba(30, 144, 255, 0.6), 0 0 60px rgba(30, 144, 255, 0.4); }
+        
+        /* PULSING ANIMATION */
+        .product-pulse {
+            animation: magicalPulse 4s ease-in-out infinite;
+        }
+        
+        @keyframes magicalPulse {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            25% { transform: scale(1.02) rotate(0.5deg); }
+            50% { transform: scale(1.05) rotate(0deg); }
+            75% { transform: scale(1.02) rotate(-0.5deg); }
+        }
+        
+        /* FLOATING SPARKLES */
+        .sparkle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            border-radius: 50%;
+            animation: sparkleFloat 3s ease-in-out infinite;
+            pointer-events: none;
+        }
+        
+        @keyframes sparkleFloat {
+            0%, 100% { 
+                transform: translateY(0px) scale(0.8);
+                opacity: 0.7;
+            }
+            50% { 
+                transform: translateY(-15px) scale(1.2);
+                opacity: 1;
+            }
+        }
+        
+        /* AI CHATBOT STYLES */
+        .ai-chat-container {
+            position: fixed;
+            bottom: 100px;
+            right: 20px;
+            width: 350px;
+            height: 500px;
+            background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+            border-radius: 20px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+            z-index: 1000;
+            transform: translateY(100%);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 2px solid #e5e7eb;
+        }
+        
+        .ai-chat-container.active {
+            transform: translateY(0);
+        }
+        
+        .ai-chat-header {
+            background: linear-gradient(135deg, #8B4513 0%, #D2691E 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 18px 18px 0 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .ai-avatar {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            animation: aiGlow 2s ease-in-out infinite alternate;
+        }
+        
+        @keyframes aiGlow {
+            0% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.5); }
+            100% { box-shadow: 0 0 30px rgba(255, 215, 0, 0.8); }
+        }
+        
+        .ai-chat-messages {
+            height: 350px;
+            overflow-y: auto;
+            padding: 15px;
+            background: #fafbfc;
+        }
+        
+        .ai-message {
+            margin-bottom: 15px;
+            padding: 12px 16px;
+            border-radius: 15px;
+            max-width: 85%;
+            animation: messageSlide 0.3s ease-out;
+        }
+        
+        .ai-message.user {
+            background: linear-gradient(135deg, #8B4513 0%, #D2691E 100%);
+            color: white;
+            margin-left: auto;
+            border-bottom-right-radius: 5px;
+        }
+        
+        .ai-message.bot {
+            background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+            color: #374151;
+            border-bottom-left-radius: 5px;
+        }
+        
+        @keyframes messageSlide {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        .ai-chat-input {
+            padding: 15px;
+            border-top: 1px solid #e5e7eb;
+            display: flex;
+            gap: 10px;
+        }
+        
+        .ai-chat-input input {
+            flex: 1;
+            padding: 12px 16px;
+            border: 2px solid #e5e7eb;
+            border-radius: 25px;
+            outline: none;
+            font-size: 14px;
+            transition: border-color 0.3s ease;
+        }
+        
+        .ai-chat-input input:focus {
+            border-color: #8B4513;
+        }
+        
+        .ai-send-btn {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, #8B4513 0%, #D2691E 100%);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s ease;
+        }
+        
+        .ai-send-btn:hover {
+            transform: scale(1.1);
+        }
+        
+        .ai-toggle-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #8B4513 0%, #D2691E 100%);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            box-shadow: 0 10px 25px rgba(139, 69, 19, 0.4);
+            z-index: 1001;
+            transition: all 0.3s ease;
+            animation: aiPulse 3s ease-in-out infinite;
+        }
+        
+        @keyframes aiPulse {
+            0%, 100% { 
+                transform: scale(1);
+                box-shadow: 0 10px 25px rgba(139, 69, 19, 0.4);
+            }
+            50% { 
+                transform: scale(1.1);
+                box-shadow: 0 15px 35px rgba(139, 69, 19, 0.6);
+            }
+        }
+        
+        .ai-toggle-btn:hover {
+            transform: scale(1.2);
+        }
+        
+        /* QUICK SUGGESTIONS */
+        .ai-suggestions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            padding: 10px 15px;
+            border-top: 1px solid #e5e7eb;
+        }
+        
+        .ai-suggestion-btn {
+            background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+            border: 1px solid #d1d5db;
+            border-radius: 15px;
+            padding: 6px 12px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .ai-suggestion-btn:hover {
+            background: linear-gradient(135deg, #8B4513 0%, #D2691E 100%);
+            color: white;
+        }
+        
+        /* PRODUCT SEARCH WITH AI */
+        .ai-search-container {
+            position: relative;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        .ai-search-input {
+            width: 100%;
+            padding: 15px 50px 15px 20px;
+            border: 3px solid transparent;
+            border-radius: 25px;
+            background: linear-gradient(white, white) padding-box,
+                        linear-gradient(45deg, #8B4513, #D2691E) border-box;
+            font-size: 16px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+        
+        .ai-search-input:focus {
+            box-shadow: 0 0 20px rgba(139, 69, 19, 0.3);
+        }
+        
+        .ai-search-btn {
+            position: absolute;
+            right: 5px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #8B4513 0%, #D2691E 100%);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s ease;
+        }
+        
+        .ai-search-btn:hover {
+            transform: translateY(-50%) scale(1.1);
+        }
+
         /* Enhanced decorative elements */
         .hero-decorative {
             position: absolute;
@@ -239,11 +617,11 @@
             position: absolute;
             top: 10%;
             right: 10%;
-            width: 100px;
-            height: 100px;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle, rgba(255,215,0,0.3) 0%, rgba(255,165,0,0.2) 50%, transparent 70%);
             border-radius: 50%;
-            animation: float-decoration 6s ease-in-out infinite;
+            animation: float-decoration 8s ease-in-out infinite;
         }
         
         .hero-decorative::after {
@@ -251,16 +629,26 @@
             position: absolute;
             bottom: 15%;
             left: 15%;
-            width: 80px;
-            height: 80px;
-            background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%);
+            width: 120px;
+            height: 120px;
+            background: radial-gradient(circle, rgba(139,69,19,0.3) 0%, rgba(210,105,30,0.2) 50%, transparent 70%);
             border-radius: 50%;
-            animation: float-decoration 8s ease-in-out infinite reverse;
+            animation: float-decoration 10s ease-in-out infinite reverse;
         }
         
         @keyframes float-decoration {
-            0%, 100% { transform: translateY(0px) scale(1); }
-            50% { transform: translateY(-20px) scale(1.1); }
+            0%, 100% { 
+                transform: translateY(0px) scale(1) rotate(0deg);
+            }
+            25% { 
+                transform: translateY(-30px) scale(1.1) rotate(90deg);
+            }
+            50% { 
+                transform: translateY(-20px) scale(1.2) rotate(180deg);
+            }
+            75% { 
+                transform: translateY(-40px) scale(1.1) rotate(270deg);
+            }
         }
         
         /* Categories horizontal scroll */
@@ -1662,6 +2050,55 @@
         </div>
     </div>
 
+    <!-- AI Chat Toggle Button -->
+    <button onclick="toggleAIChat()" class="ai-toggle-btn">
+        <i class="fas fa-robot"></i>
+    </button>
+
+    <!-- AI Chat Container -->
+    <div id="aiChatContainer" class="ai-chat-container">
+        <div class="ai-chat-header">
+            <div class="flex items-center">
+                <div class="ai-avatar">
+                    🤖
+                </div>
+                <div class="mr-3">
+                    <h3 class="font-bold text-lg">مساعد مكاسر الذكي</h3>
+                    <p class="text-sm opacity-90">خبير العود والعطور</p>
+                </div>
+            </div>
+            <button onclick="toggleAIChat()" class="text-white hover:text-orange-200">
+                <i class="fas fa-times text-xl"></i>
+            </button>
+        </div>
+        
+        <div class="ai-chat-messages" id="aiChatMessages">
+            <div class="ai-message bot">
+                السلام عليكم! 👋 أنا مساعدكم الذكي في مكاسر العود
+                <br><br>
+                يمكنني مساعدتكم في:
+                <br>• اختيار العود المناسب لكم
+                <br>• معرفة تفاصيل المنتجات
+                <br>• نصائح استخدام العطور
+                <br>• الإجابة على أي استفسار
+            </div>
+        </div>
+        
+        <div class="ai-suggestions">
+            <button class="ai-suggestion-btn" onclick="askAI('ما هو أفضل نوع عود للمبتدئين؟')">أفضل عود للمبتدئين؟</button>
+            <button class="ai-suggestion-btn" onclick="askAI('كيف أحافظ على العود؟')">كيف أحافظ على العود؟</button>
+            <button class="ai-suggestion-btn" onclick="askAI('ما الفرق بين العود الطبيعي والمحسن؟')">الفرق بين الطبيعي والمحسن؟</button>
+            <button class="ai-suggestion-btn" onclick="askAI('أريد توصية منتج')">أريد توصية منتج</button>
+        </div>
+        
+        <div class="ai-chat-input">
+            <input type="text" id="aiChatInput" placeholder="اسألني أي شيء عن العود والعطور..." onkeypress="handleAIEnter(event)">
+            <button class="ai-send-btn" onclick="sendAIMessage()">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </div>
+    </div>
+
     <!-- Scroll to Top Button -->
     <div class="scroll-to-top" onclick="scrollToTop()">
         <i class="fas fa-arrow-up"></i>
@@ -2363,6 +2800,7 @@
             }
         }
 
+        // ENHANCED PRODUCT DISPLAY WITH MAGICAL EFFECTS - UPDATED
         function displayProducts(productsToShow) {
             const grid = document.getElementById('productsGrid');
             grid.innerHTML = '';
@@ -2371,33 +2809,44 @@
                 const discount = Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100);
                 const isOutOfStock = !product.available;
                 
+                // Generate magical effects for each product
+                const glowClass = `product-glow-${(index % 5) + 1}`;
+                const sparkles = generateSparkles();
+                
                 const productCard = `
-                    <div class="product-card card-hover ${isOutOfStock ? 'out-of-stock' : ''}" style="animation-delay: ${index * 0.1}s">
-                        <div class="relative">
-                            <img src="${product.image}" alt="${product.name}" class="w-full h-64 object-cover" loading="lazy">
-                            ${discount > 0 ? `<div class="absolute top-4 right-4 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-bold">خصم ${discount}%</div>` : ''}
-                            ${product.bestselling ? '<div class="absolute top-4 left-4 bg-orange-500 text-white px-3 py-1 rounded-full text-sm font-bold">الأكثر مبيعاً</div>' : ''}
+                    <div class="product-card card-hover product-pulse ${isOutOfStock ? 'out-of-stock' : ''} ${glowClass}" 
+                         style="animation-delay: ${index * 0.1}s"
+                         onmousemove="handleProductHover(event, this)"
+                         onmouseleave="handleProductLeave(this)">
+                        <div class="relative overflow-hidden">
+                            <img src="${product.image}" alt="${product.name}" class="w-full h-64 object-cover transition-transform duration-500 hover:scale-110" loading="lazy">
+                            ${sparkles}
+                            ${discount > 0 ? `<div class="absolute top-4 right-4 bg-gradient-to-r from-red-500 to-pink-500 text-white px-3 py-1 rounded-full text-sm font-bold animate-pulse">🔥 خصم ${discount}%</div>` : ''}
+                            ${product.bestselling ? '<div class="absolute top-4 left-4 bg-gradient-to-r from-orange-500 to-yellow-500 text-white px-3 py-1 rounded-full text-sm font-bold animate-bounce">⭐ الأكثر مبيعاً</div>' : ''}
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
                         </div>
-                        <div class="p-6">
-                            <h3 class="font-bold text-xl mb-3 text-gray-800">${product.name}</h3>
+                        <div class="p-6 relative">
+                            <h3 class="font-bold text-xl mb-3 text-gray-800 hover:text-orange-600 transition-colors duration-300">${product.name}</h3>
                             <p class="text-gray-600 text-sm mb-4 leading-relaxed">${product.description}</p>
                             
                             <div class="flex items-center mb-4">
-                                ${'<i class="fas fa-star text-yellow-500"></i>'.repeat(product.rating)}
+                                ${'<i class="fas fa-star text-yellow-500 animate-pulse"></i>'.repeat(product.rating)}
                                 ${'<i class="far fa-star text-gray-300"></i>'.repeat(5 - product.rating)}
                                 <span class="text-gray-600 text-sm mr-2">(${product.rating}.0)</span>
                             </div>
                             
                             <div class="flex flex-wrap gap-1 mb-4">
-                                ${product.features.map(feature => `<span class="bg-orange-100 text-orange-800 text-xs px-2 py-1 rounded-full">${feature}</span>`).join('')}
+                                ${product.features.map(feature => `<span class="bg-gradient-to-r from-orange-100 to-yellow-100 text-orange-800 text-xs px-2 py-1 rounded-full border border-orange-200 hover:shadow-md transition-shadow duration-200">${feature}</span>`).join('')}
                             </div>
                             
                             <div class="flex justify-between items-center">
                                 <div class="flex flex-col">
-                                    <span class="price-tag">${product.price} ريال</span>
+                                    <span class="price-tag shadow-lg hover:shadow-xl transition-shadow duration-300">${product.price} ريال</span>
                                     ${product.originalPrice > product.price ? `<span class="text-gray-500 line-through text-sm mt-1">${product.originalPrice} ريال</span>` : ''}
                                 </div>
-                                <button onclick="${isOutOfStock ? 'void(0)' : 'addToCart(' + product.id + ')'}" class="${isOutOfStock ? 'btn-disabled' : 'btn-primary'}" ${isOutOfStock ? 'disabled' : ''}>
+                                <button onclick="${isOutOfStock ? 'void(0)' : 'addToCart(' + product.id + ')'}" 
+                                        class="${isOutOfStock ? 'btn-disabled' : 'btn-primary'} shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300" 
+                                        ${isOutOfStock ? 'disabled' : ''}>
                                     <i class="fas ${isOutOfStock ? 'fa-times' : 'fa-cart-plus'} ml-1"></i>
                                     ${isOutOfStock ? 'نفدت الكمية' : 'إضافة للسلة'}
                                 </button>
@@ -3033,11 +3482,269 @@
             }
         });
 
+        // AI CHATBOT SYSTEM WITH ADVANCED FEATURES
+        let aiChatOpen = false;
+        
+        function toggleAIChat() {
+            aiChatOpen = !aiChatOpen;
+            const chatContainer = document.getElementById('aiChatContainer');
+            
+            if (aiChatOpen) {
+                chatContainer.classList.add('active');
+                // Focus on input when opening
+                setTimeout(() => {
+                    document.getElementById('aiChatInput').focus();
+                }, 300);
+            } else {
+                chatContainer.classList.remove('active');
+            }
+        }
+
+        function addAIMessage(message, isUser = false) {
+            const messagesContainer = document.getElementById('aiChatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `ai-message ${isUser ? 'user' : 'bot'}`;
+            messageDiv.innerHTML = message;
+            messagesContainer.appendChild(messageDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        function askAI(question) {
+            document.getElementById('aiChatInput').value = question;
+            sendAIMessage();
+        }
+
+        function handleAIEnter(event) {
+            if (event.key === 'Enter') {
+                sendAIMessage();
+            }
+        }
+
+        function sendAIMessage() {
+            const input = document.getElementById('aiChatInput');
+            const message = input.value.trim();
+            
+            if (!message) return;
+            
+            // Add user message
+            addAIMessage(message, true);
+            input.value = '';
+            
+            // Show typing indicator
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'ai-message bot';
+            typingDiv.innerHTML = '<div class="flex items-center"><span>🤖</span><span class="mr-2">يكتب...</span><div class="loading-spinner"></div></div>';
+            typingDiv.id = 'typing-indicator';
+            document.getElementById('aiChatMessages').appendChild(typingDiv);
+            
+            // Simulate AI response with delay
+            setTimeout(() => {
+                document.getElementById('typing-indicator').remove();
+                const response = getAIResponse(message);
+                addAIMessage(response);
+            }, 1000 + Math.random() * 2000);
+        }
+
+        function getAIResponse(userMessage) {
+            const message = userMessage.toLowerCase();
+            
+            // Advanced AI responses based on keywords
+            if (message.includes('أفضل عود') || message.includes('مبتدئين') || message.includes('ابدأ')) {
+                return `
+                    <strong>🌟 للمبتدئين، أنصح بـ:</strong><br><br>
+                    1️⃣ <strong>دقة هندي (120 ريال)</strong> - مثالي للبداية<br>
+                    2️⃣ <strong>دهن عود تراد (95 ريال)</strong> - سهل الاستخدام<br>
+                    3️⃣ <strong>مبسوس موروكي (85 ريال)</strong> - للمبخرة الكهربائية<br><br>
+                    💡 <em>هذه الأنواع تتميز بالثبات والرائحة الجميلة وسهولة الاستخدام</em>
+                `;
+            }
+            
+            if (message.includes('محافظة') || message.includes('حفظ') || message.includes('تخزين')) {
+                return `
+                    <strong>🛡️ نصائح المحافظة على العود:</strong><br><br>
+                    ✅ احفظه في مكان بارد وجاف<br>
+                    ✅ تجنب أشعة الشمس المباشرة<br>
+                    ✅ استخدم علب محكمة الإغلاق<br>
+                    ✅ تجنب الرطوبة العالية<br>
+                    ✅ لا تخزنه في الثلاجة<br><br>
+                    📦 <em>علبنا الأصلية مصممة للحفاظ على الجودة لسنوات</em>
+                `;
+            }
+            
+            if (message.includes('فرق') || message.includes('طبيعي') || message.includes('محسن')) {
+                return `
+                    <strong>🔍 الفرق بين العود الطبيعي والمحسن:</strong><br><br>
+                    <strong>عود طبيعي:</strong><br>
+                    🌿 مستخرج مباشرة من الشجرة<br>
+                    🌿 رائحة أصيلة وقوية<br>
+                    🌿 سعر أعلى نسبياً<br>
+                    🌿 ثبات طويل جداً<br><br>
+                    <strong>عود محسن:</strong><br>
+                    ⚡ معالج بزيوت طبيعية<br>
+                    ⚡ رائحة محسنة ومميزة<br>
+                    ⚡ سعر أكثر اقتصادية<br>
+                    ⚡ جودة ممتازة<br><br>
+                    💰 <em>كلاهما أصلي وعالي الجودة</em>
+                `;
+            }
+            
+            if (message.includes('توصية') || message.includes('اقترح') || message.includes('أريد')) {
+                const recommendations = [
+                    "موروكي الفخامة - مثالي للمناسبات الخاصة",
+                    "دهن عود كمبودي قديم - للذواقين",
+                    "زعفران سوبر نقيل - للضيافة الفاخرة",
+                    "مبسوس موروكي - للتبخير اليومي"
+                ];
+                const randomRec = recommendations[Math.floor(Math.random() * recommendations.length)];
+                
+                return `
+                    <strong>🎯 توصيتي الخاصة لك:</strong><br><br>
+                    ⭐ <strong>${randomRec}</strong><br><br>
+                    <strong>لماذا هذا الاختيار؟</strong><br>
+                    • جودة استثنائية<br>
+                    • ثبات ممتاز<br>
+                    • تقييمات عملاء ممتازة<br>
+                    • قيمة رائعة مقابل السعر<br><br>
+                    💬 <em>هل تريد معرفة المزيد عن هذا المنتج؟</em>
+                `;
+            }
+            
+            if (message.includes('سعر') || message.includes('كم') || message.includes('تكلفة')) {
+                return `
+                    <strong>💰 أسعارنا التنافسية:</strong><br><br>
+                    🏷️ <strong>دقة هندي:</strong> 120 ريال<br>
+                    🏷️ <strong>موروكي الفخامة:</strong> 180 ريال<br>
+                    🏷️ <strong>دهن عود تراد:</strong> 95 ريال<br>
+                    🏷️ <strong>زعفران سوبر نقيل:</strong> 220 ريال<br><br>
+                    🚚 <strong>شحن مجاني</strong> للطلبات أكثر من 200 ريال<br>
+                    💳 <strong>خصومات</strong> تصل إلى 25% على مختارات<br><br>
+                    📞 <em>للاستفسار عن أسعار خاصة: 00966542068739</em>
+                `;
+            }
+            
+            if (message.includes('شحن') || message.includes('توصيل') || message.includes('وصول')) {
+                return `
+                    <strong>🚚 خدمة التوصيل السريع:</strong><br><br>
+                    📦 <strong>داخل الرياض:</strong> 1-2 أيام عمل<br>
+                    📦 <strong>باقي المدن:</strong> 2-4 أيام عمل<br>
+                    📦 <strong>المناطق النائية:</strong> 3-5 أيام عمل<br><br>
+                    💰 <strong>رسوم الشحن:</strong><br>
+                    • مجاني للطلبات أكثر من 200 ريال<br>
+                    • 30 ريال للطلبات الأقل<br><br>
+                    📍 <em>نغطي جميع مناطق المملكة العربية السعودية</em>
+                `;
+            }
+            
+            if (message.includes('جودة') || message.includes('أصلي') || message.includes('ضمان')) {
+                return `
+                    <strong>🛡️ ضمان الجودة والأصالة:</strong><br><br>
+                    ✅ <strong>منتجات أصلية 100%</strong><br>
+                    ✅ <strong>مصادر موثوقة ومعتمدة</strong><br>
+                    ✅ <strong>فحص جودة صارم</strong><br>
+                    ✅ <strong>ضمان استرداد</strong> خلال 7 أيام<br>
+                    ✅ <strong>شهادات جودة معتمدة</strong><br><br>
+                    🏆 <strong>12+ سنة</strong> من الخبرة في العود<br>
+                    ⭐ <strong>آلاف العملاء</strong> الراضين<br><br>
+                    🔒 <em>ثقتكم هي أولويتنا الأولى</em>
+                `;
+            }
+            
+            if (message.includes('كيف') || message.includes('استخدام') || message.includes('طريقة')) {
+                return `
+                    <strong>📖 طريقة الاستخدام الصحيحة:</strong><br><br>
+                    <strong>للعود الطبيعي:</strong><br>
+                    1️⃣ ضع قطعة صغيرة على الفحم<br>
+                    2️⃣ انتظر حتى يبدأ الدخان<br>
+                    3️⃣ حرك المبخرة برفق<br><br>
+                    <strong>للأدهان:</strong><br>
+                    1️⃣ ضع نقطة صغيرة على المعصم<br>
+                    2️⃣ افرك برفق حتى تمتص<br>
+                    3️⃣ استمتع بالرائحة الفاخرة<br><br>
+                    ⚠️ <em>استخدم كميات قليلة - القليل يدوم طويلاً</em>
+                `;
+            }
+            
+            if (message.includes('واتس') || message.includes('هاتف') || message.includes('اتصال')) {
+                return `
+                    <strong>📞 تواصل معنا مباشرة:</strong><br><br>
+                    📱 <strong>واتساب:</strong> 00966542068739<br>
+                    📞 <strong>هاتف:</strong> 00966542068739<br>
+                    📧 <strong>إيميل:</strong> alhkr5415@gmail.com<br><br>
+                    ⏰ <strong>ساعات العمل:</strong> 24/7<br><br>
+                    <a href="https://wa.me/966542068739" style="background: linear-gradient(135deg, #25D366 0%, #128C7E 100%); color: white; padding: 8px 16px; border-radius: 20px; text-decoration: none; display: inline-block; margin-top: 10px;">
+                        💬 تواصل الآن عبر واتساب
+                    </a>
+                `;
+            }
+            
+            // Default responses for general queries
+            const generalResponses = [
+                `
+                    مرحباً بك في مكاسر العود! 🌟<br><br>
+                    أنا هنا لمساعدتك في اختيار أفضل المنتجات.<br><br>
+                    يمكنك سؤالي عن:<br>
+                    • أفضل الأنواع للمبتدئين<br>
+                    • طرق المحافظة على العود<br>
+                    • الفروقات بين المنتجات<br>
+                    • الأسعار والعروض<br>
+                    • طرق الاستخدام<br><br>
+                    💬 <em>ما الذي تريد معرفته تحديداً؟</em>
+                `,
+                `
+                    شكراً لك لزيارة مكاسر العود! 🙏<br><br>
+                    نحن متخصصون في تقديم أجود أنواع:<br>
+                    🌿 العود الطبيعي الأصلي<br>
+                    ⚡ العود المحسن عالي الجودة<br>
+                    💧 الأدهان الفاخرة<br>
+                    🔥 المبسوس المميز<br>
+                    🌸 الزعفران النقيل<br><br>
+                    🎁 <em>عروض خاصة متجددة - اكتشف مجموعتنا!</em>
+                `,
+                `
+                    أهلاً وسهلاً! 👋<br><br>
+                    هل تعلم أن عودنا يأتي من أفضل المصادر العالمية؟<br><br>
+                    🇰🇭 <strong>كمبودي أصلي</strong> - للذواقين<br>
+                    🇮🇳 <strong>هندي طبيعي</strong> - كلاسيكي رائع<br>
+                    🇵🇭 <strong>فلبيني فاخر</strong> - رائحة استثنائية<br>
+                    🇲🇦 <strong>موروكي مميز</strong> - تراث عريق<br><br>
+                    ✨ <em>كل قطعة لها قصة... وكل رائحة لها ذكرى</em>
+                `
+            ];
+            
+            return generalResponses[Math.floor(Math.random() * generalResponses.length)];
+        }
+
+        function generateSparkles() {
+            let sparkles = '';
+            for (let i = 0; i < 5; i++) {
+                const top = Math.random() * 80 + 10; // 10% to 90%
+                const left = Math.random() * 80 + 10; // 10% to 90%
+                const delay = Math.random() * 3; // 0 to 3 seconds
+                sparkles += `<div class="sparkle absolute animate-pulse" style="top: ${top}%; left: ${left}%; animation-delay: ${delay}s;"></div>`;
+            }
+            return sparkles;
+        }
+
+        function handleProductHover(event, element) {
+            const rect = element.getBoundingClientRect();
+            const x = ((event.clientX - rect.left) / rect.width) * 100;
+            const y = ((event.clientY - rect.top) / rect.height) * 100;
+            
+            element.style.setProperty('--x', x + '%');
+            element.style.setProperty('--y', y + '%');
+        }
+
+        function handleProductLeave(element) {
+            element.style.setProperty('--x', '50%');
+            element.style.setProperty('--y', '50%');
+        }
+
         // Keyboard shortcuts
         document.addEventListener('keydown', function(event) {
             // ESC to close modals and go back
             if (event.key === 'Escape') {
                 closeCart();
+                if (aiChatOpen) toggleAIChat();
                 
                 // Close fullscreen pages
                 if (document.getElementById('orderInfoPage').classList.contains('active')) {
@@ -3049,6 +3756,12 @@
                 } else if (!document.getElementById('verificationPage').classList.contains('hidden')) {
                     // Don't allow escape from verification page
                 }
+            }
+            
+            // Ctrl+Shift+A to open AI chat
+            if (event.ctrlKey && event.shiftKey && event.key === 'A') {
+                event.preventDefault();
+                toggleAIChat();
             }
         });
     </script>
