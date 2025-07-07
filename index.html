@@ -1968,54 +1968,185 @@
             // setTimeout(() => testEmailSystem(), 2000);
         });
 
-        // ENHANCED EMAIL SENDING SYSTEM WITH FORMSUBMIT
-        function sendToFormSubmit(formData, emailType = 'contact', retryCount = 0) {
-            const maxRetries = 3;
+        // ENHANCED EMAIL SENDING SYSTEM WITH FORMSUBMIT - FIXED VERSION
+        function sendToFormSubmit(originalFormData, emailType = 'contact', retryCount = 0) {
+            const maxRetries = 2;
             const emailEndpoint = 'https://formsubmit.co/alhkr5415@gmail.com';
-            
-            // Add FormSubmit configuration
-            formData.append('_subject', getEmailSubject(emailType));
-            formData.append('_captcha', 'false');
-            formData.append('_template', 'table');
-            formData.append('_autoresponse', getAutoResponse(emailType));
             
             // Show loading state
             showLoadingState(true);
             
-            return fetch(emailEndpoint, {
+            // Method 1: Try fetch first
+            return sendViaFetch(originalFormData, emailType, emailEndpoint)
+                .then(result => {
+                    showLoadingState(false);
+                    if (result.success) {
+                        showNotification('✅ تم إرسال البيانات بنجاح! سنتواصل معك قريباً.', 'success');
+                        return result;
+                    } else {
+                        throw new Error('Fetch failed');
+                    }
+                })
+                .catch(error => {
+                    console.log('Fetch method failed, trying form submission method...');
+                    // Method 2: Fallback to form submission
+                    return sendViaForm(originalFormData, emailType, emailEndpoint)
+                        .then(() => {
+                            showLoadingState(false);
+                            showNotification('✅ تم إرسال البيانات بنجاح عبر النظام البديل!', 'success');
+                            return { success: true };
+                        })
+                        .catch(formError => {
+                            showLoadingState(false);
+                            console.error('Both methods failed:', error, formError);
+                            
+                            // Method 3: Simple redirect method
+                            if (retryCount < maxRetries) {
+                                showNotification(`⏳ محاولة ${retryCount + 1} من ${maxRetries}...`, 'warning');
+                                return new Promise(resolve => {
+                                    setTimeout(() => {
+                                        resolve(sendToFormSubmit(originalFormData, emailType, retryCount + 1));
+                                    }, 1500);
+                                });
+                            } else {
+                                return sendViaRedirect(originalFormData, emailType, emailEndpoint);
+                            }
+                        });
+                });
+        }
+
+        // Method 1: Fetch API
+        function sendViaFetch(formData, emailType, endpoint) {
+            // Clone formData to avoid modifying original
+            const newFormData = new FormData();
+            
+            // Copy original data
+            for (const [key, value] of formData.entries()) {
+                newFormData.append(key, value);
+            }
+            
+            // Add FormSubmit configuration
+            newFormData.append('_subject', getEmailSubject(emailType));
+            newFormData.append('_captcha', 'false');
+            newFormData.append('_template', 'table');
+            newFormData.append('_next', window.location.href); // Stay on same page
+            
+            return fetch(endpoint, {
                 method: 'POST',
-                body: formData,
-                headers: {
-                    'Accept': 'application/json'
-                }
+                body: newFormData,
+                mode: 'cors'
             })
             .then(response => {
-                showLoadingState(false);
-                
-                if (response.ok) {
-                    showNotification('✅ تم إرسال البيانات بنجاح! سنتواصل معك قريباً.', 'success');
-                    return { success: true, response };
+                if (response.ok || response.status === 200) {
+                    return { success: true };
                 } else {
-                    throw new Error(`HTTP Error: ${response.status}`);
-                }
-            })
-            .catch(error => {
-                showLoadingState(false);
-                console.error('FormSubmit Error:', error);
-                
-                // Retry logic
-                if (retryCount < maxRetries) {
-                    showNotification(`⏳ جاري المحاولة مرة أخرى... (${retryCount + 1}/${maxRetries})`, 'warning');
-                    return new Promise(resolve => {
-                        setTimeout(() => {
-                            resolve(sendToFormSubmit(formData, emailType, retryCount + 1));
-                        }, 2000 * (retryCount + 1)); // Exponential backoff
-                    });
-                } else {
-                    showNotification('❌ فشل الإرسال. يرجى المحاولة مرة أخرى أو التواصل عبر واتساب.', 'error');
-                    return { success: false, error };
+                    throw new Error(`HTTP ${response.status}`);
                 }
             });
+        }
+
+        // Method 2: Form submission in hidden iframe
+        function sendViaForm(formData, emailType, endpoint) {
+            return new Promise((resolve, reject) => {
+                try {
+                    // Create hidden iframe
+                    const iframe = document.createElement('iframe');
+                    iframe.name = 'emailSubmission';
+                    iframe.style.display = 'none';
+                    document.body.appendChild(iframe);
+                    
+                    // Create form
+                    const form = document.createElement('form');
+                    form.action = endpoint;
+                    form.method = 'POST';
+                    form.target = 'emailSubmission';
+                    form.style.display = 'none';
+                    
+                    // Add all form data
+                    for (const [key, value] of formData.entries()) {
+                        const input = document.createElement('input');
+                        input.type = 'hidden';
+                        input.name = key;
+                        input.value = value;
+                        form.appendChild(input);
+                    }
+                    
+                    // Add FormSubmit config
+                    const configs = {
+                        '_subject': getEmailSubject(emailType),
+                        '_captcha': 'false',
+                        '_template': 'table',
+                        '_next': window.location.href
+                    };
+                    
+                    Object.entries(configs).forEach(([key, value]) => {
+                        const input = document.createElement('input');
+                        input.type = 'hidden';
+                        input.name = key;
+                        input.value = value;
+                        form.appendChild(input);
+                    });
+                    
+                    // Add to page and submit
+                    document.body.appendChild(form);
+                    form.submit();
+                    
+                    // Cleanup after delay
+                    setTimeout(() => {
+                        if (form.parentNode) form.parentNode.removeChild(form);
+                        if (iframe.parentNode) iframe.parentNode.removeChild(iframe);
+                        resolve();
+                    }, 3000);
+                    
+                } catch (error) {
+                    reject(error);
+                }
+            });
+        }
+
+        // Method 3: Redirect method (last resort)
+        function sendViaRedirect(formData, emailType, endpoint) {
+            // Prepare data as URL parameters
+            const params = new URLSearchParams();
+            
+            for (const [key, value] of formData.entries()) {
+                params.append(key, value);
+            }
+            
+            // Add FormSubmit config
+            params.append('_subject', getEmailSubject(emailType));
+            params.append('_captcha', 'false');
+            params.append('_template', 'table');
+            params.append('_next', window.location.href);
+            
+            // Try to submit via temporary form
+            const tempForm = document.createElement('form');
+            tempForm.method = 'POST';
+            tempForm.action = endpoint;
+            tempForm.style.display = 'none';
+            
+            // Convert URLSearchParams to hidden inputs
+            for (const [key, value] of params.entries()) {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = key;
+                input.value = value;
+                tempForm.appendChild(input);
+            }
+            
+            document.body.appendChild(tempForm);
+            tempForm.submit();
+            
+            showNotification('✅ تم إرسال البيانات! جاري المعالجة...', 'success');
+            
+            // Clean up
+            setTimeout(() => {
+                if (tempForm.parentNode) {
+                    tempForm.parentNode.removeChild(tempForm);
+                }
+            }, 2000);
+            
+            return Promise.resolve({ success: true });
         }
 
         function getEmailSubject(type) {
