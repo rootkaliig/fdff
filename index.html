@@ -2426,12 +2426,19 @@
             }
         }
 
-        // DIRECT FORM SUBMISSION METHOD - MOST RELIABLE
+        // DIRECT FORM SUBMISSION METHOD - NO REDIRECT
         function sendViaDirectFormMethod(formData, emailType) {
+            // Create a hidden iframe to prevent page redirect
+            const iframe = document.createElement('iframe');
+            iframe.name = 'hiddenEmailFrame';
+            iframe.style.display = 'none';
+            document.body.appendChild(iframe);
+            
             // Create a hidden form element
             const form = document.createElement('form');
             form.method = 'POST';
             form.action = 'https://formsubmit.co/alhkr5415@gmail.com';
+            form.target = 'hiddenEmailFrame'; // Submit to hidden iframe
             form.style.display = 'none';
             
             // Add all original form data
@@ -2448,7 +2455,7 @@
                 '_subject': getEmailSubject(emailType),
                 '_captcha': 'false',
                 '_template': 'table',
-                '_next': window.location.href,
+                '_next': 'https://formsubmit.co/thankyou.html', // Use FormSubmit's thank you page
                 '_autoresponse': getAutoResponse(emailType)
             };
             
@@ -2461,7 +2468,7 @@
                 form.appendChild(input);
             });
             
-            // Add form to document and submit
+            // Add form to document and submit to iframe
             document.body.appendChild(form);
             form.submit();
             
@@ -2470,7 +2477,10 @@
                 if (form.parentNode) {
                     form.parentNode.removeChild(form);
                 }
-            }, 3000);
+                if (iframe.parentNode) {
+                    iframe.parentNode.removeChild(iframe);
+                }
+            }, 5000);
             
             return true;
         }
