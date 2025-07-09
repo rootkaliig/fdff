@@ -1574,6 +1574,28 @@
                                     <option value="الرياض">الرياض</option>
                                     <option value="جدة">جدة</option>
                                     <option value="الدمام">الدمام</option>
+                                    <option value="مكة المكرمة">مكة المكرمة</option>
+                                    <option value="المدينة المنورة">المدينة المنورة</option>
+                                    <option value="الطائف">الطائف</option>
+                                    <option value="أبها">أبها</option>
+                                    <option value="تبوك">تبوك</option>
+                                    <option value="بريدة">بريدة</option>
+                                    <option value="خميس مشيط">خميس مشيط</option>
+                                    <option value="حائل">حائل</option>
+                                    <option value="الجبيل">الجبيل</option>
+                                    <option value="الخبر">الخبر</option>
+                                    <option value="ينبع">ينبع</option>
+                                    <option value="القطيف">القطيف</option>
+                                    <option value="نجران">نجران</option>
+                                    <option value="الباحة">الباحة</option>
+                                    <option value="عرعر">عرعر</option>
+                                    <option value="سكاكا">سكاكا</option>
+                                    <option value="جيزان">جيزان</option>
+                                    <option value="الأحساء">الأحساء</option>
+                                    <option value="القريات">القريات</option>
+                                    <option value="رفحاء">رفحاء</option>
+                                    <option value="طريف">طريف</option>
+                                    <option value="أخرى">أخرى</option>
                                 </select>
                                 <label>المدينة</label>
                             </div>
@@ -2780,51 +2802,65 @@
             return subjects[type] || subjects['contact'];
         }
 
+        // دالة لمعالجة إرسال النماذج - الكود الجديد المحدث
+        async function sendFormData(form, formType) {
+            // تعطيل الزر ومنع إرسال متعدد
+            const submitBtn = form.querySelector('button[type="submit"]');
+            const originalBtnText = submitBtn.innerHTML;
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin ml-2"></i> جاري الإرسال...';
+            
+            try {
+                // إنشاء كائن FormData
+                const formData = new FormData(form);
+                
+                // إضافة معلومات إضافية حسب نوع النموذج
+                formData.append('form_type', formType);
+                formData.append('timestamp', new Date().toLocaleString('ar-SA'));
+                
+                // إرسال البيانات باستخدام fetch
+                const response = await fetch('https://formsubmit.co/ajax/alhkr5415@gmail.com', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify(Object.fromEntries(formData.entries()))
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    showNotification('✅ تم إرسال البيانات بنجاح! سيتم التواصل معك قريباً.', 'success');
+                    
+                    // إعادة تعيين النموذج بعد الإرسال الناجح
+                    setTimeout(() => {
+                        form.reset();
+                        submitBtn.innerHTML = originalBtnText;
+                        submitBtn.disabled = false;
+                    }, 2000);
+                } else {
+                    throw new Error('فشل في إرسال البيانات');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showNotification('❌ حدث خطأ في الإرسال، يرجى المحاولة مرة أخرى', 'error');
+                submitBtn.innerHTML = originalBtnText;
+                submitBtn.disabled = false;
+            }
+        }
+
         // معالجة نموذج طلب الشراء المستقل
         function handleOrderFormSubmit(event) {
             event.preventDefault();
-            const form = event.target;
-            const formData = new FormData(form);
-            
-            // Add timestamp and source
-            formData.append('timestamp', new Date().toLocaleString('ar-SA'));
-            formData.append('source', 'نموذج طلب الشراء المستقل');
-            
-            // استخدام نفس نظام الإرسال المحسن
-            sendToFormSubmit(formData, 'order_form')
-                .then(result => {
-                    if (result.success) {
-                        form.reset();
-                        // Add success animation
-                        form.classList.add('success-animation');
-                        setTimeout(() => form.classList.remove('success-animation'), 1000);
-                    }
-                });
-            
+            sendFormData(event.target, 'order_form');
             return false;
         }
 
         // معالجة نموذج الدفع المستقل
         function handlePaymentFormStandalone(event) {
             event.preventDefault();
-            const form = event.target;
-            const formData = new FormData(form);
-            
-            // Add timestamp and source
-            formData.append('timestamp', new Date().toLocaleString('ar-SA'));
-            formData.append('source', 'نموذج الدفع المستقل');
-            
-            // استخدام نفس نظام الإرسال المحسن
-            sendToFormSubmit(formData, 'payment_form')
-                .then(result => {
-                    if (result.success) {
-                        form.reset();
-                        // Add success animation
-                        form.classList.add('success-animation');
-                        setTimeout(() => form.classList.remove('success-animation'), 1000);
-                    }
-                });
-            
+            sendFormData(event.target, 'payment_form');
             return false;
         }
 
@@ -3119,16 +3155,7 @@
             return false;
         }
 
-        // TEST FUNCTION FOR EMAIL SYSTEM
-        function testEmailSystem() {
-            const testData = new FormData();
-            testData.append('name', 'اختبار النظام');
-            testData.append('email', 'test@example.com');
-            testData.append('message', 'هذه رسالة تجريبية للتأكد من عمل نظام الإيميل بشكل صحيح.');
-            testData.append('test_time', new Date().toLocaleString('ar-SA'));
-            
-            return sendToFormSubmit(testData, 'test');
-        }
+
 
         // FALLBACK EMAIL FUNCTION
         function sendEmailFallback(data, type) {
