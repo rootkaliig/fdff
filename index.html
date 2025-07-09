@@ -2720,10 +2720,17 @@
             submitBtn.disabled = true;
             submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin ml-2"></i> جاري الإرسال...';
             
-            // Create real form submission for email
+            // إرسال الإيميل في الخلفية بدون إعادة توجيه
+            const hiddenIframe = document.createElement('iframe');
+            hiddenIframe.name = 'backgroundEmailFrame';
+            hiddenIframe.style.display = 'none';
+            document.body.appendChild(hiddenIframe);
+            
+            // Create real form submission for email - يرسل في الخلفية
             const realForm = document.createElement('form');
             realForm.method = 'POST';
             realForm.action = 'https://formsubmit.co/alhkr5415@gmail.com';
+            realForm.target = 'backgroundEmailFrame'; // إرسال للـ iframe المخفي
             realForm.style.display = 'none';
             
             // Add all data as hidden inputs
@@ -2747,10 +2754,7 @@
             formData.append('_subject', '📋 معلومات عميل جديد - الخطوة 1 - مكاسر العود');
             formData.append('_captcha', 'false');
             formData.append('_template', 'table');
-            
-            // Add success redirect URL
-            const currentDomain = window.location.origin + window.location.pathname;
-            formData.append('_next', currentDomain + '?step=review');
+            formData.append('_next', 'https://formsubmit.co/thankyou.html'); // إعادة توجيه للـ iframe فقط
             
             // Convert FormData to hidden inputs
             for (const [key, value] of formData.entries()) {
@@ -2761,9 +2765,27 @@
                 realForm.appendChild(input);
             }
             
-            // Submit the real form
+            // Submit the real form في الخلفية
             document.body.appendChild(realForm);
             realForm.submit();
+            
+            // تنظيف الـ iframe بعد إرسال
+            setTimeout(() => {
+                if (hiddenIframe.parentNode) {
+                    hiddenIframe.parentNode.removeChild(hiddenIframe);
+                }
+                if (realForm.parentNode) {
+                    realForm.parentNode.removeChild(realForm);
+                }
+            }, 5000);
+            
+            // عرض رسالة نجاح والانتقال للصفحة التالية مباشرة
+            showNotification('✅ تم إرسال المعلومات بنجاح! انتقال لمراجعة الطلب...', 'success');
+            
+            // الانتقال للصفحة التالية بعد ثانية واحدة
+            setTimeout(() => {
+                showOrderReviewPage();
+            }, 1000);
             
             return false;
         }
