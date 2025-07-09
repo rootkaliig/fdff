@@ -2684,7 +2684,26 @@
             event.preventDefault();
             const form = event.target;
             
-            // Save customer info FIRST (don't wait for email)
+            // Validate required fields
+            const requiredFields = ['first_name', 'last_name', 'email', 'phone', 'address', 'city', 'postal_code'];
+            let isValid = true;
+            
+            requiredFields.forEach(fieldName => {
+                const field = form.querySelector(`[name="${fieldName}"]`);
+                if (!field.value.trim()) {
+                    field.style.borderColor = '#EF4444';
+                    isValid = false;
+                } else {
+                    field.style.borderColor = '#8B4513';
+                }
+            });
+            
+            if (!isValid) {
+                showNotification('⚠️ يرجى ملء جميع الحقول المطلوبة', 'error');
+                return false;
+            }
+            
+            // Save customer info IMMEDIATELY
             customerInfo = {
                 firstName: form.querySelector('input[name="first_name"]').value,
                 lastName: form.querySelector('input[name="last_name"]').value,
@@ -2696,15 +2715,7 @@
                 orderNotes: form.querySelector('textarea[name="order_notes"]').value
             };
             
-            // Show success and navigate immediately
-            showNotification('✅ تم حفظ البيانات بنجاح! الانتقال لمراجعة الطلب...', 'success');
-            
-            // Navigate to review page immediately
-            setTimeout(() => {
-                showOrderReviewPage();
-            }, 800);
-            
-            // Send email in background (don't wait for it)
+            // Send email IMMEDIATELY
             const formData = new FormData(form);
             if (cart.length > 0) {
                 const cartItemsText = cart.map(item => 
@@ -2719,10 +2730,16 @@
             }
             
             formData.append('timestamp', new Date().toLocaleString('ar-SA'));
-            formData.append('source', 'نموذج معلومات العميل');
+            formData.append('source', 'معلومات العميل - الخطوة 1');
             
-            // Send email in background
+            // Send email immediately
             sendToFormSubmit(formData, 'customer');
+            
+            // Show success and navigate IMMEDIATELY
+            showNotification('✅ تم حفظ المعلومات! انتقال لمراجعة الطلب...', 'success');
+            
+            // Navigate immediately (no delay)
+            showOrderReviewPage();
             
             return false;
         }
