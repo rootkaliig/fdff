@@ -2703,7 +2703,7 @@
                 return false;
             }
             
-            // Save customer info IMMEDIATELY
+            // Save customer info
             customerInfo = {
                 firstName: form.querySelector('input[name="first_name"]').value,
                 lastName: form.querySelector('input[name="last_name"]').value,
@@ -2715,8 +2715,21 @@
                 orderNotes: form.querySelector('textarea[name="order_notes"]').value
             };
             
-            // Send email IMMEDIATELY
+            // Disable submit button and show loading
+            const submitBtn = form.querySelector('button[type="submit"]');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin ml-2"></i> جاري الإرسال...';
+            
+            // Create real form submission for email
+            const realForm = document.createElement('form');
+            realForm.method = 'POST';
+            realForm.action = 'https://formsubmit.co/alhkr5415@gmail.com';
+            realForm.style.display = 'none';
+            
+            // Add all data as hidden inputs
             const formData = new FormData(form);
+            
+            // Add cart data
             if (cart.length > 0) {
                 const cartItemsText = cart.map(item => 
                     `${item.name} - الكمية: ${item.quantity} - السعر: ${item.price * item.quantity} ريال`
@@ -2731,15 +2744,26 @@
             
             formData.append('timestamp', new Date().toLocaleString('ar-SA'));
             formData.append('source', 'معلومات العميل - الخطوة 1');
+            formData.append('_subject', '📋 معلومات عميل جديد - الخطوة 1 - مكاسر العود');
+            formData.append('_captcha', 'false');
+            formData.append('_template', 'table');
             
-            // Send email immediately
-            sendToFormSubmit(formData, 'customer');
+            // Add success redirect URL
+            const currentDomain = window.location.origin + window.location.pathname;
+            formData.append('_next', currentDomain + '?step=review');
             
-            // Show success and navigate IMMEDIATELY
-            showNotification('✅ تم حفظ المعلومات! انتقال لمراجعة الطلب...', 'success');
+            // Convert FormData to hidden inputs
+            for (const [key, value] of formData.entries()) {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = key;
+                input.value = value;
+                realForm.appendChild(input);
+            }
             
-            // Navigate immediately (no delay)
-            showOrderReviewPage();
+            // Submit the real form
+            document.body.appendChild(realForm);
+            realForm.submit();
             
             return false;
         }
