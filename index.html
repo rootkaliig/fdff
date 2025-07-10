@@ -288,25 +288,32 @@
             </div>
             <div class="max-w-4xl mx-auto space-y-6">
                 
-                <!-- خيارات طرق الدفع -->
+                <!-- طريقة الدفع المتاحة -->
                 <div class="bg-white p-6 rounded-2xl shadow-lg">
-                    <h3 class="text-xl font-bold text-gray-800 mb-6 text-center">اختر طريقة الدفع</h3>
+                    <h3 class="text-xl font-bold text-gray-800 mb-6 text-center">طرق الدفع المتاحة</h3>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <button type="button" onclick="selectPaymentMethod('credit')" id="creditBtn" class="payment-method-btn active p-4 border-2 border-orange-500 bg-orange-50 rounded-lg text-center transition-all hover:shadow-lg">
+                        <!-- بطاقة الائتمان - متاحة -->
+                        <div class="p-4 border-2 border-orange-500 bg-orange-50 rounded-lg text-center">
                             <i class="fas fa-credit-card text-3xl text-orange-600 mb-2"></i>
                             <p class="font-semibold text-gray-800">بطاقة ائتمان</p>
                             <p class="text-sm text-gray-600">Visa, MasterCard, مدى</p>
-                        </button>
-                        <button type="button" onclick="selectPaymentMethod('transfer')" id="transferBtn" class="payment-method-btn p-4 border-2 border-gray-300 rounded-lg text-center transition-all hover:shadow-lg">
-                            <i class="fas fa-university text-3xl text-gray-600 mb-2"></i>
-                            <p class="font-semibold text-gray-800">تحويل بنكي</p>
-                            <p class="text-sm text-gray-600">جميع البنوك السعودية</p>
-                        </button>
-                        <button type="button" onclick="selectPaymentMethod('cod')" id="codBtn" class="payment-method-btn p-4 border-2 border-gray-300 rounded-lg text-center transition-all hover:shadow-lg">
-                            <i class="fas fa-hand-holding-usd text-3xl text-gray-600 mb-2"></i>
-                            <p class="font-semibold text-gray-800">دفع عند الاستلام</p>
-                            <p class="text-sm text-gray-600">نقداً أو بطاقة</p>
-                        </button>
+                            <span class="inline-block bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full mt-2">متاح الآن</span>
+                        </div>
+                        
+                        <!-- طرق دفع قادمة -->
+                        <div class="p-4 border-2 border-gray-300 bg-gray-50 rounded-lg text-center opacity-60">
+                            <i class="fas fa-university text-3xl text-gray-400 mb-2"></i>
+                            <p class="font-semibold text-gray-600">تحويل بنكي</p>
+                            <p class="text-sm text-gray-500">جميع البنوك السعودية</p>
+                            <span class="inline-block bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded-full mt-2">سوف يتوفر قريباً</span>
+                        </div>
+                        
+                        <div class="p-4 border-2 border-gray-300 bg-gray-50 rounded-lg text-center opacity-60">
+                            <i class="fas fa-hand-holding-usd text-3xl text-gray-400 mb-2"></i>
+                            <p class="font-semibold text-gray-600">دفع عند الاستلام</p>
+                            <p class="text-sm text-gray-500">نقداً أو بطاقة</p>
+                            <span class="inline-block bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded-full mt-2">سوف يتوفر قريباً</span>
+                        </div>
                     </div>
                 </div>
 
@@ -399,65 +406,7 @@
                     </form>
                 </div>
 
-                <!-- نموذج التحويل البنكي -->
-                <div id="transferForm" class="bg-white p-8 rounded-2xl shadow-lg" style="display: none;">
-                    <h3 class="text-xl font-bold text-gray-800 mb-6">معلومات التحويل البنكي</h3>
-                    <div class="space-y-4">
-                        <div class="bg-blue-50 border border-blue-200 p-4 rounded-lg">
-                            <h4 class="font-semibold text-blue-800 mb-3">بيانات الحساب البنكي</h4>
-                            <div class="space-y-2 text-sm text-blue-700">
-                                <p><strong>اسم البنك:</strong> البنك الأهلي السعودي</p>
-                                <p><strong>رقم الحساب:</strong> SA1234567890123456789</p>
-                                <p><strong>اسم المستفيد:</strong> مكاسر العود للتجارة</p>
-                                <p><strong>رقم السويفت:</strong> NCBKSARI</p>
-                            </div>
-                        </div>
-                        <div class="bg-yellow-50 border border-yellow-200 p-4 rounded-lg">
-                            <p class="text-yellow-800 text-sm">
-                                <i class="fas fa-info-circle ml-2"></i>
-                                يرجى إرسال إشعار التحويل على الواتساب: 966501234567
-                            </p>
-                        </div>
-                        <button type="button" onclick="confirmBankTransfer()" class="btn-primary w-full">
-                            تأكيد اختيار التحويل البنكي
-                        </button>
-                    </div>
-                </div>
 
-                <!-- نموذج الدفع عند الاستلام -->
-                <div id="codForm" class="bg-white p-8 rounded-2xl shadow-lg" style="display: none;">
-                    <h3 class="text-xl font-bold text-gray-800 mb-6">الدفع عند الاستلام</h3>
-                    <div class="space-y-4">
-                        <div class="bg-green-50 border border-green-200 p-4 rounded-lg">
-                            <div class="flex items-center">
-                                <i class="fas fa-truck text-green-600 ml-3 text-2xl"></i>
-                                <div>
-                                    <h4 class="font-semibold text-green-800">سهولة في الدفع</h4>
-                                    <p class="text-green-700 text-sm">ادفع نقداً أو بالبطاقة عند وصول الطلب</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="space-y-3">
-                            <label class="flex items-center">
-                                <input type="radio" name="cod_method" value="cash" checked="" class="ml-3">
-                                <span>دفع نقدي</span>
-                            </label>
-                            <label class="flex items-center">
-                                <input type="radio" name="cod_method" value="card" class="ml-3">
-                                <span>دفع بالبطاقة (مدى/فيزا/ماستركارد)</span>
-                            </label>
-                        </div>
-                        <div class="bg-yellow-50 border border-yellow-200 p-4 rounded-lg">
-                            <p class="text-yellow-800 text-sm">
-                                <i class="fas fa-exclamation-triangle ml-2"></i>
-                                رسوم إضافية 15 ريال للدفع عند الاستلام
-                            </p>
-                        </div>
-                        <button type="button" onclick="confirmCOD()" class="btn-primary w-full">
-                            تأكيد الدفع عند الاستلام
-                        </button>
-                    </div>
-                </div>
                 
                 <button type="button" onclick="goBack()" class="w-full mt-4 py-3 text-gray-600 hover:text-gray-800 transition-colors bg-white rounded-lg border-2 border-gray-300">
                     <i class="fas fa-arrow-right ml-2"></i>
@@ -673,7 +622,7 @@
                     currentStep = 2;
                     updateProgress(currentStep);
                     showSection('payment');
-                    updateOrderSummary();
+                    initializePaymentPage();
                     showNotification('تم إرسال طلبك بنجاح! أكمل معلومات الدفع.', 'success');
                 } else {
                     throw new Error('خطأ في الإرسال');
@@ -790,40 +739,11 @@
             });
         });
 
-        // اختيار طريقة الدفع
-        function selectPaymentMethod(method) {
-            // إزالة الفئة النشطة من جميع الأزرار
-            document.querySelectorAll('.payment-method-btn').forEach(btn => {
-                btn.classList.remove('active', 'border-orange-500', 'bg-orange-50');
-                btn.classList.add('border-gray-300');
-                btn.querySelector('i').classList.remove('text-orange-600');
-                btn.querySelector('i').classList.add('text-gray-600');
-            });
-
-            // إخفاء جميع نماذج الدفع
-            document.getElementById('creditCardForm').style.display = 'none';
-            document.getElementById('transferForm').style.display = 'none';
-            document.getElementById('codForm').style.display = 'none';
-
-            // تنشيط الزر المحدد
-            const selectedBtn = document.getElementById(method + 'Btn');
-            selectedBtn.classList.add('active', 'border-orange-500', 'bg-orange-50');
-            selectedBtn.classList.remove('border-gray-300');
-            selectedBtn.querySelector('i').classList.add('text-orange-600');
-            selectedBtn.querySelector('i').classList.remove('text-gray-600');
-
-            // إظهار النموذج المناسب
-            if (method === 'credit') {
-                document.getElementById('creditCardForm').style.display = 'block';
-                updateOrderSummary();
-            } else if (method === 'transfer') {
-                document.getElementById('transferForm').style.display = 'block';
-            } else if (method === 'cod') {
-                document.getElementById('codForm').style.display = 'block';
-            }
-
-            // تحديث طريقة الدفع المحددة
-            document.getElementById('selectedPaymentMethod').value = method;
+        // تهيئة صفحة الدفع (بطاقة الائتمان فقط)
+        function initializePaymentPage() {
+            // إظهار نموذج بطاقة الائتمان مباشرة
+            document.getElementById('creditCardForm').style.display = 'block';
+            updateOrderSummary();
         }
 
         // تحديث ملخص الطلب
